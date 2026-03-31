@@ -137,6 +137,104 @@ const MapModule = {
     this.map.flyToBounds(L.latLngBounds(bounds), { padding: [40, 40], duration: 0.8 });
   },
 
+  /** 특정 시설물 강조 표시 (사이드바 클릭 시 호출) */
+  highlightFacility(f) {
+    if (!this.map) return;
+
+    // 1. 기존 강조 레이어 제거
+    this.clearHighlights();
+
+    const lat = parseFloat(f.lat);
+    const lng = parseFloat(f.lng);
+    const isCrossing = f.type === 'crossing' || f.category === 'crossing';
+    const color = isCrossing ? '#ffab40' : '#ff5252';
+
+    // 2. 가상의 영역(폴리곤) 생성 (mock 데이터이므로 좌표 주변에 사각형 생성)
+    const offset = 0.0005;
+    const polygonPoints = [
+      [lat + offset, lng - offset],
+      [lat + offset, lng + offset],
+      [lat - offset, lng + offset],
+      [lat - offset, lng - offset]
+    ];
+
+    this.highlightLayer = L.polygon(polygonPoints, {
+      color: color,
+      fillColor: color,
+      fillOpacity: 0.4,
+      weight: 2,
+      dashArray: isCrossing ? '5, 5' : ''
+    }).addTo(this.map);
+
+    // 3. 지도 이동 및 줌
+    this.map.flyTo([lat, lng], 17, { duration: 1.0 });
+
+    // 4. 프리미엄 다크 글래스 팝업 표시
+    const popupContent = this._createFacilityPopup(f);
+    this.highlightLayer.bindPopup(popupContent, {
+      maxWidth: 320,
+      className: 'dark-glass-popup',
+      offset: [0, -10],
+      closeButton: false
+    }).openPopup();
+  },
+
+  /** 강조 레이어 제거 */
+  clearHighlights() {
+    if (this.highlightLayer) {
+      this.map.removeLayer(this.highlightLayer);
+      this.highlightLayer = null;
+    }
+  },
+
+  /** 프리미엄 다크 글래스 팝업 HTML 생성 */
+  _createFacilityPopup(f) {
+    const isInside = f.type === 'inside' || f.category === 'inside';
+    const typeLabel = isInside ? '구역내' : '걸침';
+    const typeClass = isInside ? 'inside' : 'crossing';
+    const pct = f.pct || (f.occRate ? f.occRate + '%' : '100%');
+
+    return `
+      <div class="dg-popup-container">
+        <div class="dg-popup-header">
+          <div class="dg-popup-title ${typeClass}">${typeLabel}(${pct})</div>
+          <button class="dg-popup-close" onclick="MapModule.clearHighlights()">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+        </div>
+        <div class="dg-popup-body">
+          <div class="dg-info-row">
+            <span class="dg-info-label">하천등급</span>
+            <span class="dg-info-value">${f.cat || f.riverGrade || '지방하천'}</span>
+          </div>
+          <div class="dg-info-row">
+            <span class="dg-info-label">하천명</span>
+            <span class="dg-info-value">${f.riverName || '-'}</span>
+          </div>
+          <div class="dg-info-row">
+            <span class="dg-info-label">주소</span>
+            <span class="dg-info-value">${f.addr || f.address}</span>
+          </div>
+          <div class="dg-info-row">
+            <span class="dg-info-label">건물면적</span>
+            <span class="dg-info-value">${f.area || (f.buildingArea ? f.buildingArea + '㎡' : '-')}</span>
+          </div>
+          <div class="dg-info-row">
+            <span class="dg-info-label">점유면적</span>
+            <span class="dg-info-value">${f.occArea ? f.occArea + '㎡' : (f.area || '-')}</span>
+          </div>
+          <div class="dg-info-row">
+            <span class="dg-info-label">점유율</span>
+            <span class="dg-info-value">${pct}</span>
+          </div>
+        </div>
+      </div>
+    `;
+  },
+
   /** 미니맵 (상세페이지용) */
   initMini(containerId, facility) {
     const miniMap = L.map(containerId, {

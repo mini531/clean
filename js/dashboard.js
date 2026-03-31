@@ -153,31 +153,16 @@ const SUB_REGION_STATS = {
 
 /* ── 시설물 세부 데이터 (가평군/조종면 예시) ── */
 const MOCK_FACILITY_DETAILS = [
-  { addr: '조종면 상판리 산 121', cat: '국가하천', area: '12㎡', areaNum: 12, type: 'crossing', pct: '87%', pctVal: 87 },
-  { addr: '조종면 상판리 41', cat: '국가하천', area: '15㎡', areaNum: 15, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 산 121', cat: '국가하천', area: '13㎡', areaNum: 13, type: 'crossing', pct: '92%', pctVal: 92 },
-  { addr: '조종면 상판리 산 121', cat: '국가하천', area: '6㎡', areaNum: 6, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 산 121', cat: '국가하천', area: '22㎡', areaNum: 22, type: 'crossing', pct: '55%', pctVal: 55 },
-  { addr: '조종면 상판리 603-2', cat: '국가하천', area: '4㎡', areaNum: 4, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 산 146', cat: '국가하천', area: '2㎡', areaNum: 2, type: 'crossing', pct: '88%', pctVal: 88 },
-  { addr: '조종면 상판리 603-2', cat: '국가하천', area: '20㎡', areaNum: 20, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 491-3', cat: '국가하천', area: '9㎡', areaNum: 9, type: 'crossing', pct: '78%', pctVal: 78 },
-  { addr: '조종면 상판리 491-3', cat: '국가하천', area: '6㎡', areaNum: 6, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 582', cat: '국가하천', area: '16㎡', areaNum: 16, type: 'crossing', pct: '99%', pctVal: 99 },
-  { addr: '조종면 상판리 565', cat: '국가하천', area: '9㎡', areaNum: 9, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 565', cat: '국가하천', area: '6㎡', areaNum: 6, type: 'crossing', pct: '64%', pctVal: 64 },
-  { addr: '조종면 상판리 655', cat: '국가하천', area: '4㎡', areaNum: 4, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 597', cat: '국가하천', area: '6㎡', areaNum: 6, type: 'crossing', pct: '67%', pctVal: 67 },
-  { addr: '조종면 상판리 571', cat: '국가하천', area: '10㎡', areaNum: 10, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 571', cat: '국가하천', area: '2㎡', areaNum: 2, type: 'crossing', pct: '56%', pctVal: 56 },
-  { addr: '조종면 상판리 571', cat: '국가하천', area: '6㎡', areaNum: 6, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 571', cat: '국가하천', area: '8㎡', areaNum: 8, type: 'crossing', pct: '81%', pctVal: 81 },
-  { addr: '조종면 상판리 571-6', cat: '국가하천', area: '2㎡', areaNum: 2, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 603', cat: '국가하천', area: '18㎡', areaNum: 18, type: 'crossing', pct: '91%', pctVal: 91 },
-  { addr: '조종면 상판리 603', cat: '국가하천', area: '5㎡', areaNum: 5, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 603', cat: '국가하천', area: '10㎡', areaNum: 10, type: 'crossing', pct: '76%', pctVal: 76 },
-  { addr: '조종면 상판리 571', cat: '국가하천', area: '8㎡', areaNum: 8, type: 'inside', pct: '100%', pctVal: 100 },
-  { addr: '조종면 상판리 603', cat: '국가하천', area: '11㎡', areaNum: 11, type: 'crossing', pct: '72%', pctVal: 72 }
+  { id: 'FD001', addr: '조종면 상판리 산 121', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '12㎡', areaNum: 12, occArea: 10, occRate: 83.3, type: 'crossing', pct: '87%', pctVal: 87, lat: 37.892, lng: 127.355 },
+  { id: 'FD002', addr: '조종면 상판리 41', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '15㎡', areaNum: 15, occArea: 15, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.894, lng: 127.358 },
+  { id: 'FD003', addr: '조종면 상판리 산 121', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '13㎡', areaNum: 13, occArea: 12, occRate: 92.3, type: 'crossing', pct: '92%', pctVal: 92, lat: 37.895, lng: 127.356 },
+  { id: 'FD004', addr: '조종면 상판리 산 121', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '6㎡', areaNum: 6, occArea: 6, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.891, lng: 127.354 },
+  { id: 'FD005', addr: '조종면 상판리 산 121', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '22㎡', areaNum: 22, occArea: 12, occRate: 54.5, type: 'crossing', pct: '55%', pctVal: 55, lat: 37.893, lng: 127.357 },
+  { id: 'FD006', addr: '조종면 상판리 603-2', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '4㎡', areaNum: 4, occArea: 4, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.890, lng: 127.352 },
+  { id: 'FD007', addr: '조종면 상판리 산 146', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '2㎡', areaNum: 2, occArea: 1.8, occRate: 90.0, type: 'crossing', pct: '88%', pctVal: 88, lat: 37.896, lng: 127.359 },
+  { id: 'FD008', addr: '조종면 상판리 603-2', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '20㎡', areaNum: 20, occArea: 20, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.889, lng: 127.351 },
+  { id: 'FD009', addr: '조종면 상판리 491-3', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '9㎡', areaNum: 9, occArea: 7, occRate: 77.7, type: 'crossing', pct: '78%', pctVal: 78, lat: 37.888, lng: 127.350 },
+  { id: 'FD010', addr: '조종면 상판리 491-3', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '6㎡', areaNum: 6, occArea: 6, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.887, lng: 127.349 },
 ];
 
 /* ── 시설물 뷰 상태 ── */
@@ -275,7 +260,7 @@ function renderFacilityList(subName, forceQuery = '') {
   container.innerHTML = result.map(f => {
     const statusClass = f.type === 'crossing' ? 'crossing' : 'inside';
     return `
-      <div class="facility-item ${statusClass}" role="listitem">
+      <div class="facility-item ${statusClass}" role="listitem" data-id="${f.id}">
         <div class="fi-status ${statusClass}"></div>
         <div class="fi-content">
           <div class="fi-addr">${f.addr}</div>
@@ -285,6 +270,23 @@ function renderFacilityList(subName, forceQuery = '') {
       </div>
     `;
   }).join('');
+
+  // 클릭 이벤트 바인딩
+  container.querySelectorAll('.facility-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const fid = item.dataset.id;
+      const facility = result.find(f => f.id === fid);
+      
+      // 1. 활성 상태 표시
+      container.querySelectorAll('.facility-item').forEach(i => i.classList.remove('active'));
+      item.classList.add('active');
+
+      // 2. 지도 강조 및 이동
+      if (facility) {
+        MapModule.highlightFacility(facility);
+      }
+    });
+  });
 
   if (result.length === 0) {
     container.innerHTML = '<div class="sub-region-empty">조건에 맞는 시설물이 없습니다.</div>';
