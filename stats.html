@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>통계·현황 — 하천·계곡 불법시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <link rel="stylesheet" href="css/stats.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+<body>
+<div class="app-layout">
+
+  <!-- 헤더 -->
+  <header class="app-header" role="banner">
+    <div class="header-logo">
+      <div class="logo-mark" aria-hidden="true">
+        <img src="assets/img/main_logo.png" alt="시스템 로고" onerror="this.style.display='none'">
+      </div>
+      <span class="header-title">
+        <span class="title-full">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</span>
+        <span class="title-short">불법시설 정비</span>
+      </span>
+    </div>
+    <div class="header-spacer"></div>
+    <div class="header-actions">
+      <div class="user-chip">
+        <div class="user-avatar" id="user-avatar">?</div>
+        <span class="user-name" id="user-name">사용자</span>
+      </div>
+      <button class="btn btn-sm btn-secondary" onclick="Auth.logout()">로그아웃</button>
+    </div>
+    <button class="btn-hamburger" id="btn-hamburger" aria-label="메뉴 열기">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
+  <div class="app-body">
+    <!-- 사이드바 -->
+    <nav class="app-sidebar" aria-label="주요 메뉴">
+      <div class="sidebar-section">
+        <div class="sidebar-label">메인</div>
+        <a href="dashboard.html" class="sidebar-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+          <span class="nav-text">지도 대시보드</span>
+        </a>
+        <a href="report.html" class="sidebar-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <span class="nav-text">신고 등록</span>
+        </a>
+        <a href="stats.html" class="sidebar-link">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+          <span class="nav-text">통계·현황</span>
+        </a>
+      </div>
+    </nav>
+
+    <!-- 메인 -->
+    <main class="app-main">
+      <div class="page-content">
+        <div class="page-header">
+          <div>
+            <h1 class="page-title">통계·현황</h1>
+            <p class="page-subtitle">하천·계곡 주변 불법 시설 현황 분석</p>
+          </div>
+          <a href="dashboard.html" class="btn btn-secondary btn-sm">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+            지도 보기
+          </a>
+        </div>
+
+        <!-- KPI 카드 -->
+        <div class="kpi-grid mb-3">
+          <div class="kpi-card kpi-info">
+            <div class="kpi-label">전체 신고 건수</div>
+            <div class="kpi-value" id="st-total">0</div>
+            <div class="kpi-sub">2024.10 ~ 2025.04 누계</div>
+          </div>
+          <div class="kpi-card kpi-warning">
+            <div class="kpi-label">걸침</div>
+            <div class="kpi-value" id="st-crossing">0</div>
+            <div class="kpi-sub">하천 경계 걸쳐있는 시설</div>
+          </div>
+          <div class="kpi-card kpi-danger">
+            <div class="kpi-label">구역내</div>
+            <div class="kpi-value" id="st-inside">0</div>
+            <div class="kpi-sub">하천 구역 내 시설</div>
+          </div>
+          <div class="kpi-card kpi-success">
+            <div class="kpi-label">정비 완료율</div>
+            <div class="kpi-value" id="st-rate">0%</div>
+            <div class="kpi-sub">전체 대비 정비 완료</div>
+          </div>
+        </div>
+
+        <!-- 차트 그리드 -->
+        <div class="chart-grid">
+
+          <!-- 걸침/구역내 비율 도넛 -->
+          <div class="chart-card">
+            <div class="chart-title">걸침 / 구역내 비율</div>
+            <div class="chart-wrap">
+              <canvas id="chart-category" aria-label="걸침 구역내 비율 차트"></canvas>
+            </div>
+          </div>
+
+          <!-- 시설 유형별 막대 -->
+          <div class="chart-card">
+            <div class="chart-title">시설 유형별 현황</div>
+            <div class="chart-wrap">
+              <canvas id="chart-type" aria-label="시설 유형별 현황 차트"></canvas>
+            </div>
+          </div>
+
+          <!-- 지역별 (시도별) 막대 — 전체 너비 -->
+          <div class="chart-card chart-wide">
+            <div class="chart-title">지역별 신고 현황 (걸침 / 구역내)</div>
+            <div class="chart-wrap">
+              <canvas id="chart-region" style="max-height:300px;" aria-label="지역별 신고 현황 차트"></canvas>
+            </div>
+          </div>
+
+          <!-- 월별 추이 선 그래프 -->
+          <div class="chart-card chart-wide">
+            <div class="chart-title">월별 신고 및 정비완료 추이 (2024.10 ~ 2025.04)</div>
+            <div class="chart-wrap">
+              <canvas id="chart-trend" style="max-height:220px;" aria-label="월별 추이 차트"></canvas>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 정비 현황 테이블 요약 -->
+        <div class="card">
+          <div class="card-header">
+            <span>정비 상태 요약</span>
+          </div>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>지역</th>
+                  <th>전체</th>
+                  <th>걸침</th>
+                  <th>구역내</th>
+                  <th>미정비</th>
+                  <th>정비중</th>
+                  <th>정비완료</th>
+                  <th>완료율</th>
+                </tr>
+              </thead>
+              <tbody id="summary-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+</div>
+
+<script src="js/common.js"></script>
+<script src="js/auth.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/stats.js"></script>
+</body>
+</html>
+</body>
+</html>

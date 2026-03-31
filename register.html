@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원가입 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/auth.css">
+</head>
+
+<body>
+  <div class="auth-wrapper">
+    <main class="auth-box wide" role="main">
+      <!-- 헤더 -->
+      <header class="auth-header">
+        <div class="logo-icon">
+          <img src="assets/img/main_logo_white.png" alt="시스템 로고"
+            onerror="this.src='https://placehold.co/200x60?text=LOGO'">
+        </div>
+        <h1 class="service-name">회원가입</h1>
+        <p class="service-sub">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</p>
+      </header>
+
+      <!-- 회원가입 단계별 컨테이너 -->
+      <section class="auth-body">
+
+        <!-- 단계 1: 약관 동의 -->
+        <div id="step-1" class="reg-step active">
+          <div class="check-all-wrap">
+            <label class="custom-check">
+              <input type="checkbox" id="check-all">
+              <span>전체 <span class="text-danger">필수약관</span>에 모두 동의합니다.</span>
+            </label>
+          </div>
+
+          <div class="terms-container">
+            <div class="terms-item">
+              <div class="terms-head">
+                <label class="custom-check">
+                  <input type="checkbox" class="required-check">
+                  <span><span class="text-danger">[필수]</span> 이용약관 동의</span>
+                </label>
+              </div>
+              <div class="terms-box">
+                <h4>제1조 목적</h4>
+                본 약관은 LX 한국국토정보공사(이하 '운영기관'이라 한다)에서 운영하는 Geovision Platform 서비스를 이용함에 있어 이용조건 및 절차, 운영기관과 이용자의 권리·의무 및
+                책임사항, 기타 필요한 사항을 규정함을 목적으로 합니다.
+                <h4>제2조 용어의 정의</h4>
+                본 약관에서 사용하는 용어의 정의는 다음과 같습니다.
+              </div>
+            </div>
+
+            <div class="terms-item">
+              <div class="terms-head">
+                <label class="custom-check">
+                  <input type="checkbox" class="required-check">
+                  <span><span class="text-danger">[필수]</span> 회원정보 수집 및 이용 동의</span>
+                </label>
+              </div>
+              <div class="terms-box">
+                <h4>회원정보 수집·이용에 관한 사항</h4>
+                회원정보의 수집·이용 목적 : 일반 회원의 홈페이지 회원가입, 회원관리 및 Land-XI 활용을 위한 교육 서비스, 민원업무 등의 목적으로만 수집됩니다.
+                회원정보 수집·이용 항목: 회원유형, 아이디(이메일), 비밀번호, 이름, 휴대전화번호, 기업·기관명
+                회원정보 보유·이용 기간: 회원탈퇴 시까지
+              </div>
+            </div>
+
+            <div class="terms-item">
+              <div class="terms-head">
+                <label class="custom-check">
+                  <input type="checkbox">
+                  <span><span class="text-optional">[선택]</span> 홍보를 위한 정보수집 동의</span>
+                </label>
+              </div>
+              <div class="terms-box">
+                <h4>회원정보 수집 및 이용에 관한 사항</h4>
+                회원정보의 수집·이용 목적 : 광고 홍보 활동 등을 위한 목적으로만 수집됩니다.
+                회원정보 수집·이용 항목: 휴대전화 번호, 이메일, SMS/이메일 수신 동의
+              </div>
+            </div>
+
+            <label class="custom-check mb-1">
+              <input type="checkbox"> <span><span class="text-optional">[선택]</span> 광고성 정보 SMS 수신 동의</span>
+            </label>
+            <label class="custom-check mb-2">
+              <input type="checkbox"> <span><span class="text-optional">[선택]</span> 광고성 정보 Email 수신 동의</span>
+            </label>
+          </div>
+
+          <div class="modal-btns mt-3">
+            <button type="button" class="btn btn-outline btn-lg" onclick="location.href='index.html'">취소</button>
+            <button type="button" class="btn btn-primary btn-lg" id="btn-next-1" disabled>다음</button>
+          </div>
+        </div>
+
+        <!-- 단계 2: 기본정보 & 이메일 인증 -->
+        <div id="step-2" class="reg-step">
+          <div class="form-group mb-2">
+            <label for="reg-name" class="required">이름</label>
+            <input type="text" id="reg-name" class="form-control" placeholder="이름을 입력하세요">
+            <div class="field-error" id="err-name">필수 입력 항목입니다.</div>
+          </div>
+
+          <div class="form-group mb-1">
+            <label for="reg-email" class="required">아이디(이메일)</label>
+            <input type="text" id="reg-email" class="form-control" placeholder="아이디(이메일)를 입력해 주세요.">
+            <div class="field-error" id="err-email">필수 입력 항목입니다.</div>
+          </div>
+          <div class="form-group mb-2">
+            <select class="form-control" id="reg-email-domain">
+              <option value="@korea.kr">@korea.kr</option>
+              <option value="@gmail.com">@gmail.com</option>
+              <option value="@naver.com">@naver.com</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-3" id="verify-area">
+            <label for="reg-verify" class="required">이메일 인증번호</label>
+            <div class="verify-input-group">
+              <input type="text" id="reg-verify" class="form-control flex-1" placeholder="인증번호를 입력해 주세요.">
+              <button type="button" class="btn btn-outline btn-verify-send" id="btn-send-code">인증번호 발송</button>
+            </div>
+            <div class="field-error" id="err-verify">필수 입력 항목입니다.</div>
+          </div>
+
+          <div class="modal-btns">
+            <button type="button" class="btn btn-outline btn-lg" id="btn-prev-2">이전</button>
+            <button type="button" class="btn btn-primary btn-lg" id="btn-next-2" disabled>다음</button>
+          </div>
+        </div>
+
+        <!-- 단계 3: 상세정보 입력 -->
+        <div id="step-3" class="reg-step">
+          <div class="verify-finish-badge" id="badge-verified">이메일 인증 완료</div>
+
+          <div class="form-group mb-2">
+            <label>이름</label>
+            <input type="text" id="disp-name" class="form-control readonly-input" readonly>
+          </div>
+          <div class="form-group mb-3">
+            <label>아이디(이메일)</label>
+            <input type="text" id="disp-email" class="form-control mb-1 readonly-input" readonly>
+            <select id="disp-email-domain" class="form-control readonly-input" disabled>
+              <option value="@korea.kr">@korea.kr</option>
+              <option value="@gmail.com">@gmail.com</option>
+              <option value="@naver.com">@naver.com</option>
+            </select>
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="reg-pw" class="required">비밀번호</label>
+            <input type="password" id="reg-pw" class="form-control" placeholder="비밀번호를 입력하세요">
+            <p class="form-helper-text">영문 대소문자, 숫자, 특수문자를 혼용하여 8자 이상</p>
+            <div class="field-error" id="err-pw">필수 입력 항목입니다.</div>
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="reg-pw2" class="required">비밀번호 확인</label>
+            <input type="password" id="reg-pw2" class="form-control" placeholder="비밀번호를 다시 입력하세요">
+            <div class="field-error" id="err-pw2">비밀번호가 일치하지 않습니다.</div>
+          </div>
+
+          <div class="form-group mb-2">
+            <label for="reg-phone" class="required">전화번호</label>
+            <input type="text" id="reg-phone" class="form-control" placeholder="전화번호를 숫자만 입력해 주세요.">
+            <p class="form-helper-text">아이디 분실 시 아이디 찾기를 위한 정보입니다.</p>
+            <div class="field-error" id="err-phone">필수 입력 항목입니다.</div>
+          </div>
+
+          <div class="form-group mb-2">
+            <label class="required">소속 지역</label>
+            <div class="location-input-group">
+              <select class="form-control">
+                <option>시도 선택</option>
+              </select>
+              <select class="form-control" disabled>
+                <option>시군구 선택</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group mb-3">
+            <label for="reg-dept" class="required">부서명</label>
+            <input type="text" id="reg-dept" class="form-control" placeholder="부서명을 입력하세요">
+            <div class="field-error" id="err-dept">필수 입력 항목입니다.</div>
+          </div>
+
+          <div class="modal-btns btn-stack">
+            <button type="button" class="btn btn-primary btn-lg" id="btn-submit-reg">가입 신청</button>
+            <button type="button" class="btn btn-outline btn-lg" onclick="location.href='index.html'">취소</button>
+          </div>
+        </div>
+
+        <!-- 로그인 링크 -->
+        <div class="auth-extra-links" id="login-link-wrap">
+          이미 계정이 있으신가요? <a href="index.html">로그인</a>
+        </div>
+      </section>
+
+      <!-- LX 로고 -->
+      <div class="auth-lx-logo">
+        <img src="assets/img/lx_logo.svg" alt="LX 한국국토정보공사" onerror="this.style.display='none'">
+      </div>
+    </main>
+  </div>
+
+  <!-- ══ 모달: 가입 확인 ══ -->
+  <div class="modal-overlay" id="modal-confirm">
+    <div class="modal-box">
+      <div class="modal-icon icon-warn">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+        </svg>
+      </div>
+      <h2 class="modal-title">서비스 이용 신청</h2>
+      <p class="modal-desc">입력하신 정보로 서비스 이용 신청을<br>하시겠습니까?</p>
+      <div class="modal-btns">
+        <button class="btn btn-outline" id="btn-modal-cancel">취소</button>
+        <button class="btn btn-confirm" id="btn-modal-confirm">확인</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ 모달: 가입 완료 ══ -->
+  <div class="modal-overlay" id="modal-success">
+    <div class="modal-box">
+      <div class="modal-icon icon-success">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+      </div>
+      <h2 class="modal-title">신청 완료</h2>
+      <p class="modal-desc">서비스 이용 신청이 완료되었습니다.<br>승인 후 이용해 주세요.</p>
+      <div class="modal-btns">
+        <button class="btn btn-success btn-block" id="btn-modal-finish">확인</button>
+      </div>
+    </div>
+  </div>
+  </main>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initRegisterForm);
+  </script>
+</body>
+
+</html>

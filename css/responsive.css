@@ -1,0 +1,140 @@
+/* =============================================
+   responsive.css — 미디어 쿼리 (768px / 1024px)
+   ============================================= */
+
+/* === 태블릿 (≤1024px) === */
+@media (max-width: 1024px) {
+  .app-sidebar {
+    width: 56px;
+  }
+  .sidebar-link .nav-text { display: none; }
+  .sidebar-label { display: none; }
+  .sidebar-link {
+    justify-content: center;
+    padding: 10px;
+  }
+  .sidebar-link.active::before { display: none; }
+  .sidebar-link .nav-icon { width: 20px; height: 20px; }
+
+  .map-filter-panel { width: 180px; }
+
+  .app-header .header-title .title-full { display: none; }
+  .app-header .header-title .title-short { display: block; }
+
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+
+  .page-content { padding: 16px; }
+}
+
+/* === 모바일 (≤768px) === */
+@media (max-width: 768px) {
+  /* 헤더 */
+  .app-header { padding: 0 12px; }
+  .btn-hamburger { display: flex; }
+  .user-name { display: none; }
+
+  /* 사이드바 오버레이 */
+  .app-sidebar {
+    position: fixed;
+    top: 56px; left: 0;
+    height: calc(100vh - 56px);
+    width: 240px;
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-lg);
+    z-index: 600;
+  }
+  .app-sidebar.open {
+    transform: translateX(0);
+  }
+  .sidebar-link .nav-text { display: block; }
+  .sidebar-label { display: block; }
+  .sidebar-link {
+    justify-content: flex-start;
+    padding: 10px 16px;
+  }
+
+  /* 오버레이 */
+  .sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 56px 0 0 0;
+    background: rgba(0,0,0,.35);
+    z-index: 599;
+  }
+  .sidebar-overlay.active { display: block; }
+
+  /* 메인 — 사이드바 없을 때 전체폭 */
+  .app-body .app-main { width: 100%; }
+
+  /* 지도 패널 */
+  .map-summary-bar {
+    top: auto;
+    bottom: 70px;
+    left: 8px;
+    right: 8px;
+    transform: none;
+    flex-wrap: wrap;
+  }
+  .map-stat { flex: 1; min-width: 0; }
+
+  .map-filter-panel {
+    top: 8px; right: 8px;
+    width: calc(100vw - 16px);
+    flex-direction: row; flex-wrap: wrap;
+  }
+  .map-filter-panel .form-group { min-width: 130px; flex: 1; }
+
+  .map-legend { bottom: 8px; right: 8px; }
+
+  /* 카드/테이블 */
+  .kpi-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+
+  .filter-bar { padding: 10px; }
+  .search-box { min-width: 100%; }
+
+  /* 테이블 → 카드 감추기 제어는 JS */
+  .table-wrap table { font-size: var(--font-size-xs); }
+  th, td { padding: 8px 10px; }
+
+  /* 페이지 헤더 */
+  .page-header { flex-direction: column; }
+  .page-title  { font-size: var(--font-size-lg); }
+  .page-content { padding: 12px; }
+
+  /* 모달 */
+  .modal { width: 96vw; max-height: 92vh; }
+  .modal-header { padding: 14px 16px; }
+  .modal-body   { padding: 16px; }
+  .modal-footer { padding: 10px 16px; }
+
+  /* 인증 */
+  .auth-body   { padding: 20px 20px 16px; }
+  .auth-header { padding: 22px 20px 18px; }
+  .auth-footer { padding: 10px 20px 18px; }
+
+  /* 시설 카드 목록 */
+  .facility-card-grid {
+    grid-template-columns: 1fr;
+  }
+
+  /* 통계 차트 */
+  .chart-grid { grid-template-columns: 1fr; }
+
+  /* 토스트 */
+  #toast-container { bottom: 12px; right: 12px; left: 12px; }
+  .toast { min-width: 0; }
+}
+
+/* === 소형 모바일 (≤480px) === */
+@media (max-width: 480px) {
+  .kpi-grid { grid-template-columns: 1fr 1fr; }
+  .map-stat .stat-label { font-size: 9px; }
+  .map-stat .stat-value { font-size: 0.95rem; }
+}
+
+/* === 인쇄 === */
+@media print {
+  .app-header, .app-sidebar, .btn-hamburger, .sidebar-overlay { display: none !important; }
+  .app-main { overflow: visible; }
+  .page-content { padding: 0; }
+}

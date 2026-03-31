@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+</head>
+
+<body>
+  <div class="db-wrapper">
+
+    <!-- ══ 헤더 ══ -->
+    <header class="gvt-header" role="banner">
+      <div class="gvt-logo-wrap">
+        <img src="assets/img/main_logo.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+      </div>
+      <h1 class="gvt-service-name">하천계곡 및 주변 지역 불법 시설 정비 지원시스템</h1>
+      <div class="gvt-spacer"></div>
+      <nav class="gvt-header-nav" aria-label="주요 메뉴">
+        <a href="#" class="gvt-nav-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 8v4l3 3" />
+          </svg>
+          <span>이용 가이드</span>
+        </a>
+        <div class="gvt-divider-v"></div>
+        <a href="#" class="gvt-nav-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+            <path d="M19 12l1.5 1.5L23 11" />
+          </svg>
+          <span>관리</span>
+        </a>
+        <div class="gvt-divider-v"></div>
+        <button class="gvt-user-btn" id="btn-logout">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="8" r="4" />
+            <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+          </svg>
+          <span id="header-user-name">홍길동님</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+            style="width:11px;height:11px;">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ══ 본문 ══ -->
+    <div class="db-body">
+
+      <!-- 지도 -->
+      <div id="map" aria-label="전국 하천·계곡 불법시설 지도"></div>
+
+      <!-- ── 좌측 패널 (항상 열림) ── -->
+      <aside class="db-left" id="db-left-panel" aria-label="지역별 현황">
+
+        <!-- 패널 타이틀 -->
+        <div class="db-left-header">
+          <div class="db-left-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="3" y="3" width="7" height="7" rx="1" />
+              <rect x="14" y="3" width="7" height="7" rx="1" />
+              <rect x="3" y="14" width="7" height="7" rx="1" />
+              <rect x="14" y="14" width="7" height="7" rx="1" />
+            </svg>
+            지역별 현황
+          </div>
+        </div>
+
+        <!-- 막대 범례 라벨 -->
+        <div class="db-bar-legend">
+          <div class="rbl"><span class="rbl-dot crossing"></span>걸침</div>
+          <div class="rbl"><span class="rbl-dot inside"></span>구역내</div>
+          <div class="flex-1"></div>
+        </div>
+
+        <!-- 지역 목록 -->
+        <div class="db-region-list" id="region-list" role="list"></div>
+
+        <!-- LX 로고 -->
+        <div class="db-left-footer">
+          <img src="assets/img/lx_logo.svg" alt="LX 한국국토정보공사" onerror="this.classList.add('hidden')">
+        </div>
+      </aside>
+
+      <!-- ── KPI 플로팅 (사이드바 우측) ── -->
+      <div class="db-kpi-float" aria-label="유형별 현황">
+        <div class="db-kpi-card">
+          <div class="db-kpi-lbl">걸침</div>
+          <div class="db-kpi-num crossing" id="kpi-crossing">–</div>
+        </div>
+        <div class="db-kpi-card">
+          <div class="db-kpi-lbl">구역내</div>
+          <div class="db-kpi-num inside" id="kpi-inside">–</div>
+        </div>
+      </div>
+
+      <!-- ── 범례 플로팅 (사이드바 우측, KPI 아래) ── -->
+      <div class="db-legend-float" aria-label="지도 범례">
+        <div class="db-legend-title">범례</div>
+        <div class="db-legend-rows">
+          <div class="db-legend-r">
+            <span class="db-legend-dot legend-crossing"></span>
+            걸침
+            <span class="lcount text-orange" id="leg-crossing">–</span>
+          </div>
+          <div class="db-legend-r">
+            <span class="db-legend-dot legend-inside"></span>
+            구역내
+            <span class="lcount text-red" id="leg-inside">–</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 우측 툴바 ── -->
+      <aside class="db-right-tools" aria-label="지도 도구">
+        <div class="rt-group">
+          <button class="rt-btn" id="btn-search-toggle" title="검색" aria-label="검색">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </button>
+          <div class="rt-sep"></div>
+          <button class="rt-btn" title="배경지도 변경" id="btn-basemap">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+            </svg>
+          </button>
+          <div class="rt-sep"></div>
+          <button class="rt-btn" title="거리 측정">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M3 12h18M3 6h6M3 18h6M15 6h6M15 18h6" />
+            </svg>
+          </button>
+          <div class="rt-sep"></div>
+          <button class="rt-btn" title="시설 표시">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20.59 13.41l-7.17 7.17a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z" />
+              <line x1="7" y1="7" x2="7.01" y2="7" />
+            </svg>
+          </button>
+          <div class="rt-sep"></div>
+          <button class="rt-btn" title="내보내기" onclick="UI.toast('목록을 내보내는 중입니다.','info')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </button>
+        </div>
+        <div class="rt-spacer"></div>
+        <div class="rt-group">
+          <button class="zoom-btn" id="btn-zoom-in" title="확대">＋</button>
+          <div class="zoom-sep"></div>
+          <button class="zoom-btn" id="btn-zoom-out" title="축소">－</button>
+        </div>
+      </aside>
+
+      <!-- ── 검색 오버레이 (버튼 클릭 시 열림) ── -->
+      <div class="db-search-overlay" id="db-search-overlay" role="search">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#aab0bc" stroke-width="2">
+          <circle cx="11" cy="11" r="8" />
+          <path d="M21 21l-4.35-4.35" />
+        </svg>
+        <input type="text" id="db-search-input" placeholder="시설명·주소 검색…" aria-label="시설 검색">
+        <button class="db-search-close" id="btn-search-close" title="닫기">×</button>
+      </div>
+
+    </div><!-- /db-body -->
+  </div>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="stats.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+        </svg>
+        <span>통계·현황</span>
+      </a>
+      <a href="report.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+        <span>신고 등록</span>
+      </a>
+    </div>
+    <div class="ud-divider ud-menu">
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+
+</html>
+</body>
+
+</html>
