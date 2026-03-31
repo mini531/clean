@@ -140,6 +140,7 @@ body {
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-lg);
   border: 1px solid rgba(255, 255, 255, 0.1);
+  overflow: hidden; /* Added to constrain content */
 }
 
 /* ?⑤꼸 ?ㅻ뜑 */
@@ -405,12 +406,16 @@ body {
 }
 
 .db-region-list::-webkit-scrollbar {
-  width: 4px;
+  width: 6px; /* Increased from 4px for better usability */
 }
 
 .db-region-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 6px;
+}
+
+.db-region-list::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.4);
 }
 
 /* ?? 吏??移대뱶 ?? */
@@ -503,8 +508,7 @@ body {
 }
 
 .region-card.active .sub-region-list {
-  max-height: 800px;
-  /* 異⑸텇???믪씠 */
+  max-height: 1500px; /* Increased to accommodate very long lists */
   padding-bottom: 8px;
 }
 
