@@ -18,7 +18,7 @@
     <!-- ══ 헤더 ══ -->
     <header class="gvt-header" role="banner">
       <div class="gvt-logo-wrap">
-        <img src="assets/img/main_logo.png" alt="행정안전부"
+        <img src="assets/img/main_logo_white.png" alt="행정안전부"
           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <span class="logo-fallback">
           <svg width="18" height="18" viewBox="0 0 20 20">
@@ -28,7 +28,7 @@
           행정안전부
         </span>
       </div>
-      <h1 class="gvt-service-name">하천계곡 및 주변 지역 불법 시설 정비 지원시스템</h1>
+      <h1 class="gvt-service-name">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</h1>
       <div class="gvt-spacer"></div>
       <nav class="gvt-header-nav" aria-label="주요 메뉴">
         <a href="#" class="gvt-nav-btn">
@@ -71,28 +71,95 @@
       <!-- ── 좌측 패널 (항상 열림) ── -->
       <aside class="db-left" id="db-left-panel" aria-label="지역별 현황">
 
-        <!-- 패널 타이틀 -->
-        <div class="db-left-header">
-          <div class="db-left-title">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-              <rect x="3" y="3" width="7" height="7" rx="1" />
-              <rect x="14" y="3" width="7" height="7" rx="1" />
-              <rect x="3" y="14" width="7" height="7" rx="1" />
-              <rect x="14" y="14" width="7" height="7" rx="1" />
-            </svg>
-            지역별 현황
+        <!-- 메인 뷰: 전체/지역 목록 -->
+        <div class="db-sidebar-view active" id="sidebar-main-view">
+          <!-- 패널 타이틀 -->
+          <div class="db-left-header">
+            <div class="db-left-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              지역별 현황
+            </div>
           </div>
+
+          <!-- 막대 범례 라벨 및 정렬 -->
+          <div class="db-bar-legend">
+            <div class="rbl"><span class="rbl-dot crossing"></span>걸침</div>
+            <div class="rbl"><span class="rbl-dot inside"></span>구역내</div>
+            <div class="flex-1"></div>
+            <div class="db-sort-wrap">
+              <button class="db-sort-btn" id="btn-sort-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M6 12h12M10 18h4" />
+                </svg>
+                <span id="sort-label">걸침 많은 순</span>
+              </button>
+              <div class="db-sort-dropdown" id="sort-dropdown">
+                <button class="dsd-item active" data-sort="cross-desc">걸침 많은 순</button>
+                <button class="dsd-item" data-sort="inside-desc">구역내 많은 순</button>
+                <button class="dsd-item" data-sort="cross-asc">걸침 적은 순</button>
+                <button class="dsd-item" data-sort="inside-asc">구역내 적은 순</button>
+                <button class="dsd-item" data-sort="name-asc">지역 이름 순</button>
+                <button class="dsd-item" data-sort="name-desc">지역 이름 역순</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 지역 목록 -->
+          <div class="db-region-list" id="region-list" role="list"></div>
         </div>
 
-        <!-- 막대 범례 라벨 -->
-        <div class="db-bar-legend">
-          <div class="rbl"><span class="rbl-dot crossing"></span>걸침</div>
-          <div class="rbl"><span class="rbl-dot inside"></span>구역내</div>
-          <div class="flex-1"></div>
-        </div>
+        <!-- 상세 뷰: 시설물 목록 -->
+        <div class="db-sidebar-view" id="sidebar-detail-view">
+          <div class="db-detail-header">
+            <button class="btn-back" id="btn-sidebar-back">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M15 18l-6-6 6-6" />
+              </svg>
+              전체 목록
+            </button>
+            <h2 class="detail-title" id="side-detail-title">세부 시설물 목록</h2>
+          </div>
 
-        <!-- 지역 목록 -->
-        <div class="db-region-list" id="region-list" role="list"></div>
+          <!-- 상세 뷰 범례 및 정렬 -->
+          <div class="db-bar-legend detail-mode">
+            <div class="rbl clickable" id="fac-filter-crossing"><span class="rbl-dot crossing"></span>걸침</div>
+            <div class="rbl clickable" id="fac-filter-inside"><span class="rbl-dot inside"></span>구역내</div>
+            <div class="flex-1"></div>
+            <div class="db-sort-wrap">
+              <button class="db-sort-btn" id="btn-fac-sort">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M6 12h12M10 18h4" />
+                </svg>
+                <span id="fac-sort-label">걸침 많은 순</span>
+              </button>
+              <div class="db-sort-dropdown" id="fac-sort-dropdown">
+                <button class="dsd-item active" data-sort="cross-desc">걸침 많은 순</button>
+                <button class="dsd-item" data-sort="inside-desc">구역내 많은 순</button>
+                <button class="dsd-item" data-sort="cross-asc">걸침 적은 순</button>
+                <button class="dsd-item" data-sort="inside-asc">구역내 적은 순</button>
+                <button class="dsd-item" data-sort="name-asc">지역 이름 순</button>
+                <button class="dsd-item" data-sort="name-desc">지역 이름 역순</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 부가 검색 -->
+          <div class="db-detail-search">
+            <div class="search-box">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+              </svg>
+              <input type="text" id="facility-search-input" placeholder="시설물 주소 검색">
+            </div>
+          </div>
+
+          <div class="db-facility-list" id="facility-list" role="list"></div>
+        </div>
 
         <!-- LX 로고 -->
         <div class="db-left-footer">
@@ -100,31 +167,70 @@
         </div>
       </aside>
 
-      <!-- ── KPI 플로팅 (사이드바 우측) ── -->
-      <div class="db-kpi-float" aria-label="유형별 현황">
-        <div class="db-kpi-card">
-          <div class="db-kpi-lbl">걸침</div>
-          <div class="db-kpi-num crossing" id="kpi-crossing">–</div>
-        </div>
-        <div class="db-kpi-card">
-          <div class="db-kpi-lbl">구역내</div>
-          <div class="db-kpi-num inside" id="kpi-inside">–</div>
-        </div>
-      </div>
-
-      <!-- ── 범례 플로팅 (사이드바 우측, KPI 아래) ── -->
-      <div class="db-legend-float" aria-label="지도 범례">
-        <div class="db-legend-title">범례</div>
-        <div class="db-legend-rows">
-          <div class="db-legend-r">
-            <span class="db-legend-dot legend-crossing"></span>
-            걸침
-            <span class="lcount text-orange" id="leg-crossing">–</span>
+      <!-- ── 중앙 하단 HUD 그룹 (Summary + Layers) ── -->
+      <div class="db-hud-center" id="db-hud-center">
+        <!-- ── 지도 요약 카드 (Consolidated KPI & Legend) ── -->
+        <div class="db-map-summary" id="db-map-summary" aria-label="현황 요약">
+          <div class="db-summary-hd">
+            <span class="db-summary-title" id="summary-title">전국 현황</span>
           </div>
-          <div class="db-legend-r">
-            <span class="db-legend-dot legend-inside"></span>
-            구역내
-            <span class="lcount text-red" id="leg-inside">–</span>
+          <div class="db-summary-content">
+            <div class="db-summary-item">
+              <span class="dot-sm crossing"></span>
+              <span class="lbl">걸침</span>
+              <span class="val" id="sum-crossing">0</span>
+            </div>
+            <div class="db-summary-item">
+              <span class="dot-sm inside"></span>
+              <span class="lbl">구역내</span>
+              <span class="val" id="sum-inside">0</span>
+            </div>
+            <div class="db-summary-visual">
+              <div class="db-summary-bar-track">
+                <div class="bar-seg crossing" id="sum-bar-crossing" style="width: 50%"></div>
+                <div class="bar-seg inside" id="sum-bar-inside" style="width: 50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 레이어 설정 (상세 모드 전용) ── -->
+        <div class="db-layer-settings hidden" id="db-layer-settings" aria-label="레이어 설정">
+          <div class="layer-hd" id="btn-layer-minimize">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <polyline points="22 12 12 17 2 12" /><polyline points="22 7 12 12 2 7" /><polyline points="2 17 12 22 22 17" />
+            </svg>
+            <span class="layer-title">레이어 설정</span>
+            <button class="layer-min-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+          <div class="layer-body">
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">국가하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">지방하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">소하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot crossing"></span><span class="l-name">걸친 시설물(50%+)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot inside"></span><span class="l-name">구역 내(100%)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-divider"></div>
+            <div class="layer-row">
+              <span class="l-dot cadastral"></span><span class="l-name">LX맵(LX 지적도)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
           </div>
         </div>
       </div>
