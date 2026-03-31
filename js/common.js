@@ -76,7 +76,7 @@ const STATUS_COLOR = {
 
 /* --- Mock 사용자 계정 --- */
 const MOCK_USERS = [
-  { id: 'admin', pw: 'admin123', name: '홍길동', org: '환경부 수자원과', role: 'admin', roleLabel: '관리자' },
+  { id: 'admin', pw: 'admin123', name: '홍길동', org: 'LX 시스템 관리팀', role: 'admin', roleLabel: '관리자' },
   { id: 'field', pw: 'field123', name: '이현장', org: '경기도 하천관리팀', role: 'field', roleLabel: '현장요원' },
   { id: 'officer', pw: 'officer1', name: '박담당', org: '강원도 환경부서', role: 'officer', roleLabel: '지자체 담당자' },
 ];

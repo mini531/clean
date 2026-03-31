@@ -1045,15 +1045,18 @@ body {
 .ud-dropdown {
   display: none;
   position: fixed;
-  top: 54px;
+  top: 58px;
   right: 12px;
-  background: #fff;
-  border: 1px solid #dde2ea;
-  border-radius: var(--radius);
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: var(--radius-sm);
   box-shadow: var(--shadow-lg);
   z-index: 800;
-  min-width: 220px;
+  min-width: 200px;
   overflow: hidden;
+  animation: slideInDown 0.2s ease;
 }
 
 .ud-dropdown.active {
@@ -1061,27 +1064,30 @@ body {
 }
 
 .ud-header {
-  padding: 16px 20px 12px;
-  border-bottom: 1px solid #eaecf0;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ud-name {
   font-size: 14px;
   font-weight: 700;
-  color: var(--text-primary);
+  color: #fff;
 }
 
 .ud-org {
-  font-size: 12px;
-  color: var(--text-muted);
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.5);
   margin-top: 2px;
+  font-weight: 400;
 }
 
 .ud-role {
-  font-size: 12px;
-  color: var(--primary);
-  font-weight: 600;
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+  font-weight: 700;
   margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .ud-menu {
@@ -1092,34 +1098,43 @@ body {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 20px;
+  padding: 11px 20px;
   font-size: 13px;
-  color: #444;
-  transition: all 0.15s;
+  color: rgba(255, 255, 255, 0.8);
+  transition: all 0.2s;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
 }
 
 .ud-item:hover {
-  background: #f5f7fb;
-  color: var(--primary);
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
 }
 
 .ud-item svg {
   width: 16px;
   height: 16px;
-  color: #888;
+  color: rgba(255, 255, 255, 0.4);
+  transition: color 0.2s;
+}
+
+.ud-item:hover svg {
+  color: #fff;
 }
 
 .ud-divider {
-  padding: 8px 0;
-  border-top: 1px solid #eaecf0;
+  padding: 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .ud-logout {
-  color: var(--danger) !important;
+  color: #ff5252 !important;
 }
 
 .ud-logout:hover {
-  background: #fff5f5;
+  background: rgba(255, 82, 82, 0.12);
+  color: #ff5252;
 }
 
 /* 踰붾?/?띿뒪??媛뺤“ ?됱긽 */
