@@ -683,8 +683,13 @@ body {
 }
 
 /* ?쒖꽦 ?곹깭 ?띿뒪???됱긽 媛뺤“ */
-.db-bar-legend.detail-mode .rbl#fac-filter-crossing.active { color: #ffab40; }
-.db-bar-legend.detail-mode .rbl#fac-filter-inside.active   { color: #ff5252; }
+.db-bar-legend.detail-mode .rbl#fac-filter-crossing.active {
+  color: #ffab40;
+}
+
+.db-bar-legend.detail-mode .rbl#fac-filter-inside.active {
+  color: #ff5252;
+}
 
 /* ?곸꽭 酉?寃??*/
 .db-detail-search {
@@ -1135,167 +1140,7 @@ body {
 }
 
 /* =============================================
-   레이어 설정 (Layer Settings) - Tactical Glass
-   ============================================= */
-
-.db-layer-settings {
-  background: rgba(13, 17, 23, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: var(--radius-lg);
-  display: flex;
-  flex-direction: column;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  overflow: hidden;
-  width: 100%; /* 부모(db-hud-center) 너비 추종 */
-}
-
-.db-layer-settings.hidden {
-  display: none;
-}
-
-.db-layer-settings.minimized {
-  width: 140px;
-  align-self: center; /* 최소화 시 중앙 정렬 */
-  border-radius: 40px;
-}
-
-.layer-hd {
-  height: 48px;
-  display: flex;
-  align-items: center;
-  padding: 0 18px;
-  gap: 10px;
-  cursor: pointer;
-  user-select: none;
-}
-
-.layer-hd svg:first-child {
-  width: 18px;
-  height: 18px;
-  color: var(--primary-light);
-}
-
-.layer-title {
-  flex: 1;
-  font-size: 14px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.3px;
-}
-
-.layer-min-btn {
-  background: none;
-  border: none;
-  padding: 4px;
-  color: rgba(255, 255, 255, 0.4);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  transition: transform 0.3s;
-}
-
-.db-layer-settings.minimized .layer-min-btn {
-  transform: rotate(180deg);
-}
-
-.layer-body {
-  padding: 4px 18px 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  transition: opacity 0.2s, max-height 0.3s;
-  max-height: 400px;
-}
-
-.db-layer-settings.minimized .layer-body {
-  max-height: 0;
-  padding: 0;
-  opacity: 0;
-}
-
-.layer-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  height: 32px;
-}
-
-.l-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 2px;
-  flex-shrink: 0;
-}
-
-.l-dot.sub { background: #4a90e2; }
-.l-dot.crossing { background: #ffab40; }
-.l-dot.inside { background: #ff5252; }
-.l-dot.cadastral { background: #f1c40f; }
-
-.l-name {
-  flex: 1;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(255, 255, 255, 0.85);
-}
-
-.layer-divider {
-  height: 1px;
-  background: rgba(255, 255, 255, 0.08);
-  margin: 4px 0;
-}
-
-.l-switch {
-  position: relative;
-  display: inline-block;
-  width: 36px;
-  height: 19px;
-  flex-shrink: 0;
-}
-
-.l-switch input {
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.l-slider {
-  position: absolute;
-  cursor: pointer;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(255, 255, 255, 0.12);
-  transition: .3s;
-  border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-.l-slider:before {
-  position: absolute;
-  content: "";
-  height: 13px;
-  width: 13px;
-  left: 2px;
-  bottom: 2px;
-  background-color: rgba(255, 255, 255, 0.7);
-  transition: .3s;
-  border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
-}
-
-.l-switch input:checked + .l-slider {
-  background-color: var(--primary);
-  border-color: rgba(255, 255, 255, 0.1);
-}
-
-.l-switch input:checked + .l-slider:before {
-  transform: translateX(17px);
-  background-color: #fff;
-}
-/* =============================================
-   레이어 설정 (Layer Settings) - Tactical Glass
+   레이어 설정 (Layer Settings) - Refined Tactical Glass
    ============================================= */
 
 .db-layer-settings {
@@ -1303,11 +1148,11 @@ body {
   bottom: 24px;
   left: 50%;
   transform: translateX(-50%);
-  width: 420px;
-  background: rgba(13, 17, 23, 0.7);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  width: 340px; /* Reduced width */
+  background: rgba(13, 17, 23, 0.4); /* More transparent background */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   z-index: 600;
   display: flex;
@@ -1322,19 +1167,19 @@ body {
 }
 
 .db-layer-settings.minimized {
-  width: 140px;
+  width: 160px; /* Increased to fit text */
   border-radius: 40px;
 }
 
-body.detail-mode-active .db-map-summary {
-  bottom: 290px;
+.db-layer-settings.minimized .layer-title {
+  font-size: 13px; /* Slightly smaller to fit perfectly */
 }
 
 .layer-hd {
   height: 48px;
   display: flex;
   align-items: center;
-  padding: 0 18px;
+  padding: 0 16px; /* Adjusted padding */
   gap: 10px;
   cursor: pointer;
   user-select: none;
@@ -1343,7 +1188,7 @@ body.detail-mode-active .db-map-summary {
 .layer-hd svg:first-child {
   width: 18px;
   height: 18px;
-  color: var(--primary-light);
+  color: #fff; /* Changed to white */
 }
 
 .layer-title {
@@ -1352,6 +1197,9 @@ body.detail-mode-active .db-map-summary {
   font-weight: 700;
   color: #fff;
   letter-spacing: -0.3px;
+  white-space: nowrap; /* Prevent line breaks */
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .layer-min-btn {
@@ -1416,11 +1264,12 @@ body.detail-mode-active .db-map-summary {
   margin: 4px 0;
 }
 
+/* Redesigned Premium Toggle Switch */
 .l-switch {
   position: relative;
   display: inline-block;
-  width: 36px;
-  height: 19px;
+  width: 32px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -1434,31 +1283,38 @@ body.detail-mode-active .db-map-summary {
   position: absolute;
   cursor: pointer;
   top: 0; left: 0; right: 0; bottom: 0;
-  background-color: rgba(255, 255, 255, 0.12);
-  transition: .3s;
+  background-color: rgba(255, 255, 255, 0.08);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 20px;
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .l-slider:before {
   position: absolute;
   content: "";
-  height: 13px;
-  width: 13px;
+  height: 12px;
+  width: 12px;
   left: 2px;
   bottom: 2px;
-  background-color: rgba(255, 255, 255, 0.7);
-  transition: .3s;
+  background-color: rgba(255, 255, 255, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-radius: 50%;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
 .l-switch input:checked + .l-slider {
-  background-color: var(--primary);
-  border-color: rgba(255, 255, 255, 0.1);
+  background-color: var(--primary-light);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.2);
 }
 
 .l-switch input:checked + .l-slider:before {
-  transform: translateX(17px);
+  transform: translateX(14px);
   background-color: #fff;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
 }
+
+.l-switch:hover .l-slider:before {
+  background-color: rgba(255, 255, 255, 0.6);
+}
+
