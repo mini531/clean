@@ -55,7 +55,52 @@ const MapModule = {
       },
     });
     this.markerGroup.addTo(this.map);
+
+    /* 지역 요약 파이 차트 그룹 */
+    this.regionSummaryGroup = L.layerGroup().addTo(this.map);
+
     return this.map;
+  },
+
+  /** 지역별 요약 파이 차트 렌더링 */
+  renderRegionSummaries(stats) {
+    this.markerGroup.clearLayers();
+    this.regionSummaryGroup.clearLayers();
+
+    stats.forEach(stat => {
+      const bounds = REGION_BOUNDS[stat.code];
+      if (!bounds) return;
+      const lat = (bounds[0][0] + bounds[1][0]) / 2;
+      const lng = (bounds[0][1] + bounds[1][1]) / 2;
+      
+      const total = stat.crossing + stat.inside;
+      const crossPct = total > 0 ? (stat.crossing / total) * 100 : 0;
+      
+      const grad = `conic-gradient(#ffab40 0% ${crossPct}%, #ff5252 ${crossPct}% 100%)`;
+      
+      const html = `
+        <div class="region-pie-marker">
+          <div class="region-pie-chart" style="background: ${grad}"></div>
+          <div class="region-pie-label">${stat.label}</div>
+        </div>
+      `;
+      
+      const icon = L.divIcon({
+        html: html,
+        className: '',
+        iconSize: [40, 50],
+        iconAnchor: [20, 25]
+      });
+
+      const marker = L.marker([lat, lng], { icon: icon });
+      marker.on('click', () => {
+        // 지역 클릭 시 해당 지역을 사이드바에서 선택한 것과 동일한 효과
+        if (window.handleRegionClick) {
+          window.handleRegionClick(stat.code, stat.label);
+        }
+      });
+      this.regionSummaryGroup.addLayer(marker);
+    });
   },
 
   /** 배경지도 토글 */
@@ -119,6 +164,7 @@ const MapModule = {
 
   /** 마커 전체 렌더링 */
   renderMarkers(facilities) {
+    if (this.regionSummaryGroup) this.regionSummaryGroup.clearLayers();
     this.markerGroup.clearLayers();
     facilities.forEach(f => {
       const marker = L.marker([f.lat, f.lng], { icon: this._createIcon(f.category), category: f.category });

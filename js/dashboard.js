@@ -573,7 +573,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   /* 지도 (위성 기본) */
   MapModule.init('map', { center: [36.5, 127.8], zoom: 7 });
-  MapModule.renderMarkers(MOCK_FACILITIES);
+  MapModule.renderRegionSummaries(REGION_STATS);
 
   updateKPI(REGION_STATS);
   applySort('cross-desc'); // 초기 정렬: 걸침 많은 순
@@ -594,6 +594,13 @@ document.addEventListener('DOMContentLoaded', () => {
   /* 상세 뷰: 뒤로가기 */
   document.getElementById('btn-sidebar-back').addEventListener('click', () => {
     switchSidebarView('sidebar-main-view');
+    // 전국 단위 지역 원그래프로 복귀
+    MapModule.renderRegionSummaries(REGION_STATS);
+    // 전국 바운드로 아웃
+    MapModule.map.flyToBounds(L.latLngBounds([
+      [33.11, 125.58], // 남서
+      [38.62, 129.62]  // 북동
+    ]), { padding: [40, 40], duration: 0.8 });
   });
 
   /* 상세 뷰: 시설물 검색 */
