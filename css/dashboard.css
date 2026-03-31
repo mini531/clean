@@ -618,10 +618,20 @@ body {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  opacity: 0;
+  transform: translateY(10px);
 }
 
 .db-sidebar-view.active {
   display: flex;
+  animation: fadeSlideIn 0.35s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+@keyframes fadeSlideIn {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* ?곸꽭 酉??ㅻ뜑 */
