@@ -1171,10 +1171,9 @@ body {
   transform: translateX(-50%);
   width: 340px;
   /* Reduced width */
-  background: rgba(13, 17, 23, 0.4);
-  /* More transparent background */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: var(--radius-lg);
   z-index: 600;
@@ -1359,7 +1358,8 @@ body {
 .l-switch:hover .l-slider:before {
   background-color: rgba(255, 255, 255, 0.6);
 }
-/* ¦¡¦¡ Premium Dark Glass Tooltip ¦¡¦¡ */
+
+/* ï¿½ï¿½ï¿½ï¿½ Premium Dark Glass Tooltip ï¿½ï¿½ï¿½ï¿½ */
 .dark-glass-popup .leaflet-popup-content-wrapper {
   background: rgba(15, 23, 42, 0.88);
   backdrop-filter: blur(12px);
@@ -1382,7 +1382,9 @@ body {
   border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
-.dg-popup-container { padding: 18px; }
+.dg-popup-container {
+  padding: 18px;
+}
 
 .dg-popup-header {
   display: flex;
@@ -1393,13 +1395,36 @@ body {
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-.dg-popup-title { font-size: 16px; font-weight: 700; }
-.dg-popup-title.inside { color: #ff5252; }
-.dg-popup-title.crossing { color: #ffab40; }
+.dg-popup-title {
+  font-size: 16px;
+  font-weight: 700;
+}
 
-.dg-popup-body { display: flex; flex-direction: column; gap: 10px; }
-.dg-info-row { display: flex; justify-content: space-between; font-size: 13px; }
-.dg-info-label { color: rgba(255, 255, 255, 0.5); font-weight: 500; }
+.dg-popup-title.inside {
+  color: #ff5252;
+}
+
+.dg-popup-title.crossing {
+  color: #ffab40;
+}
+
+.dg-popup-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.dg-info-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+}
+
+.dg-info-label {
+  color: rgba(255, 255, 255, 0.5);
+  font-weight: 500;
+}
+
 .dg-info-value {
   color: rgba(255, 255, 255, 0.95);
   font-weight: 600;
@@ -1410,5 +1435,4 @@ body {
 /* Facility Item Selection */
 .facility-item.active {
   background: rgba(255, 255, 255, 0.12);
-  border-left: 2px solid #fff;
 }
