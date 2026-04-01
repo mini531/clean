@@ -148,6 +148,137 @@ const SUB_REGION_STATS = {
     { label:'함안군', crossing:4480, inside:1554 },
     { label:'함양군', crossing:2698, inside:499 },
     { label:'합천군', crossing:5866, inside:1737 }
+  ],
+  'jeonnam': [
+    { label:'강진군', crossing:1276, inside:281 },
+    { label:'고흥군', crossing:3846, inside:580 },
+    { label:'곡성군', crossing:1695, inside:797 },
+    { label:'광양시', crossing:1609, inside:1048 },
+    { label:'구례군', crossing:1046, inside:587 },
+    { label:'나주시', crossing:1345, inside:1026 },
+    { label:'담양군', crossing:1905, inside:831 },
+    { label:'목포시', crossing:60, inside:86 },
+    { label:'무안군', crossing:187, inside:202 },
+    { label:'보성군', crossing:1155, inside:436 },
+    { label:'순천시', crossing:1549, inside:1225 },
+    { label:'신안군', crossing:319, inside:132 },
+    { label:'여수시', crossing:751, inside:221 },
+    { label:'영광군', crossing:778, inside:403 },
+    { label:'영암군', crossing:523, inside:318 },
+    { label:'완도군', crossing:545, inside:271 },
+    { label:'장성군', crossing:1505, inside:801 },
+    { label:'장흥군', crossing:653, inside:223 },
+    { label:'진도군', crossing:496, inside:261 },
+    { label:'함평군', crossing:759, inside:345 },
+    { label:'해남군', crossing:1346, inside:951 },
+    { label:'화순군', crossing:2320, inside:1061 }
+  ],
+  'seoul': [
+    { label:'강남구', crossing:282, inside:490 },
+    { label:'강동구', crossing:268, inside:319 },
+    { label:'강서구', crossing:196, inside:302 },
+    { label:'광진구', crossing:588, inside:827 },
+    { label:'마포구', crossing:490, inside:612 },
+    { label:'서대문구', crossing:178, inside:210 },
+    { label:'성동구', crossing:324, inside:456 },
+    { label:'송파구', crossing:312, inside:398 },
+    { label:'영등포구', crossing:410, inside:520 },
+    { label:'용산구', crossing:286, inside:345 },
+    { label:'종로구', crossing:462, inside:554 }
+  ],
+  'busan': [
+    { label:'강서구', crossing:1824, inside:1205 },
+    { label:'금정구', crossing:546, inside:423 },
+    { label:'기장군', crossing:2136, inside:1587 },
+    { label:'동구', crossing:384, inside:267 },
+    { label:'북구', crossing:1248, inside:892 },
+    { label:'사상구', crossing:612, inside:445 },
+    { label:'사하구', crossing:924, inside:678 },
+    { label:'해운대구', crossing:714, inside:543 }
+  ],
+  'incheon': [
+    { label:'강화군', crossing:486, inside:208 },
+    { label:'계양구', crossing:124, inside:87 },
+    { label:'남동구', crossing:312, inside:198 },
+    { label:'부평구', crossing:186, inside:112 },
+    { label:'서구', crossing:328, inside:176 },
+    { label:'연수구', crossing:148, inside:96 },
+    { label:'옹진군', crossing:86, inside:42 },
+    { label:'중구', crossing:66, inside:40 }
+  ],
+  'gwangju': [
+    { label:'광산구', crossing:1264, inside:582 },
+    { label:'남구', crossing:548, inside:278 },
+    { label:'동구', crossing:386, inside:196 },
+    { label:'북구', crossing:924, inside:467 },
+    { label:'서구', crossing:642, inside:274 }
+  ],
+  'daejeon': [
+    { label:'대덕구', crossing:726, inside:384 },
+    { label:'동구', crossing:482, inside:276 },
+    { label:'서구', crossing:524, inside:312 },
+    { label:'유성구', crossing:968, inside:548 },
+    { label:'중구', crossing:476, inside:285 }
+  ],
+  'ulsan': [
+    { label:'남구', crossing:1024, inside:456 },
+    { label:'동구', crossing:486, inside:214 },
+    { label:'북구', crossing:1248, inside:567 },
+    { label:'울주군', crossing:3684, inside:1612 },
+    { label:'중구', crossing:786, inside:312 }
+  ],
+  'sejong': [
+    { label:'세종시', crossing:2068, inside:929 }
+  ],
+  'jeonbuk': [
+    { label:'고창군', crossing:1854, inside:987 },
+    { label:'군산시', crossing:1248, inside:724 },
+    { label:'김제시', crossing:2136, inside:1156 },
+    { label:'남원시', crossing:2468, inside:1087 },
+    { label:'무주군', crossing:1524, inside:645 },
+    { label:'부안군', crossing:986, inside:478 },
+    { label:'순창군', crossing:1246, inside:567 },
+    { label:'완주군', crossing:2184, inside:1023 },
+    { label:'익산시', crossing:1678, inside:934 },
+    { label:'임실군', crossing:1124, inside:487 },
+    { label:'장수군', crossing:876, inside:378 },
+    { label:'전주시', crossing:1524, inside:1856 },
+    { label:'정읍시', crossing:1246, inside:678 },
+    { label:'진안군', crossing:659, inside:945 }
+  ],
+  'chungnam': [
+    { label:'계룡시', crossing:248, inside:112 },
+    { label:'공주시', crossing:2486, inside:1245 },
+    { label:'금산군', crossing:1624, inside:786 },
+    { label:'논산시', crossing:2148, inside:1067 },
+    { label:'당진시', crossing:1246, inside:678 },
+    { label:'보령시', crossing:1124, inside:534 },
+    { label:'부여군', crossing:1856, inside:945 },
+    { label:'서산시', crossing:1468, inside:723 },
+    { label:'서천군', crossing:986, inside:478 },
+    { label:'아산시', crossing:1648, inside:856 },
+    { label:'예산군', crossing:1246, inside:612 },
+    { label:'천안시', crossing:1824, inside:1234 },
+    { label:'청양군', crossing:748, inside:367 },
+    { label:'태안군', crossing:624, inside:298 },
+    { label:'홍성군', crossing:1159, inside:316 }
+  ],
+  'chungbuk': [
+    { label:'괴산군', crossing:1824, inside:845 },
+    { label:'단양군', crossing:1246, inside:567 },
+    { label:'보은군', crossing:1524, inside:678 },
+    { label:'영동군', crossing:1648, inside:734 },
+    { label:'옥천군', crossing:1856, inside:856 },
+    { label:'음성군', crossing:1424, inside:678 },
+    { label:'제천시', crossing:2148, inside:1067 },
+    { label:'증평군', crossing:486, inside:234 },
+    { label:'진천군', crossing:1124, inside:534 },
+    { label:'청주시', crossing:4256, inside:3812 },
+    { label:'충주시', crossing:2446, inside:2147 }
+  ],
+  'jeju': [
+    { label:'제주시', crossing:2124, inside:712 },
+    { label:'서귀포시', crossing:1014, inside:371 }
   ]
 };
 
@@ -467,10 +598,11 @@ function renderRegionList() {
         const mCurrRegion = document.getElementById('m-curr-region');
         if (mCurrRegion && regionObj) mCurrRegion.textContent = regionObj.label;
 
-        MapModule.flyToBounds(code);
+        MapModule.renderSigunguClusters(code);
       } else {
         card.classList.remove('active');
         updateKPI(REGION_STATS);
+        MapModule.renderRegionSummaries(REGION_STATS);
         
         // 모바일 리본 지역명 리셋
         const mCurrRegion = document.getElementById('m-curr-region');
@@ -828,6 +960,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   /* 지도 (위성 기본) */
+  window.REGION_STATS = REGION_STATS;
   MapModule.init('map', { center: [36.5, 127.8], zoom: 7 });
   MapModule.renderRegionSummaries(REGION_STATS);
 

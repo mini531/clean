@@ -2031,6 +2031,93 @@ body {
 }
 
 /* ── Region Pie Charts ── */
+/* ── Cluster Marker (오렌지 원형) ── */
+.cluster-marker {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: rgba(255, 152, 0, 0.85);
+  color: #fff;
+  font-weight: 700;
+  font-family: 'Outfit', sans-serif;
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: transform 0.2s, background 0.2s;
+}
+.cluster-marker:hover {
+  transform: scale(1.1);
+  background: rgba(255, 152, 0, 1);
+}
+/* 구역내 전용 (빨간색) */
+.cluster-marker.cluster-inside {
+  background: rgba(229, 57, 53, 0.85);
+}
+.cluster-marker.cluster-inside:hover {
+  background: rgba(229, 57, 53, 1);
+}
+
+/* MarkerCluster 기본 스타일 오버라이드 */
+.marker-cluster-small,
+.marker-cluster-medium,
+.marker-cluster-large {
+  background: rgba(255, 152, 0, 0.3) !important;
+}
+.marker-cluster-small div,
+.marker-cluster-medium div,
+.marker-cluster-large div {
+  background: rgba(255, 152, 0, 0.85) !important;
+  color: #fff !important;
+  font-weight: 700 !important;
+  font-family: 'Outfit', sans-serif !important;
+}
+
+.cluster-marker-sm { width: 34px; height: 34px; font-size: 11px; }
+.cluster-marker-md { width: 42px; height: 42px; font-size: 12px; }
+.cluster-marker-lg { width: 50px; height: 50px; font-size: 13px; }
+.cluster-marker-xl { width: 58px; height: 58px; font-size: 14px; }
+
+.cluster-label {
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(4px);
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff;
+  white-space: nowrap;
+  pointer-events: none;
+}
+
+.cluster-marker-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Inner red dot for inside count ── */
+.cluster-inner-dot {
+  position: absolute;
+  bottom: -2px;
+  right: -2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #ff5252;
+  border: 2px solid rgba(0,0,0,0.3);
+  font-size: 8px;
+  font-weight: 700;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 .region-pie-marker {
   display: flex;
   flex-direction: column;
