@@ -330,6 +330,16 @@ function updateKPI(data) {
     barCross.style.width = crossPct + '%';
     barInside.style.width = insidePct + '%';
   }
+
+  // 모바일 리본 업데이트 (걸침, 구역내)
+  const mKpiCross = document.getElementById('m-kpi-cross');
+  const mKpiInside = document.getElementById('m-kpi-inside');
+  if (mKpiCross) {
+    mKpiCross.textContent = cross >= 10000 ? (cross / 10000).toFixed(1) + '만' : cross.toLocaleString();
+  }
+  if (mKpiInside) {
+    mKpiInside.textContent = inside >= 10000 ? (inside / 10000).toFixed(1) + '만' : inside.toLocaleString();
+  }
 }
 
 /* ── 세부 지역 렌더링 (Compact Style) ── */
@@ -368,12 +378,34 @@ function renderSubRegions(regionCode, container) {
       const subName = item.dataset.subName;
       const subData = subs.find(s => s.label === subName);
       
-      // 1. 상세 목록 전환
+      // 1. 시설물 데이터 준비 (목록은 바텀시트에서 보여줄 예정)
       renderFacilityList(subName);
-      switchSidebarView('sidebar-detail-view');
       
-      // 2. 하단 요약 카드 업데이트 (세부 지역 데이터 반영)
+      // 2. 지도 시설물 레이어 표시
+      MapModule.renderFacilityLayer(MOCK_FACILITY_DETAILS);
+      
+      // 3. 하단 요약 카드 및 모바일 리본 업데이트
       if (subData) updateKPI(subData);
+      
+      const mCurrRegion = document.getElementById('m-curr-region');
+      if (mCurrRegion) mCurrRegion.textContent = subName;
+
+      // 4. 모바일인 경우 사이드바 닫고 목록 보기 버튼 노출 + 바텀 시트 즉시 열기
+      if (window.innerWidth <= 768) {
+        document.getElementById('db-left-panel').classList.remove('open');
+        document.getElementById('sidebar-backdrop').classList.remove('active');
+        
+        toggleMobileFloatingButtons(false); 
+        
+        const detailSheet = document.getElementById('sidebar-detail-view');
+        if (detailSheet) detailSheet.classList.add('active');
+        
+        // 상세 모드 활성화 플래그 추가 (버튼 노출 제어용)
+        document.body.classList.add('detail-mode-active');
+      } else {
+        // 데스크탑은 기존처럼 사이드바 뷰 전환
+        switchSidebarView('sidebar-detail-view');
+      }
       
       UI.toast(`${subName} 시설물 목록을 불러왔습니다.`, 'info', 1500);
     });
@@ -431,13 +463,19 @@ function renderRegionList() {
         const regionObj = REGION_STATS.find(r => r.code === code);
         updateKPI(regionObj);
         
-        const filtered = MOCK_FACILITIES.filter(f => f.region === code);
-        MapModule.filterMarkers(filtered);
+        // 모바일 리본 지역명 업데이트
+        const mCurrRegion = document.getElementById('m-curr-region');
+        if (mCurrRegion && regionObj) mCurrRegion.textContent = regionObj.label;
+
         MapModule.flyToBounds(code);
       } else {
         card.classList.remove('active');
         updateKPI(REGION_STATS);
-        MapModule.filterMarkers(MOCK_FACILITIES);
+        
+        // 모바일 리본 지역명 리셋
+        const mCurrRegion = document.getElementById('m-curr-region');
+        if (mCurrRegion) mCurrRegion.textContent = '전국';
+
         MapModule.map.flyTo([36.5, 127.8], 7, { duration: 0.8 });
       }
     };
@@ -445,43 +483,255 @@ function renderRegionList() {
   });
 }
 
+/** 지도 마커 클릭 -> 사이드바 동기화 */
+window.handleRegionClick = function(code, label) {
+  const card = document.querySelector(`.region-card[data-region="${code}"]`);
+  if (card) {
+    const master = card.querySelector('.region-card-master');
+    // 이미 열려있지 않은 경우에만 클릭 실행
+    if (!card.classList.contains('active')) {
+      master.click();
+    }
+    // 해당 카드로 부드럽게 스크롤
+    card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+};
+
 /* ── 검색 오버레이 ── */
 function initSearch() {
   const toggleBtn = document.getElementById('btn-search-toggle');
   const overlay   = document.getElementById('db-search-overlay');
-  const closeBtn  = document.getElementById('btn-search-close');
+  const resetBtn  = document.getElementById('btn-search-reset');
+  const mCloseBtn = document.getElementById('btn-search-m-close');
   const input     = document.getElementById('db-search-input');
+  const resPanel  = document.getElementById('db-search-results');
 
-  toggleBtn.addEventListener('click', e => {
-    e.stopPropagation();
-    const isOpen = overlay.classList.toggle('open');
-    toggleBtn.classList.toggle('active', isOpen);
-    if (isOpen) { setTimeout(() => input.focus(), 80); }
-    else { input.value = ''; MapModule.filterMarkers(MOCK_FACILITIES); }
-  });
+  if (toggleBtn && overlay) {
+    const closeSearch = () => {
+      overlay.classList.remove('open');
+      toggleBtn.classList.remove('active');
+      if (resPanel) resPanel.classList.remove('active');
+    };
 
-  closeBtn.addEventListener('click', () => {
-    overlay.classList.remove('open');
-    toggleBtn.classList.remove('active');
-    input.value = '';
-    MapModule.filterMarkers(MOCK_FACILITIES);
-    document.querySelectorAll('.region-card').forEach(c => c.classList.remove('active'));
-  });
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = overlay.classList.contains('open');
+      if (!isOpen) {
+        overlay.classList.add('open');
+        toggleBtn.classList.add('active');
+        if (input) input.focus();
+      } else {
+        closeSearch();
+      }
+    });
+
+    if (mCloseBtn) {
+      mCloseBtn.addEventListener('click', closeSearch);
+    }
+  }
+
+  if (resetBtn) {
+    resetBtn.addEventListener('click', () => {
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
+      if (resPanel) resPanel.classList.remove('active');
+      resetBtn.classList.remove('active');
+    });
+  }
+
+  if (input) {
+    input.addEventListener('input', () => {
+      if (input.value.trim().length > 0) {
+        resetBtn.classList.add('active');
+      } else {
+        resetBtn.classList.remove('active');
+        if (resPanel) resPanel.classList.remove('active');
+      }
+    });
+  }
+
+  /* ── 검색 결과 목업 데이터 확장 ── */
+  const MOCK_SEARCH_RESULTS = {
+    name: Array.from({length: 18}, (_, i) => ({ 
+      title: `운봉읍_${i + 1}`, 
+      sub: i % 2 === 0 ? "읍면동구역경계 > 읍" : "기타정보서비스업 > 국가가변전광표지판", 
+      type: "lot", 
+      addr: `전북특별자치도 남원시 운봉읍 동천리 ${642 + i}-${i % 5}` 
+    })),
+    road: Array.from({length: 15}, (_, i) => ({ 
+      title: `운봉읍_도로_${i + 1}`, 
+      sub: i % 3 === 0 ? "도로시설 > 주차장" : "도로명주소", 
+      type: "road", 
+      addr: `전북특별자치도 남원시 운봉읍 용은길 ${38 + i}-${i % 3}` 
+    })),
+    lot: Array.from({length: 22}, (_, i) => ({ 
+      title: `운봉읍_지번_${i + 1}`, 
+      sub: "지번주소", 
+      type: "lot", 
+      addr: `전북특별자치도 남원시 운봉읍 가산리 ${i + 1}` 
+    }))
+  };
+
+  const ITEMS_PER_PAGE = 5;
+
+  const renderPagination = (totalItems, currentPage, onPageChange) => {
+    const totalPages = Math.ceil(totalItems / ITEMS_PER_PAGE);
+    if (totalPages <= 1) return "";
+
+    let html = '<div class="res-pagination">';
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button class="pg-btn ${i === currentPage ? 'active' : ''}" data-page="${i}">${i}</button>`;
+    }
+    html += '</div>';
+
+    // 이벤트 위임은 renderSearchResults를 호출한 곳에서 처리하거나 타이머 사용
+    return html;
+  };
+
+  const renderSearchResults = (query, tab = 'all', pageNum = 1) => {
+    const list = document.getElementById('res-content-list');
+    const queryVal = document.getElementById('res-query-val');
+    const totalVal = document.getElementById('res-total-val');
+    
+    if (!list) return;
+    
+    queryVal.textContent = query;
+    list.innerHTML = '';
+    
+    const categories = {
+      name: { label: "명칭", data: MOCK_SEARCH_RESULTS.name },
+      road: { label: "도로명", data: MOCK_SEARCH_RESULTS.road },
+      lot: { label: "지번", data: MOCK_SEARCH_RESULTS.lot }
+    };
+
+    const renderItem = (item) => `
+      <div class="res-item">
+        <div class="res-item-title">${item.title}</div>
+        <div class="res-item-sub">${item.sub}</div>
+        <div class="res-item-addr">
+          <span class="addr-badge ${item.type}">${item.type === 'lot' ? '지번' : '도로명'}</span>
+          ${item.addr}
+        </div>
+      </div>
+    `;
+
+    const renderSection = (key, cat, isAllTab) => {
+      if (cat.data.length === 0) return '';
+      
+      let displayData = cat.data;
+      let paginationHtml = "";
+
+      if (isAllTab) {
+        // 전체 탭인 경우 상위 2개만 노출 + 더보기 버튼
+        displayData = cat.data.slice(0, 2);
+      } else {
+        // 특정 탭인 경우 페이지네이션 적용
+        const start = (pageNum - 1) * ITEMS_PER_PAGE;
+        displayData = cat.data.slice(start, start + ITEMS_PER_PAGE);
+        paginationHtml = renderPagination(cat.data.length, pageNum, (p) => renderSearchResults(query, tab, p));
+      }
+
+      return `
+        <div class="res-sec">
+          <div class="res-sec-hd">
+            <span>${cat.label} <span class="res-sec-count">${cat.data.length.toLocaleString()}</span> 건</span>
+            ${isAllTab ? `
+            <a href="javascript:void(0);" class="res-more" data-tab-target="${key}">
+              ${cat.label} 더 보기
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                <path d="M9 18l6-6-6-6" />
+              </svg>
+            </a>` : ""}
+          </div>
+          <div class="res-list">
+            ${displayData.map(renderItem).join('')}
+          </div>
+          ${paginationHtml}
+        </div>
+      `;
+    };
+
+    let totalCount = 0;
+    if (tab === 'all') {
+      totalCount = Object.values(categories).reduce((acc, cat) => acc + cat.data.length, 0);
+      list.innerHTML = Object.keys(categories).map(key => renderSection(key, categories[key], true)).join('');
+    } else {
+      totalCount = categories[tab].data.length;
+      list.innerHTML = renderSection(tab, categories[tab], false);
+    }
+
+    totalVal.textContent = (totalCount).toLocaleString();
+
+    // 페이지네이션 클릭 이벤트 바인딩
+    list.querySelectorAll('.pg-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        const p = parseInt(btn.dataset.page);
+        renderSearchResults(query, tab, p);
+      });
+    });
+  };
+
+  const btnResClose = document.getElementById('btn-res-close');
+  const btnSearchExec = document.getElementById('btn-search-exec');
+
+  const executeSearch = () => {
+    const q = input.value.trim();
+    if (q.length > 0) {
+      resPanel.classList.add('active');
+      renderSearchResults(q, 'all');
+    }
+  };
 
   input.addEventListener('input', () => {
-    const q = input.value.trim().toLowerCase();
-    const result = q
-      ? MOCK_FACILITIES.filter(f =>
-          f.name.toLowerCase().includes(q) || f.address.toLowerCase().includes(q))
-      : MOCK_FACILITIES;
-    document.querySelectorAll('.region-card').forEach(c => c.classList.remove('active'));
-    MapModule.filterMarkers(result);
+    if (input.value.trim().length === 0) {
+      resPanel.classList.remove('active');
+    }
   });
+
+  input.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      executeSearch();
+    }
+  });
+
+  if (btnSearchExec) {
+    btnSearchExec.addEventListener('click', executeSearch);
+  }
+
+  // 탭 전환
+  document.querySelectorAll('.res-tab').forEach(tabBtn => {
+    tabBtn.addEventListener('click', () => {
+      document.querySelectorAll('.res-tab').forEach(b => b.classList.remove('active'));
+      tabBtn.classList.add('active');
+      renderSearchResults(input.value.trim(), tabBtn.dataset.tab);
+    });
+  });
+
+  if (resPanel) {
+    resPanel.addEventListener('click', e => {
+      const moreLink = e.target.closest('.res-more');
+      if (moreLink) {
+        const targetTab = moreLink.dataset.tabTarget;
+        const tabBtn = document.querySelector(`.res-tab[data-tab="${targetTab}"]`);
+        if (tabBtn) tabBtn.click();
+      }
+    });
+  }
+
+  if (btnResClose) {
+    btnResClose.addEventListener('click', () => {
+      if (resPanel) resPanel.classList.remove('active');
+    });
+  }
 
   /* Esc 로 닫기 */
   document.addEventListener('keydown', e => {
     if (e.key === 'Escape' && overlay.classList.contains('open')) {
-      closeBtn.click();
+      overlay.classList.remove('open');
+      if (resPanel) resPanel.classList.remove('active');
+      toggleBtn.classList.remove('active');
     }
   });
 }
@@ -490,7 +740,7 @@ function initSearch() {
 function initUserDropdown(user) {
   const btn      = document.getElementById('btn-logout');
   const dropdown = document.getElementById('user-dropdown');
-  /* document.getElementById('header-user-name').textContent = user.name + '님'; */
+  document.getElementById('header-user-name').textContent = user.name + '님';
   document.getElementById('dd-user-name').textContent  = user.name;
   document.getElementById('dd-user-org').textContent   = user.org;
   document.getElementById('dd-user-role').textContent  = user.roleLabel;
@@ -571,6 +821,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
   initUserDropdown(user);
 
+  // 관리자 권한 체크: 관리자가 아닌 경우 헤더의 관리 버튼 숨김
+  const btnNavAdmin = document.getElementById('btn-nav-admin');
+  if (btnNavAdmin && user.role !== 'admin') {
+    btnNavAdmin.style.display = 'none';
+  }
+
   /* 지도 (위성 기본) */
   MapModule.init('map', { center: [36.5, 127.8], zoom: 7 });
   MapModule.renderRegionSummaries(REGION_STATS);
@@ -585,30 +841,240 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('btn-zoom-in') .addEventListener('click', () => MapModule.map.zoomIn());
   document.getElementById('btn-zoom-out').addEventListener('click', () => MapModule.map.zoomOut());
 
-  /* 배경지도 토글 */
-  document.getElementById('btn-basemap').addEventListener('click', () => {
-    const label = MapModule.toggleBasemap();
-    UI.toast(`${label}로 전환했습니다.`, 'info', 1800);
+  /* 배경지도/측정/그리기 메뉴 토글 공통 로직 */
+  const btnBasemap = document.getElementById('btn-basemap');
+  const menuBasemap = document.getElementById('basemap-menu');
+  const btnMeasure = document.getElementById('btn-measure');
+  const menuMeasure = document.getElementById('measure-menu');
+  const btnDraw = document.getElementById('btn-draw');
+  const menuDraw = document.getElementById('draw-menu');
+  
+  const closeAllMenus = () => {
+    [menuBasemap, menuMeasure, menuDraw].forEach(m => m?.classList.remove('open'));
+    [btnBasemap, btnMeasure, btnDraw].forEach(b => b?.classList.remove('active'));
+  };
+
+  if (btnBasemap && menuBasemap) {
+    btnBasemap.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menuBasemap.classList.contains('open');
+      closeAllMenus();
+      if (!isOpen) {
+        menuBasemap.classList.add('open');
+        btnBasemap.classList.add('active');
+      }
+    });
+
+    menuBasemap.querySelectorAll('.bm-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const type = item.dataset.type;
+        const label = MapModule.setBasemap(type);
+        menuBasemap.querySelectorAll('.bm-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        closeAllMenus();
+        UI.toast(`${label}로 전환했습니다.`, 'info', 1800);
+      });
+    });
+  }
+
+  if (btnMeasure && menuMeasure) {
+    btnMeasure.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menuMeasure.classList.contains('open');
+      closeAllMenus();
+      if (!isOpen) {
+        menuMeasure.classList.add('open');
+        btnMeasure.classList.add('active');
+      }
+    });
+
+    menuMeasure.querySelectorAll('.bm-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menuMeasure.querySelectorAll('.bm-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        closeAllMenus();
+      });
+    });
+  }
+
+  if (btnDraw && menuDraw) {
+    btnDraw.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const isOpen = menuDraw.classList.contains('open');
+      closeAllMenus();
+      if (!isOpen) {
+        menuDraw.classList.add('open');
+        btnDraw.classList.add('active');
+      }
+    });
+
+    menuDraw.querySelectorAll('.bm-item').forEach(item => {
+      item.addEventListener('click', (e) => {
+        e.stopPropagation();
+        menuDraw.querySelectorAll('.bm-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        closeAllMenus();
+      });
+    });
+  }
+
+  // 외부 클릭 시 모든 메뉴 닫기
+  document.addEventListener('click', (e) => {
+    if (menuBasemap && !btnBasemap.contains(e.target) && !menuBasemap.contains(e.target)) {
+      menuBasemap.classList.remove('open');
+      btnBasemap.classList.remove('active');
+    }
+    if (menuMeasure && !btnMeasure.contains(e.target) && !menuMeasure.contains(e.target)) {
+      menuMeasure.classList.remove('open');
+      btnMeasure.classList.remove('active');
+    }
+    if (menuDraw && !btnDraw.contains(e.target) && !menuDraw.contains(e.target)) {
+      menuDraw.classList.remove('open');
+      btnDraw.classList.remove('active');
+    }
   });
 
+  /* ── 보안 서약서 모달 제어 ── */
+  const btnExport = document.getElementById('btn-export-tool');
+  const modalPledge = document.getElementById('modal-pledge');
+  const btnPledgeClose = document.getElementById('btn-pledge-close');
+  const btnPledgeCancel = document.getElementById('btn-pledge-cancel');
+  const btnPledgeExec = document.getElementById('btn-pledge-exec');
+
+  if (btnExport && modalPledge) {
+    btnExport.addEventListener('click', () => {
+      modalPledge.classList.add('active');
+    });
+  }
+
+  const closePledgeModal = () => {
+    modalPledge.classList.remove('active');
+  };
+
+  if (btnPledgeClose) btnPledgeClose.addEventListener('click', closePledgeModal);
+  if (btnPledgeCancel) btnPledgeCancel.addEventListener('click', closePledgeModal);
+
+  if (btnPledgeExec) {
+    btnPledgeExec.addEventListener('click', () => {
+      const agreeCheck = document.getElementById('pledge-agree');
+      const reqNameInput = document.getElementById('p-req-name');
+      const startDateInput = document.getElementById('p-start-date');
+      const endDateInput = document.getElementById('p-end-date');
+      const purposeInput = document.getElementById('p-purpose');
+
+      // 기존 에러 초기화
+      document.querySelectorAll('.p-form-group').forEach(group => group.classList.remove('has-error'));
+
+      let hasError = false;
+
+      // 필수 항목 검증
+      if (!reqNameInput.value.trim()) {
+        reqNameInput.closest('.p-form-group').classList.add('has-error');
+        hasError = true;
+      }
+      if (!startDateInput.value || !endDateInput.value) {
+        startDateInput.closest('.p-form-group').classList.add('has-error');
+        hasError = true;
+      }
+      if (!purposeInput.value.trim()) {
+        purposeInput.closest('.p-form-group').classList.add('has-error');
+        hasError = true;
+      }
+
+      if (hasError) {
+        return;
+      }
+
+      if (!agreeCheck.checked) {
+        agreeCheck.closest('.p-form-group').classList.add('has-error');
+        return;
+      }
+
+      // 성공 -> 2단계로 전환
+      UI.toast('보안 서약이 완료되었습니다.', 'success', 1500);
+      
+      const pledgeBox = document.querySelector('.modal-pledge-box');
+      const saveMapBox = document.getElementById('modal-save-map');
+      
+      if (pledgeBox && saveMapBox) {
+        pledgeBox.style.display = 'none';
+        saveMapBox.style.display = 'block';
+        
+        // 미리보기 레이어 (예시설정 — 현재 베이스맵에 따라 이미지 다르게 가능)
+        const previewImg = document.getElementById('img-map-preview');
+        // 예: MapModule._currentBase 에 따라 분기 가능
+      }
+    });
+  }
+
+  /* ── 지도 저장 모달 제어 (2단계) ── */
+  const btnSaveMapClose = document.getElementById('btn-save-map-close');
+  const btnSaveMapCancel = document.getElementById('btn-save-map-cancel');
+  const btnMapPrint = document.getElementById('btn-map-print');
+  const memoInput = document.getElementById('memo-input');
+  const currMemoLen = document.getElementById('curr-memo-len');
+
+  const closeAllModals = () => {
+    modalPledge.classList.remove('active');
+    // 리셋 로직
+    setTimeout(() => {
+      document.querySelector('.modal-pledge-box').style.display = 'block';
+      document.getElementById('modal-save-map').style.display = 'none';
+      if (memoInput) memoInput.value = '';
+      if (currMemoLen) currMemoLen.textContent = '0';
+    }, 4000);
+  };
+
+  if (btnSaveMapClose) btnSaveMapClose.addEventListener('click', closeAllModals);
+  if (btnSaveMapCancel) btnSaveMapCancel.addEventListener('click', closeAllModals);
+
+  if (memoInput && currMemoLen) {
+    memoInput.addEventListener('input', () => {
+      currMemoLen.textContent = memoInput.value.length;
+    });
+  }
+
+  if (btnMapPrint) {
+    btnMapPrint.addEventListener('click', () => {
+      UI.toast('지도가 출력(저장)되었습니다.', 'success');
+      closeAllModals();
+    });
+  }
+
   /* 상세 뷰: 뒤로가기 */
-  document.getElementById('btn-sidebar-back').addEventListener('click', () => {
-    switchSidebarView('sidebar-main-view');
-    // 전국 단위 지역 원그래프로 복귀
-    MapModule.renderRegionSummaries(REGION_STATS);
-    // 전국 바운드로 아웃
-    MapModule.map.flyToBounds(L.latLngBounds([
-      [33.11, 125.58], // 남서
-      [38.62, 129.62]  // 북동
-    ]), { padding: [40, 40], duration: 0.8 });
-  });
+  /* 상세 뷰: 뒤로가기 (전체 목록 버튼) */
+  const btnSidebarBack = document.getElementById('btn-sidebar-back');
+  if (btnSidebarBack) {
+    btnSidebarBack.addEventListener('click', () => {
+      // 데스크탑 전용: 지역 목록으로 복구 (모바일에서는 .btn-back이 숨김처리됨)
+      if (window.innerWidth > 768) {
+        switchSidebarView('sidebar-main-view');
+        
+        // 2. 데이터 및 UI 초기화
+        updateKPI(REGION_STATS); 
+        document.querySelectorAll('.region-card').forEach(c => c.classList.remove('active'));
+        
+        // 3. 지도 초기화
+        MapModule.map.flyTo([36.5, 127.8], 7, { duration: 0.8 });
+        MapModule.renderRegionSummaries(REGION_STATS);
+        MapModule.clearFacilityLayers(); 
+
+        // 4. 플래그 제거
+        document.body.classList.remove('detail-mode-active');
+      }
+    });
+  }
 
   /* 상세 뷰: 시설물 검색 */
   const facSearch = document.getElementById('facility-search-input');
-  facSearch.addEventListener('input', () => {
-    const title = document.getElementById('side-detail-title').textContent.replace(' 시설물 목록', '');
-    renderFacilityList(title, facSearch.value.trim());
-  });
+  if (facSearch) {
+    facSearch.addEventListener('input', () => {
+      const title = document.getElementById('side-detail-title').textContent.replace(' 시설물 목록', '');
+      renderFacilityList(title, facSearch.value.trim());
+    });
+  }
 
   initLayerControls();
   initFacilityControls(); // 시설물 상세 컨트롤 초기화
@@ -654,39 +1120,225 @@ function initFacilityControls() {
   });
 
   // 2. 정렬 토글
-  btnSort.addEventListener('click', e => {
-    e.stopPropagation();
-    ddownSort.classList.toggle('active');
-  });
-  document.addEventListener('click', () => ddownSort.classList.remove('active'));
+  if (btnSort) {
+    btnSort.addEventListener('click', e => {
+      e.stopPropagation();
+      ddownSort.classList.toggle('active');
+    });
+    document.addEventListener('click', () => ddownSort.classList.remove('active'));
+  }
 
   // 3. 정렬 항목 클릭
-  ddownSort.querySelectorAll('.dsd-item').forEach(item => {
-    item.addEventListener('click', () => {
-      const type = item.dataset.sort;
-      const text = item.textContent;
+  if (ddownSort) {
+    ddownSort.querySelectorAll('.dsd-item').forEach(item => {
+      item.addEventListener('click', () => {
+        const type = item.dataset.sort;
+        const text = item.textContent;
 
-      currentFacSort = type;
-      lblSort.textContent = text;
+        currentFacSort = type;
+        lblSort.textContent = text;
 
-      ddownSort.querySelectorAll('.dsd-item').forEach(i => i.classList.remove('active'));
-      item.classList.add('active');
+        ddownSort.querySelectorAll('.dsd-item').forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
 
-      const title = document.getElementById('side-detail-title').textContent.replace(' 시설물 목록', '');
-      renderFacilityList(title);
-      UI.toast(`시설물 목록이 '${text}' 기준으로 정렬되었습니다.`, 'info', 1200);
+        const title = document.getElementById('side-detail-title').textContent.replace(' 시설물 목록', '');
+        renderFacilityList(title);
+        UI.toast(`시설물 목록이 '${text}' 기준으로 정렬되었습니다.`, 'info', 1200);
+      });
     });
-  });
+  }
 }
 
-/* ── 레이어 설정 컨트롤 ── */
+/* ── 레이어 설정 및 모바일 인터랙션 ── */
 function initLayerControls() {
+  /* ── 모바일 상단 메인 버튼 인터랙션 ── */
+  const btnMSidebar  = document.getElementById('btn-m-sidebar-toggle');
+  const btnMSideClose = document.getElementById('btn-m-sidebar-close');
+  const btnMTools    = document.getElementById('btn-m-tools-toggle');
+  const btnMListOpen  = document.getElementById('btn-m-list-open');
+  const btnMLayerOpen = document.getElementById('btn-m-layer-open');
+  
+  const backdrop     = document.getElementById('sidebar-backdrop');
+  const leftPanel    = document.getElementById('db-left-panel');
+  const detailSheet  = document.getElementById('sidebar-detail-view');
+  const toolGroup    = document.getElementById('db-right-tools');
+
   const layerBox = document.getElementById('db-layer-settings');
   const btnMin  = document.getElementById('btn-layer-minimize');
-  if (!layerBox || !btnMin) return;
 
-  // 헤더 전체를 클릭하면 최소화/최대화 토글
-  btnMin.addEventListener('click', () => {
-    layerBox.classList.toggle('minimized');
+  // 사이드바 열기
+  if (btnMSidebar) {
+    btnMSidebar.addEventListener('click', (e) => {
+      e.stopPropagation();
+      leftPanel.classList.add('open');
+      if (backdrop) backdrop.classList.add('active');
+      // 사이드바 열 때 목록/레이어 버튼 숨김
+      toggleMobileFloatingButtons(false);
+      if (detailSheet) detailSheet.classList.remove('active');
+    });
+  }
+
+  // 레이어 설정 최소화 (데스크탑) / 클릭 시 숨김 (모바일)
+  if (btnMin && layerBox) {
+    btnMin.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (window.innerWidth <= 768) {
+        // 모바일에서는 접지 않고 완전히 숨김
+        layerBox.classList.add('hidden');
+      } else {
+        layerBox.classList.toggle('minimized');
+      }
+    });
+  }
+
+  // 사이드바 닫기 (X 버튼)
+  if (btnMSideClose) {
+    btnMSideClose.addEventListener('click', () => {
+      leftPanel.classList.remove('open');
+      if (backdrop) backdrop.classList.remove('active');
+      
+      // 사이드바가 닫힐 때 분석 중이라면 플로팅 버튼들 다시 표시
+      if (document.body.classList.contains('detail-mode-active')) {
+        toggleMobileFloatingButtons(true);
+      }
+    });
+  }
+
+  // 백드롭 클릭 시 상황에 맞춰 닫기
+  if (backdrop) {
+    backdrop.addEventListener('click', () => {
+      if (leftPanel && leftPanel.classList.contains('open')) {
+        // 1. 사이드바가 열려있으면 사이드바만 닫음
+        leftPanel.classList.remove('open');
+        backdrop.classList.remove('active');
+        // 상세 분석 중이면 플로팅 버튼들 복구
+        if (document.body.classList.contains('detail-mode-active')) {
+          toggleMobileFloatingButtons(true);
+        }
+      } else if (detailSheet && detailSheet.classList.contains('active')) {
+        // 2. 사이드바는 닫혀있고 상세 시트만 열려있으면 시트 닫음
+        detailSheet.classList.remove('active');
+        backdrop.classList.remove('active');
+        toggleMobileFloatingButtons(true);
+      }
+    });
+  }
+
+  // 도구 버튼 토글
+  if (btnMTools) {
+    btnMTools.addEventListener('click', (e) => {
+      e.stopPropagation();
+      btnMTools.classList.toggle('active');
+      if (toolGroup) toolGroup.classList.toggle('active');
+    });
+  }
+
+  // ── [모바일 전용] 이벤트 위임 (목록 보기 / 레이어 설정) ──
+  document.addEventListener('click', (e) => {
+    // 1. 목록 보기 버튼 클릭
+    const listBtn = e.target.closest('#btn-m-list-open');
+    if (listBtn) {
+      e.stopPropagation();
+      console.log('Mobile: "Show List" button clicked.');
+      if (detailSheet) {
+        detailSheet.classList.add('active');
+        if (backdrop) backdrop.classList.add('active');
+        toggleMobileFloatingButtons(false); // 열릴 때 버튼들 숨김
+      }
+      return;
+    }
+
+    // 2. 레이어 설정 버튼 클릭 (플로팅 버튼)
+    const layerBtn = e.target.closest('#btn-m-layer-open');
+    if (layerBtn) {
+      e.stopPropagation();
+      console.log('Mobile: "Layer Settings" button clicked.');
+      if (layerBox) {
+        layerBox.classList.toggle('hidden');
+      }
+      return;
+    }
+
+    // 3. 레이어 설정 헤더 닫기 버튼 클릭 (헤더 내 X 버튼)
+    const layerCloseBtn = e.target.closest('#btn-layer-m-close');
+    if (layerCloseBtn) {
+      e.stopPropagation();
+      console.log('Mobile: "Layer Header X" button clicked.');
+      if (layerBox) {
+        layerBox.classList.add('hidden');
+      }
+      return;
+    }
   });
+
+  // 모바일 전용 닫기 버튼 (비파괴적 닫기)
+  const btnMCloseTab = document.getElementById('btn-sidebar-m-close');
+  if (btnMCloseTab) {
+    btnMCloseTab.addEventListener('click', (e) => {
+      e.stopPropagation();
+      if (detailSheet) detailSheet.classList.remove('active');
+      if (backdrop) backdrop.classList.remove('active');
+      
+      // 닫힐 때 버튼 다시 표시
+      toggleMobileFloatingButtons(true);
+      // 지도 초기화나 KPI 초기화 하지 않음 (사용자 요구사항)
+    });
+  }
+}
+
+/** 사이드바 뷰 전환 (지역목록 <-> 시설물 목록) — 데스크탑 용/공통 */
+function switchSidebarView(viewId) {
+  const allViews = document.querySelectorAll('.db-sidebar-view');
+  const mainPanel = document.getElementById('db-left-panel');
+  const detailView = document.getElementById('sidebar-detail-view');
+  const layerSettings = document.getElementById('db-layer-settings');
+
+  // 1. 모든 뷰의 active 클래스 제거
+  allViews.forEach(v => v.classList.remove('active'));
+
+  // 2. 타겟 뷰에 active 클래스 추가
+  const target = document.getElementById(viewId);
+  if (target) {
+    target.classList.add('active');
+  }
+
+  // 3. 레이어 설정 패널 노출 제어 (상세 모드 전용)
+  if (layerSettings) {
+    if (viewId === 'sidebar-detail-view') {
+      layerSettings.classList.remove('hidden');
+      document.body.classList.add('detail-mode-active');
+    } else {
+      layerSettings.classList.add('hidden');
+      document.body.classList.remove('detail-mode-active');
+    }
+  }
+
+  // 4. 지점 상세 뷰가 독립 요소이므로, 해당 전환 시 메인 패널 가독성 제어 (데스크탑)
+  if (window.innerWidth > 768) {
+    if (viewId === 'sidebar-detail-view') {
+      if (mainPanel) mainPanel.style.display = 'none';
+      if (detailView) detailView.style.display = 'flex';
+    } else {
+      if (mainPanel) mainPanel.style.display = 'flex';
+      if (detailView) detailView.style.display = 'none';
+    }
+  }
+}
+
+/** 모바일 플로팅 버튼들 제어 (목록보기/레이어설정 쌍으로 동작) */
+function toggleMobileFloatingButtons(show) {
+  const btnGroup = document.querySelector('.m-floating-btn-group');
+  const layerPanel = document.getElementById('db-layer-settings');
+
+  if (show) {
+    // 상세 모드 진입 시 버튼 그룹 노출
+    if (btnGroup) btnGroup.classList.add('visible');
+  } else {
+    // 사이드바/시트 열릴 때 버튼 그룹 숨김
+    if (btnGroup) btnGroup.classList.remove('visible');
+    
+    // 버튼이 숨겨질 때 레이어 패널을 강제로 닫지는 않음
+    // (사이드바가 화면을 덮으면 CSS z-index로 자연스럽게 가려지며, 
+    // 사이드바를 닫았을 때 레이어 패널이 이전 상태를 유지하게 함)
+  }
 }

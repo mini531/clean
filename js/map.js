@@ -7,7 +7,10 @@ const MapModule = {
   map: null,
   markerGroup: null,
   satelliteLayer: null,
-  streetLayer: null,
+  basicLayer: null,
+  grayLayer: null,
+  nightLayer: null,
+  _currentBase: 'satellite',
 
   /** 지도 초기화 */
   init(containerId, options = {}) {
@@ -22,22 +25,32 @@ const MapModule = {
       zoomControl: false,   // 커스텀 줌 버튼 사용
     });
 
-    /* 위성 레이어 (기본) */
+    /* 1. 위성 레이어 (기본) */
     this.satelliteLayer = L.tileLayer(
       'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
-      { attribution: '© Esri, Maxar, Earthstar Geographics', maxZoom: 19 }
+      { attribution: '© Esri', maxZoom: 19 }
     );
-    /* 일반 레이어 */
-    this.streetLayer = L.tileLayer(
+    /* 2. 기본 레이어 (OSM) */
+    this.basicLayer = L.tileLayer(
       'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-      { attribution: '© OpenStreetMap contributors', maxZoom: 19 }
+      { attribution: '© OpenStreetMap', maxZoom: 19 }
+    );
+    /* 3. 흑백 레이어 (Esri) */
+    this.grayLayer = L.tileLayer(
+      'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      { attribution: '© Esri', maxZoom: 19 }
+    );
+    /* 4. 야간 레이어 (CartoDB) */
+    this.nightLayer = L.tileLayer(
+      'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png',
+      { attribution: '© CartoDB', maxZoom: 19 }
     );
 
-    /* 기본: 위성 */
+    /* 초기 레이어 설정: 위성 */
     this.satelliteLayer.addTo(this.map);
     this._currentBase = 'satellite';
 
-    /* 마커 클러스터 그룹 — 걸침/구역내 카테고리 기반 색상 */
+    /* 마커 클러스터 그룹 — 주석 처리 (사용자 요청으로 제거)
     this.markerGroup = L.markerClusterGroup({
       maxClusterRadius: 60,
       showCoverageOnHover: false,
@@ -55,17 +68,22 @@ const MapModule = {
       },
     });
     this.markerGroup.addTo(this.map);
+    */
 
-    /* 지역 요약 파이 차트 그룹 */
-    this.regionSummaryGroup = L.layerGroup().addTo(this.map);
+    /* 지역 요약 파이 차트 그룹 (featureGroup으로 변경하여 getBounds 지원) */
+    this.regionSummaryGroup = L.featureGroup().addTo(this.map);
+
+    /* 개별 시설물 폴리곤 그룹 (featureGroup으로 변경하여 getBounds 지원) */
+    this.facilityLayerGroup = L.featureGroup().addTo(this.map);
 
     return this.map;
   },
 
   /** 지역별 요약 파이 차트 렌더링 */
   renderRegionSummaries(stats) {
-    this.markerGroup.clearLayers();
+    if (this.markerGroup) this.markerGroup.clearLayers();
     this.regionSummaryGroup.clearLayers();
+    this.clearFacilityLayers(); // 시설물 레이어 정리
 
     stats.forEach(stat => {
       const bounds = REGION_BOUNDS[stat.code];
@@ -103,21 +121,92 @@ const MapModule = {
     });
   },
 
-  /** 배경지도 토글 */
-  toggleBasemap() {
-    if (this._currentBase === 'satellite') {
-      this.map.removeLayer(this.satelliteLayer);
-      this.streetLayer.addTo(this.map);
-      this.streetLayer.bringToBack();
-      this._currentBase = 'street';
-      return '일반 지도';
-    } else {
-      this.map.removeLayer(this.streetLayer);
-      this.satelliteLayer.addTo(this.map);
-      this.satelliteLayer.bringToBack();
-      this._currentBase = 'satellite';
-      return '위성 지도';
+  /** 개별 시설물 폴리곤 레이어 렌더링 */
+  renderFacilityLayer(facilities) {
+    this.regionSummaryGroup.clearLayers(); // 원형 차트 숨기기
+    this.clearFacilityLayers();
+
+    facilities.forEach(f => {
+      const lat = parseFloat(f.lat);
+      const lng = parseFloat(f.lng);
+      const isCrossing = f.type === 'crossing' || f.category === 'crossing';
+      const color = isCrossing ? '#ffab40' : '#ff5252';
+
+      // 정교하고 작은 폴리곤 생성
+      const polygonPoints = this._createFacilityPolygon(lat, lng);
+
+      const polygon = L.polygon(polygonPoints, {
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.5,
+        weight: 1.5,
+        dashArray: isCrossing ? '3, 3' : '',
+        id: f.id // 시설물 ID 저장
+      });
+
+      // 클릭 시 팝업 및 상세 정보 연동
+      polygon.on('click', (e) => {
+        L.DomEvent.stopPropagation(e);
+        this.highlightFacility(f, false); // flyTo 없이 강조만
+      });
+
+      this.facilityLayerGroup.addLayer(polygon);
+    });
+
+    // 전체 시설물이 보이도록 바운드 조정 (옵션)
+    if (facilities.length > 0) {
+      const groupBounds = this.facilityLayerGroup.getBounds();
+      this.map.flyToBounds(groupBounds, { padding: [100, 100], duration: 1.0 });
     }
+  },
+
+  /** 상세 시설물 폴리곤 좌표 생성 (작고 불규칙한 형태) */
+  _createFacilityPolygon(lat, lng) {
+    // 0.00015 도는 약 15m 내외
+    const baseSize = 0.00018; 
+    return [
+      [lat + baseSize * 0.8, lng - baseSize * 0.6],
+      [lat + baseSize * 0.9, lng + baseSize * 0.4],
+      [lat - baseSize * 0.3, lng + baseSize * 0.9],
+      [lat - baseSize * 0.8, lng - baseSize * 0.2],
+      [lat - baseSize * 0.5, lng - baseSize * 0.7]
+    ];
+  },
+
+  /** 시설물 레이어 정리 */
+  clearFacilityLayers() {
+    if (this.facilityLayerGroup) {
+      this.facilityLayerGroup.clearLayers();
+    }
+    this.clearHighlights();
+  },
+
+  /** 특정 배경지도 레이어 설정 */
+  setBasemap(type) {
+    // 기존 모든 배경 레이어 제거
+    [this.satelliteLayer, this.basicLayer, this.grayLayer, this.nightLayer].forEach(layer => {
+      if (layer && this.map.hasLayer(layer)) {
+        this.map.removeLayer(layer);
+      }
+    });
+
+    let layer = null;
+    let label = '비어있음';
+
+    switch (type) {
+      case 'satellite': layer = this.satelliteLayer; label = '위성 지도'; break;
+      case 'basic':     layer = this.basicLayer;     label = '기본 지도'; break;
+      case 'gray':      layer = this.grayLayer;      label = '흑백 지도'; break;
+      case 'night':     layer = this.nightLayer;     label = '야간 지도'; break;
+      case 'none':      layer = null;                label = '빈 화면';  break;
+    }
+
+    if (layer) {
+      layer.addTo(this.map);
+      layer.bringToBack();
+    }
+    this._currentBase = type;
+    return label;
   },
 
   /** 마커 아이콘 — category 기반 (crossing=주황, inside=빨강) */
@@ -141,40 +230,50 @@ const MapModule = {
 
   /** 팝업 HTML */
   _popupHtml(f) {
-    const catColor = f.category === 'crossing' ? '#e65100' : '#c62828';
-    const catLabel = f.category === 'crossing' ? '걸침' : '구역내';
+    const isCrossing = f.category === 'crossing';
+    const catClass = isCrossing ? 'crossing' : 'inside';
+    const catLabel = isCrossing ? '걸침' : '구역내';
+
     return `
-      <div style="min-width:220px;font-family:inherit;">
-        <div style="display:flex;align-items:center;gap:6px;margin-bottom:6px;">
-          <span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${catColor};flex-shrink:0;"></span>
-          <strong style="font-size:13px;color:#1a1a2e;">${f.name}</strong>
+      <div class="custom-popup-content">
+        <header class="cp-header">
+          <span class="cp-status-dot ${catClass}"></span>
+          <strong class="cp-title">${f.name}</strong>
+        </header>
+        <div class="cp-address">${f.address}</div>
+        <div class="cp-tags">
+          <span class="cp-tag ${catClass}">${catLabel}</span>
+          <span class="cp-tag secondary">${f.typeLabel}</span>
         </div>
-        <div style="font-size:11px;color:#666;margin-bottom:7px;">${f.address}</div>
-        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:7px;">
-          <span style="background:${catColor}22;color:${catColor};padding:2px 8px;border-radius:100px;font-size:11px;font-weight:700;">${catLabel}</span>
-          <span style="background:#eef1f5;padding:2px 8px;border-radius:100px;font-size:11px;font-weight:600;">${f.typeLabel}</span>
+        <div class="cp-meta">
+          면적: ${Utils.formatArea(f.area)} · 신고: ${Utils.formatDate(f.reportDate)}
         </div>
-        <div style="font-size:11px;color:#999;margin-bottom:9px;">면적: ${Utils.formatArea(f.area)} · 신고: ${Utils.formatDate(f.reportDate)}</div>
-        <div style="display:flex;gap:6px;">
-          <a href="report.html" style="flex:1;text-align:center;padding:5px 8px;background:#003478;color:#fff;border-radius:4px;font-size:11px;font-weight:600;text-decoration:none;">신고 등록</a>
-          <a href="stats.html"  style="flex:1;text-align:center;padding:5px 8px;background:#eef1f5;color:#333;border-radius:4px;font-size:11px;font-weight:600;text-decoration:none;">통계 보기</a>
-        </div>
+        <footer class="cp-links">
+          <a href="report.html" class="cp-link primary">신고 등록</a>
+          <a href="stats.html"  class="cp-link secondary">통계 보기</a>
+        </footer>
       </div>`;
   },
 
-  /** 마커 전체 렌더링 */
+  /** 마커 전체 렌더링 (사용자 요청으로 기능 제거) */
   renderMarkers(facilities) {
-    if (this.regionSummaryGroup) this.regionSummaryGroup.clearLayers();
-    this.markerGroup.clearLayers();
+    // if (this.regionSummaryGroup) this.regionSummaryGroup.clearLayers();
+    if (this.markerGroup) this.markerGroup.clearLayers();
+    // 개별 마커 렌더링 중단
+    /*
     facilities.forEach(f => {
       const marker = L.marker([f.lat, f.lng], { icon: this._createIcon(f.category), category: f.category });
       marker.bindPopup(this._popupHtml(f), { maxWidth: 270, className: 'custom-popup' });
       this.markerGroup.addLayer(marker);
     });
+    */
   },
 
   /** 마커 필터링 */
-  filterMarkers(facilities) { this.renderMarkers(facilities); },
+  filterMarkers(facilities) { 
+    // 개별 마커 필터링 대신 무시하거나 필요한 처리를 수행
+    this.renderMarkers(facilities); 
+  },
 
   /** 특정 지역 바운드로 지도 이동 */
   flyToBounds(regionCode) {
@@ -184,7 +283,7 @@ const MapModule = {
   },
 
   /** 특정 시설물 강조 표시 (사이드바 클릭 시 호출) */
-  highlightFacility(f) {
+  highlightFacility(f, shouldFly = true) {
     if (!this.map) return;
 
     // 1. 기존 강조 레이어 제거
@@ -195,25 +294,21 @@ const MapModule = {
     const isCrossing = f.type === 'crossing' || f.category === 'crossing';
     const color = isCrossing ? '#ffab40' : '#ff5252';
 
-    // 2. 가상의 영역(폴리곤) 생성 (mock 데이터이므로 좌표 주변에 사각형 생성)
-    const offset = 0.0005;
-    const polygonPoints = [
-      [lat + offset, lng - offset],
-      [lat + offset, lng + offset],
-      [lat - offset, lng + offset],
-      [lat - offset, lng - offset]
-    ];
+    // 2. 가상의 영역(폴리곤) 생성 (상세 뷰 강조용)
+    const polygonPoints = this._createFacilityPolygon(lat, lng);
 
     this.highlightLayer = L.polygon(polygonPoints, {
-      color: color,
+      color: '#fff',
       fillColor: color,
-      fillOpacity: 0.4,
-      weight: 2,
-      dashArray: isCrossing ? '5, 5' : ''
+      fillOpacity: 0.7,
+      weight: 3,
+      dashArray: ''
     }).addTo(this.map);
 
-    // 3. 지도 이동 및 줌
-    this.map.flyTo([lat, lng], 17, { duration: 1.0 });
+    // 3. 지도 이동 및 줌 (필요한 경우에만)
+    if (shouldFly) {
+      this.map.flyTo([lat, lng], 18, { duration: 1.0 });
+    }
 
     // 4. 프리미엄 다크 글래스 팝업 표시
     const popupContent = this._createFacilityPopup(f);
@@ -242,40 +337,42 @@ const MapModule = {
 
     return `
       <div class="dg-popup-container">
-        <div class="dg-popup-header">
+        <header class="dg-popup-header">
           <div class="dg-popup-title ${typeClass}">${typeLabel}(${pct})</div>
-          <button class="dg-popup-close" onclick="if(MapModule.highlightLayer) MapModule.highlightLayer.closePopup()">
+          <button class="dg-popup-close" onclick="if(MapModule.highlightLayer) MapModule.highlightLayer.closePopup()" aria-label="닫기">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
               <line x1="18" y1="6" x2="6" y2="18"></line>
               <line x1="6" y1="6" x2="18" y2="18"></line>
             </svg>
           </button>
-        </div>
+        </header>
         <div class="dg-popup-body">
-          <div class="dg-info-row">
-            <span class="dg-info-label">하천등급</span>
-            <span class="dg-info-value">${f.cat || f.riverGrade || '지방하천'}</span>
-          </div>
-          <div class="dg-info-row">
-            <span class="dg-info-label">하천명</span>
-            <span class="dg-info-value">${f.riverName || '-'}</span>
-          </div>
-          <div class="dg-info-row">
-            <span class="dg-info-label">주소</span>
-            <span class="dg-info-value">${f.addr || f.address}</span>
-          </div>
-          <div class="dg-info-row">
-            <span class="dg-info-label">건물면적</span>
-            <span class="dg-info-value">${f.area || (f.buildingArea ? f.buildingArea + '㎡' : '-')}</span>
-          </div>
-          <div class="dg-info-row">
-            <span class="dg-info-label">점유면적</span>
-            <span class="dg-info-value">${f.occArea ? f.occArea + '㎡' : (f.area || '-')}</span>
-          </div>
-          <div class="dg-info-row">
-            <span class="dg-info-label">점유율</span>
-            <span class="dg-info-value">${pct}</span>
-          </div>
+          <ul class="dg-popup-info-list">
+            <li class="dg-info-row">
+              <span class="dg-info-label">하천등급</span>
+              <span class="dg-info-value">${f.cat || f.riverGrade || '지방하천'}</span>
+            </li>
+            <li class="dg-info-row">
+              <span class="dg-info-label">하천명</span>
+              <span class="dg-info-value">${f.riverName || '-'}</span>
+            </li>
+            <li class="dg-info-row">
+              <span class="dg-info-label">주소</span>
+              <span class="dg-info-value">${f.addr || f.address}</span>
+            </li>
+            <li class="dg-info-row">
+              <span class="dg-info-label">건물면적</span>
+              <span class="dg-info-value">${f.area || (f.buildingArea ? f.buildingArea + '㎡' : '-')}</span>
+            </li>
+            <li class="dg-info-row">
+              <span class="dg-info-label">점유면적</span>
+              <span class="dg-info-value">${f.occArea ? f.occArea + '㎡' : (f.area || '-')}</span>
+            </li>
+            <li class="dg-info-row">
+              <span class="dg-info-label">점유율</span>
+              <span class="dg-info-value">${pct}</span>
+            </li>
+          </ul>
         </div>
       </div>
     `;
