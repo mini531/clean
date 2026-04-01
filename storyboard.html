@@ -120,14 +120,14 @@
 
   /* iframe preview */
   .preview-wrap{
-    border:1px solid rgba(255,255,255,.12);border-radius:10px;
-    overflow:hidden;margin:16px 0;background:#0a1a2e;
-    box-shadow:0 8px 32px rgba(0,0,0,.35);
+    border:1px solid #e0e4ea;border-radius:10px;
+    overflow:hidden;margin:16px 0;background:#fff;
+    box-shadow:0 2px 8px rgba(0,0,0,.06);
   }
   .preview-bar{
     display:flex;align-items:center;justify-content:space-between;
-    padding:8px 14px;background:rgba(13,58,110,.04);
-    border-bottom:1px solid rgba(255,255,255,.08);
+    padding:8px 14px;background:#f0f3f7;
+    border-bottom:1px solid #e0e4ea;
   }
   .preview-bar span{font-size:11px;color:#8896a8}
   .preview-bar a{
@@ -188,10 +188,11 @@
   .preview-img-wrap{position:relative;margin-bottom:8px;}
   .preview-img-wrap > a{display:block;}
   .preview-img{
-    width:100%;border-radius:10px;border:1px solid #e0e4ea;
+    width:100%;max-width:100%;border-radius:10px;border:1px solid #e0e4ea;
     display:block;cursor:pointer;transition:opacity 0.2s;
     box-shadow:0 2px 12px rgba(0,0,0,0.08);
   }
+  .preview-img-wrap{overflow:hidden;}
   .preview-img:hover{opacity:0.9;}
   .preview-open-btn{
     position:absolute;bottom:10px;right:10px;z-index:10;
@@ -516,25 +517,37 @@
         <span class="badge badge-viewer">비회원</span>
       </div>
 
-      <div class="preview-wrap">
-        <div class="preview-bar">
-          <span>register.html</span>
-          
-        </div>
-        <h4>Step 1 — 약관 동의</h4>
-        <div class="preview-img-wrap">
-          <img class="preview-img" src="assets/img/screens/register_step1.png" alt="회원가입 Step 1 약관 동의">
-        </div>
-        <h4>Step 2 — 기본정보 입력</h4>
-        <div class="preview-img-wrap">
-          <img class="preview-img" src="assets/img/screens/register_step2.png" alt="회원가입 Step 2 기본정보">
-        </div>
-        <h4>Step 3 — 가입 완료</h4>
-        <div class="preview-img-wrap">
-          <img class="preview-img" src="assets/img/screens/register_step3.png" alt="회원가입 Step 3 완료">
-        </div>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/register.png" alt="회원가입 화면">
       </div>
+    </div>
+  </div>
 
+  <div class="card">
+    <h3>Step 1 — 약관 동의</h3>
+    <p>서비스 이용약관, 개인정보 처리방침 동의. 필수 약관 미동의 시 다음 단계 버튼이 비활성됩니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/register_step1.png" alt="회원가입 Step 1 약관 동의">
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Step 2 — 기본정보 입력</h3>
+    <p>이름, 이메일, 인증번호 확인. 필수 필드 미입력 시 에러 메시지가 표시됩니다. 이메일 인증번호 발송 후 확인 절차가 필요합니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/register_step2.png" alt="회원가입 Step 2 기본정보">
+    </div>
+  </div>
+
+  <div class="card">
+    <h3>Step 3 — 가입 완료</h3>
+    <p>입력한 정보를 확인하고 가입 신청합니다. 확인 모달 → 성공 모달 순으로 표시되며, 로그인 페이지로 이동합니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/register_step3.png" alt="회원가입 Step 3 완료">
+    </div>
+  </div>
+
+  <div class="card">
       <h4>주요 기능</h4>
       <ul class="feat-list">
         <li><strong>Step 1 — 약관 동의:</strong> 서비스 이용약관, 개인정보 처리방침 동의 체크. 필수 약관 미동의 시 다음 단계 버튼 비활성</li>
@@ -556,7 +569,6 @@
         <strong>반응형:</strong> 모바일에서 스텝 인디케이터는 축소형 표시. 입력 필드 1열 레이아웃.
       </div>
     </div>
-  </div>
 
   <!-- ===================== 5. 사용자 화면 ===================== -->
   <h2 class="section-title">5. 사용자 화면</h2>
@@ -588,43 +600,58 @@
           </div>
       </div>
 
-      <h4>1단계 — 전국 파이차트 (기본 뷰)</h4>
-      <p>줌 레벨 7 이하에서 시·도별 원형 차트로 걸침(오렌지)/구역내(빨강) 비율을 시각화합니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_piechart.png" alt="전국 파이차트">
-      </div>
+    </div>
 
-      <h4>사이드바 — 시·도 클릭 상태</h4>
-      <p>좌측 사이드바에서 시·도를 클릭하면 해당 지역이 확장되어 시·군·구 목록이 표시되고, 지도가 해당 영역으로 줌인됩니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_sido_click.png" alt="사이드바 시도 클릭">
-      </div>
+  <div class="card">
+    <h3>1단계 — 전국 파이차트 (기본 뷰)</h3>
+    <p>줌 레벨 7 이하에서 시·도별 원형 차트로 걸침(오렌지)/구역내(빨강) 비율을 시각화합니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_piechart.png" alt="전국 파이차트">
+    </div>
+  </div>
 
-      <h4>2단계 — 클러스터링</h4>
-      <p>시·도 선택 또는 줌인(줌 8+) 시 Leaflet MarkerCluster로 자동 클러스터링됩니다. 줌인할수록 클러스터가 분산되며, 걸침 포함은 오렌지, 구역내만은 빨간색으로 표시됩니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_cluster.png" alt="클러스터링">
-      </div>
+  <div class="card">
+    <h3>사이드바 — 시·도 클릭 상태</h3>
+    <p>좌측 사이드바에서 시·도를 클릭하면 해당 지역이 확장되어 시·군·구 목록이 표시되고, 지도가 해당 영역으로 줌인됩니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_sido_click.png" alt="사이드바 시도 클릭">
+    </div>
+  </div>
 
-      <h4>사이드바 — 시·군·구 클릭 상태</h4>
-      <p>시·군·구를 클릭하면 해당 지역의 시설물 목록이 표시되고, 지도에 시설물 폴리곤이 렌더링됩니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_sigungu_click.png" alt="사이드바 시군구 클릭">
-      </div>
+  <div class="card">
+    <h3>2단계 — 클러스터링</h3>
+    <p>시·도 선택 또는 줌인(줌 8+) 시 Leaflet MarkerCluster로 자동 클러스터링됩니다. 줌인할수록 클러스터가 분산되며, 걸침 포함은 오렌지, 구역내만은 빨간색으로 표시됩니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_cluster.png" alt="클러스터링">
+    </div>
+  </div>
 
-      <h4>사이드바 — 시설물 클릭 상태</h4>
-      <p>시설물을 클릭하면 지도에서 해당 폴리곤이 하이라이트되고, 다크 글래스 팝업이 표시됩니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_facility_click.png" alt="시설물 클릭">
-      </div>
+  <div class="card">
+    <h3>사이드바 — 시·군·구 클릭 상태</h3>
+    <p>시·군·구를 클릭하면 해당 지역의 시설물 목록이 표시되고, 지도에 시설물 폴리곤이 렌더링됩니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_sigungu_click.png" alt="사이드바 시군구 클릭">
+    </div>
+  </div>
 
-      <h4>3단계 — 시설물 팝업</h4>
-      <p>시설물 폴리곤 또는 목록 클릭 시 다크 글래스 스타일의 상세 팝업이 표시됩니다. 걸침(55%) 또는 구역내(100%) 유형, 하천등급, 하천명, 주소, 건물면적, 점유면적, 점유율 정보를 제공합니다.</p>
-      <div class="preview-img-wrap">
-        <img class="preview-img" src="assets/img/screens/dashboard_popup.png" alt="시설물 팝업">
-      </div>
+  <div class="card">
+    <h3>사이드바 — 시설물 클릭 상태</h3>
+    <p>시설물을 클릭하면 지도에서 해당 폴리곤이 하이라이트되고, 다크 글래스 팝업이 표시됩니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_facility_click.png" alt="시설물 클릭">
+    </div>
+  </div>
 
-      <h4>주요 기능</h4>
+  <div class="card">
+    <h3>3단계 — 시설물 팝업</h3>
+    <p>시설물 폴리곤 또는 목록 클릭 시 다크 글래스 스타일의 상세 팝업이 표시됩니다. 걸침(55%) 또는 구역내(100%) 유형, 하천등급, 하천명, 주소, 건물면적, 점유면적, 점유율 정보를 제공합니다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/dashboard_popup.png" alt="시설물 팝업">
+    </div>
+  </div>
+
+  <div class="card">
+      <h3>주요 기능 요약</h3>
       <ul class="feat-list">
         <li><strong>3단계 클러스터링:</strong> 파이차트(시·도 레벨, 줌 7 이하) → MarkerCluster(시·군·구 레벨, 줌 8~14) → 폴리곤(개별 시설물, 줌 15+)</li>
         <li><strong>좌측 사이드바:</strong> 지역별 현황 (걸침/구역내 분류), 정렬 기능(걸침순/구역내순/지역명순), 시설물 목록 스크롤</li>
@@ -637,7 +664,10 @@
         <li><strong>지도 이동 시 폴리곤 갱신:</strong> 줌 15+ 에서 현재 화면 영역에 동적으로 폴리곤 생성. 팝업 열린 상태에서는 유지</li>
       </ul>
 
-      <h4>검색 기능</h4>
+  </div>
+
+  <div class="card">
+      <h3>검색 기능</h3>
       <p>우측 상단 검색 버튼 클릭 시 검색 오버레이가 열리며, 지역명/시설물명으로 검색 가능합니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_search.png" alt="검색 입력">
@@ -647,31 +677,46 @@
         <img class="preview-img" src="assets/img/screens/dashboard_search_result.png" alt="검색 결과 목록">
       </div>
 
-      <h4>배경지도 변경</h4>
+  </div>
+
+  <div class="card">
+      <h3>배경지도 변경</h3>
       <p>우측 도구의 배경지도 버튼 클릭 시 위성/일반/그레이/다크 배경을 선택할 수 있습니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_basemap.png" alt="배경지도 변경">
       </div>
 
-      <h4>측정 도구</h4>
+  </div>
+
+  <div class="card">
+      <h3>측정 도구</h3>
       <p>거리 측정, 면적 측정 등 지도 위에서 측정 기능을 제공합니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_measure.png" alt="측정 도구">
       </div>
 
-      <h4>그리기 도구</h4>
+  </div>
+
+  <div class="card">
+      <h3>그리기 도구</h3>
       <p>지도 위에 점/선/면을 그릴 수 있는 도구입니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_draw.png" alt="그리기 도구">
       </div>
 
-      <h4>보안 서약서 모달 (내보내기 시)</h4>
+  </div>
+
+  <div class="card">
+      <h3>보안 서약서 모달 (내보내기 시)</h3>
       <p>데이터 다운로드 또는 지도 저장 시 보안 서약서 동의가 필요합니다. 서약 내용 확인, 동의 체크, 요청명/활용기간/사용목적 입력 후 실행합니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_modal_pledge.png" alt="보안 서약서 모달">
       </div>
 
-      <h4>지도 저장 모달</h4>
+  </div>
+
+  <div class="card">
+      <h3>지도 저장 모달</h3>
       <p>보안 서약서 동의 후 지도 미리보기와 메모를 입력하여 지도를 PNG로 저장할 수 있습니다.</p>
       <div class="preview-img-wrap">
         <img class="preview-img" src="assets/img/screens/dashboard_modal_save.png" alt="지도 저장 모달">
@@ -963,9 +1008,6 @@
         <li><strong>승인 대기 배너:</strong> 대기 건수 + "대기 목록 보기" 필터 버튼</li>
         <li><strong>검색 필터:</strong> 아이디, 이름, 전화번호, 소속 지역(시·도 &rarr; 시·군·구 연동 셀렉트), 부서, 계정 상태(전체/정상/탈퇴), 처리 상태(전체/승인/거부/대기), 가입일</li>
         <li><strong>회원 테이블:</strong> 아이디, 이름, 전화번호, 부서, 소속 지역, 계정 상태, 가입 일시, 처리 상태, 처리자, 처리 일시</li>
-        <li><strong>상세 보기 (3열 카드):</strong> 소속 정보 카드, 계정 정보 카드(탈퇴/비밀번호 초기화 버튼), 권한 정보 카드(점검자/열람자/관리자 라디오 버튼 + 승인/거부 버튼)</li>
-        <li><strong>로그인 이력 탭:</strong> 접속 일시, IP, 브라우저 정보</li>
-        <li><strong>비밀번호 변경 이력 탭:</strong> 변경 일시, 변경자</li>
         <li><strong>대기 필터:</strong> "대기 목록 보기" 클릭 시 처리 상태 '대기'로 필터링 + 테이블 갱신</li>
       </ul>
 
@@ -974,16 +1016,33 @@
         <li>알림 배너 + 필터 바로가기</li>
         <li>검색 필터 폼 (연동 셀렉트, 날짜 입력)</li>
         <li>데이터 테이블 + 페이지네이션</li>
-        <li>상세 정보 카드 3열 그리드</li>
-        <li>라디오 버튼 그룹 (권한 선택)</li>
-        <li>승인/거부 액션 버튼</li>
-        <li>탭 네비게이션 (로그인 이력 / 비밀번호 변경 이력)</li>
       </ul>
 
       <div class="resp-note">
         <strong>반응형:</strong> 필터 영역 토글 패널. 상세 카드 3열 &rarr; 1열. 테이블 카드형 전환.
       </div>
     </div>
+  </div>
+
+  <div class="card">
+    <h3>회원 정보</h3>
+    <p>회원 목록에서 행을 클릭하면 모달 또는 페이지 전환으로 해당 회원의 상세 정보를 조회한다. 소속 정보, 계정 정보, 권한 정보를 3열 카드 레이아웃으로 표시하며, 하단에 접속 기록 및 비밀번호 변경 이력을 탭으로 제공한다.</p>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/admin_members_detail.png" alt="회원 상세 화면">
+    </div>
+
+    <h4>상세 정보 카드 (3열 그리드)</h4>
+    <ul class="feat-list">
+      <li><strong>소속 정보 카드:</strong> 소속 지역(시·도/시·군·구), 부서, 연락처, 이메일 등 기본 소속 데이터 표시</li>
+      <li><strong>계정 정보 카드:</strong> 아이디, 가입일, 계정 상태 표시. <em>탈퇴</em> 버튼과 <em>비밀번호 초기화</em> 버튼 제공</li>
+      <li><strong>권한 정보 카드:</strong> 점검자/열람자/관리자 라디오 버튼으로 권한 선택. <em>승인</em>(파란색)/<em>거부</em>(빨간색) 액션 버튼</li>
+    </ul>
+
+    <h4>하단 탭 영역</h4>
+    <ul class="feat-list">
+      <li><strong>접속 기록 탭:</strong> 접속 일시, 접속 IP, 브라우저/OS 정보를 테이블로 표시. 페이지네이션 제공</li>
+      <li><strong>비밀번호 변경 이력 탭:</strong> 변경 일시, 변경자(본인/관리자) 정보를 테이블로 표시</li>
+    </ul>
   </div>
 
   <!-- 6.3 접속 현황 -->
