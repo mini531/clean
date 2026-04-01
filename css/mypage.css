@@ -143,7 +143,8 @@
 .u-table { width: 100%; border-collapse: collapse; }
 .u-table th { font-size: 12px; font-weight: 700; }
 .u-table td { font-size: 13px; }
-.u-table tbody tr { cursor: pointer; transition: background 0.15s; }
+.u-table tbody tr { cursor: pointer; transition: background 0.15s; background: transparent; }
+.u-table tbody tr:hover { background: rgba(255,255,255,0.04) !important; }
 .u-pagination {
   padding: 14px 22px; border-top: 1px solid rgba(255,255,255,0.1);
   display: flex; align-items: center; justify-content: space-between;
@@ -202,6 +203,42 @@
 }
 .pg-btn:hover { border-color: rgba(255,255,255,0.25); color: #fff; }
 .pg-btn.active { background: rgba(100,181,246,0.15); border-color: #64b5f6; color: #64b5f6; }
+
+/* ── 모달 (글래스 스타일) ── */
+.modal-glass { max-width: 420px; padding: 0; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(10,30,60,0.65); }
+.modal-glass-sm { max-width: 360px; padding: 36px 28px; text-align: center; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); background: rgba(10,30,60,0.65); }
+.modal-glass-header { padding: 24px 28px 16px; }
+.modal-glass-header h1 { font-size: 18px; }
+.modal-glass-header .pledge-sub { margin-top: 4px; }
+.modal-glass-body { padding: 0 28px 28px; display: flex; flex-direction: column; gap: 16px; }
+.modal-glass-body .p-form-group { margin: 0; }
+.modal-glass-body .modal-form-label {
+  display: block; font-size: 13px; font-weight: 700;
+  color: rgba(255,255,255,0.7); margin-bottom: 6px;
+}
+.modal-glass-body .modal-form-label .req { color: #ff5252; margin-left: 2px; }
+.modal-glass-body .modal-form-input {
+  width: 100%; padding: 10px 14px;
+  background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 8px; color: #fff; font-size: 13px;
+  font-family: inherit; outline: none; box-sizing: border-box;
+}
+.modal-glass-body .modal-form-input:focus { border-color: rgba(100,181,246,0.5); }
+.modal-btn-row { display: flex; gap: 8px; justify-content: flex-end; margin-top: 4px; }
+
+/* 알림 모달 아이콘 */
+.alert-icon {
+  width: 56px; height: 56px; margin: 0 auto 18px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%; background: rgba(105,240,174,0.12); border: 1px solid rgba(105,240,174,0.3);
+}
+.alert-icon svg { width: 28px; height: 28px; }
+.alert-title { font-size: 18px; font-weight: 700; color: #fff; margin: 0 0 8px; }
+.alert-desc { font-size: 14px; color: rgba(255,255,255,0.6); margin: 0 0 24px; line-height: 1.5; }
+.alert-ok { width: 100%; }
+
+/* 카드 간격 */
+.my-card-mb { margin-bottom: 20px; }
 
 @media (max-width: 768px) {
   .view-header, .view-body, .view-attach { padding-left: 18px; padding-right: 18px; }

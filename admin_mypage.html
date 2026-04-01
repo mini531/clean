@@ -107,9 +107,9 @@
             <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">공지사항 조회</span><span class="my-activity-time">오늘 14:48</span></div>
             <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">전북 전주시 지도 조회</span><span class="my-activity-time">오늘 14:41</span></div>
             <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">로그인</span><span class="my-activity-time">오늘 09:30</span></div>
-            <div class="my-activity-item"><div class="my-activity-dot" style="background:rgba(255,255,255,0.25);"></div><span class="my-activity-text">경기 수원시 지도 조회</span><span class="my-activity-time">어제 16:20</span></div>
-            <div class="my-activity-item"><div class="my-activity-dot" style="background:rgba(255,255,255,0.25);"></div><span class="my-activity-text">자주 묻는 질문 조회</span><span class="my-activity-time">어제 10:15</span></div>
-            <div class="my-activity-item"><div class="my-activity-dot" style="background:rgba(255,255,255,0.25);"></div><span class="my-activity-text">로그인</span><span class="my-activity-time">어제 09:05</span></div>
+            <div class="my-activity-item"><div class="my-activity-dot past"></div><span class="my-activity-text">경기 수원시 지도 조회</span><span class="my-activity-time">어제 16:20</span></div>
+            <div class="my-activity-item"><div class="my-activity-dot past"></div><span class="my-activity-text">자주 묻는 질문 조회</span><span class="my-activity-time">어제 10:15</span></div>
+            <div class="my-activity-item"><div class="my-activity-dot past"></div><span class="my-activity-text">로그인</span><span class="my-activity-time">어제 09:05</span></div>
           </div>
         </div>
       </div>
@@ -118,7 +118,7 @@
     <!-- ===== 회원정보 수정 뷰 ===== -->
     <div id="edit-view" style="display:none;">
       <h2 class="adm-page-title">회원정보 수정</h2>
-      <div class="my-card" style="margin-bottom:20px;">
+      <div class="my-card my-card-mb">
         <div class="my-card-title">기본 정보</div>
         <div class="edit-form-section">
           <div class="edit-form-row">
@@ -138,7 +138,7 @@
           </div>
         </div>
       </div>
-      <div class="my-card" style="margin-bottom:20px;">
+      <div class="my-card my-card-mb">
         <div class="my-card-title">정보 이용 동의 설정</div>
         <div class="consent-group">
           <label class="consent-item"><input type="checkbox" id="agree-promo" checked> [선택] 홍보를 위한 정보수집 동의</label>
@@ -159,16 +159,16 @@
 
   <!-- 비밀번호 확인 모달 -->
   <div class="modal-overlay" id="pw-verify-modal">
-    <div class="modal-pledge-box" style="max-width:400px; padding:0; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(10,30,60,0.65);">
+    <div class="modal-pledge-box modal-glass">
       <button class="modal-close-icon" id="pw-verify-close">&times;</button>
-      <header class="pledge-header" style="padding:24px 28px 16px;"><h1 style="font-size:18px;">비밀번호 확인</h1></header>
-      <div style="padding:0 28px 28px; display:flex; flex-direction:column; gap:16px;">
-        <div class="p-form-group" style="margin:0;">
-          <label style="display:block; font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); margin-bottom:6px;">비밀번호<span style="color:#ff5252; margin-left:2px;">*</span></label>
-          <input type="password" id="pw-verify-input" placeholder="비밀번호를 입력해 주세요." style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; box-sizing:border-box;">
+      <header class="pledge-header modal-glass-header"><h1>비밀번호 확인</h1></header>
+      <div class="modal-glass-body">
+        <div class="p-form-group">
+          <label class="modal-form-label">비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-verify-input" placeholder="비밀번호를 입력해 주세요.">
           <div class="p-error-msg">비밀번호를 입력해 주세요.</div>
         </div>
-        <div style="display:flex; gap:8px; justify-content:flex-end;">
+        <div class="modal-btn-row">
           <button class="btn-p btn-p-cancel" id="pw-verify-cancel">취소</button>
           <button class="btn-p btn-p-exec" id="pw-verify-submit">확인</button>
         </div>
@@ -178,36 +178,41 @@
 
   <!-- 공용 알림 모달 -->
   <div class="modal-overlay" id="alert-modal">
-    <div class="modal-pledge-box" style="max-width:360px; padding:36px 28px; text-align:center; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(10,30,60,0.65);">
-      <div style="width:56px; height:56px; margin:0 auto 18px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:rgba(105,240,174,0.12); border:1px solid rgba(105,240,174,0.3);"><svg viewBox="0 0 24 24" fill="none" stroke="#69f0ae" stroke-width="2.5" style="width:28px; height:28px;"><polyline points="20 6 9 17 4 12"/></svg></div>
-      <h2 id="alert-title" style="font-size:18px; font-weight:700; color:#fff; margin:0 0 8px;">완료</h2>
-      <p id="alert-desc" style="font-size:14px; color:rgba(255,255,255,0.6); margin:0 0 24px; line-height:1.5;">작업이 완료되었습니다.</p>
-      <button class="btn-p btn-p-exec" id="alert-modal-ok" style="width:100%;">확인</button>
+    <div class="modal-pledge-box modal-glass-sm">
+      <div class="alert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#69f0ae" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="alert-title" id="alert-title">완료</h2>
+      <p class="alert-desc" id="alert-desc">작업이 완료되었습니다.</p>
+      <button class="btn-p btn-p-exec alert-ok" id="alert-modal-ok">확인</button>
     </div>
   </div>
 
   <!-- 비밀번호 변경 모달 -->
   <div class="modal-overlay" id="pw-modal">
-    <div class="modal-pledge-box" style="max-width:420px; padding:0; backdrop-filter:blur(16px); -webkit-backdrop-filter:blur(16px); background:rgba(10,30,60,0.65);">
+    <div class="modal-pledge-box modal-glass">
       <button class="modal-close-icon" id="pw-modal-close">&times;</button>
-      <header class="pledge-header" style="padding:24px 28px 16px;"><h1 style="font-size:18px;">비밀번호 변경</h1><p class="pledge-sub" style="margin-top:4px;">새로운 비밀번호를 설정해 주세요.</p></header>
-      <div style="padding:0 28px 28px; display:flex; flex-direction:column; gap:16px;">
-        <div class="p-form-group" style="margin:0;">
-          <label style="display:block; font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); margin-bottom:6px;">현재 비밀번호<span style="color:#ff5252; margin-left:2px;">*</span></label>
-          <input type="password" id="pw-current" placeholder="현재 비밀번호를 입력해 주세요." style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; box-sizing:border-box;">
+      <header class="pledge-header modal-glass-header">
+        <h1>비밀번호 변경</h1>
+        <p class="pledge-sub">새로운 비밀번호를 설정해 주세요.</p>
+      </header>
+      <div class="modal-glass-body">
+        <div class="p-form-group">
+          <label class="modal-form-label">현재 비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-current" placeholder="현재 비밀번호를 입력해 주세요.">
           <div class="p-error-msg">현재 비밀번호를 입력해 주세요.</div>
         </div>
-        <div class="p-form-group" style="margin:0;">
-          <label style="display:block; font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); margin-bottom:6px;">새 비밀번호<span style="color:#ff5252; margin-left:2px;">*</span></label>
-          <input type="password" id="pw-new" placeholder="새 비밀번호를 입력해 주세요." style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; box-sizing:border-box;">
+        <div class="p-form-group">
+          <label class="modal-form-label">새 비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-new" placeholder="새 비밀번호를 입력해 주세요.">
           <div class="p-error-msg">새 비밀번호를 입력해 주세요.</div>
         </div>
-        <div class="p-form-group" style="margin:0;">
-          <label style="display:block; font-size:13px; font-weight:700; color:rgba(255,255,255,0.7); margin-bottom:6px;">새 비밀번호 확인<span style="color:#ff5252; margin-left:2px;">*</span></label>
-          <input type="password" id="pw-confirm" placeholder="새 비밀번호 확인을 입력해 주세요." style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.15); border-radius:8px; color:#fff; font-size:13px; font-family:inherit; outline:none; box-sizing:border-box;">
+        <div class="p-form-group">
+          <label class="modal-form-label">새 비밀번호 확인<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-confirm" placeholder="새 비밀번호 확인을 입력해 주세요.">
           <div class="p-error-msg" id="pw-confirm-error">새 비밀번호 확인을 입력해 주세요.</div>
         </div>
-        <div style="display:flex; gap:8px; justify-content:flex-end; margin-top:4px;">
+        <div class="modal-btn-row">
           <button class="btn-p btn-p-cancel" id="pw-modal-cancel">취소</button>
           <button class="btn-p btn-p-exec" id="pw-modal-submit">변경</button>
         </div>
