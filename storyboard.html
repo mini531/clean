@@ -1,0 +1,1429 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>화면 설계서 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI','Malgun Gothic','맑은 고딕',sans-serif;
+    background:#f5f7fa;
+    color:#333;
+    font-size:14px;
+    line-height:1.65;
+    min-height:100vh;
+  }
+  .sb-wrap{max-width:1600px;margin:0 auto;position:relative;}
+  @media(min-width:1601px){
+    .sidebar{left:calc((100vw - 1600px)/2);}
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:280px;
+    background:#fff;
+    border-right:1px solid #e0e4ea;
+    overflow-y:auto;z-index:100;
+    padding:24px 0 40px;
+    transition:transform .3s ease;
+  }
+  .sidebar-header{padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidebar-header h2{font-size:14px;font-weight:700;color:#1a2a4a;line-height:1.5}
+  .sidebar-header p{font-size:11px;color:#8896a8;margin-top:4px}
+  .toc{list-style:none;padding:12px 0}
+  .toc li{}
+  .toc a{
+    display:block;padding:7px 20px 7px 24px;
+    color:#5a6a7e;text-decoration:none;font-size:13px;
+    border-left:3px solid transparent;transition:all .2s;
+  }
+  .toc a:hover,.toc a.active{
+    color:#0d3a6e;background:rgba(13,58,110,.06);border-left-color:#0d3a6e;font-weight:600;
+  }
+  .toc .toc-group{
+    font-size:11px;text-transform:uppercase;letter-spacing:.8px;
+    color:#a0aab8;padding:16px 20px 6px 24px;font-weight:700;
+  }
+  .toc .toc-sub{padding-left:38px;font-size:12px}
+
+  /* hamburger */
+  .hamburger{
+    display:none;position:fixed;top:12px;left:12px;z-index:200;
+    width:40px;height:40px;border-radius:10px;border:none;cursor:pointer;
+    background:#0d3a6e;color:#fff;font-size:20px;
+    backdrop-filter:blur(6px);
+  }
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;
+  }
+
+  /* ---------- MAIN ---------- */
+  .main{margin-left:280px;padding:40px 48px 80px;max-width:1200px}
+
+  .page-header{text-align:center;padding:32px 0 48px}
+  .page-header h1{font-size:26px;font-weight:800;color:#1a2a4a;line-height:1.4}
+  .page-header .sub{font-size:13px;color:#8896a8;margin-top:8px}
+
+  /* cards */
+  .card{
+    background:#fff;
+    border:1px solid #e0e4ea;
+    border-radius:14px;padding:28px 32px;margin-bottom:32px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card h3{font-size:18px;font-weight:700;color:#1a2a4a;margin-bottom:14px}
+  .card h4{font-size:15px;font-weight:600;color:#2d3e52;margin:18px 0 10px}
+
+  /* section title */
+  .section-title{
+    font-size:22px;font-weight:800;color:#1a2a4a;margin:48px 0 24px;
+    padding-bottom:12px;border-bottom:1px solid #e0e4ea;
+  }
+  .section-title:first-child{margin-top:0}
+
+  /* tables */
+  .glass-table{width:100%;border-collapse:collapse;margin:12px 0 4px}
+  .glass-table th{
+    background:#f0f3f7;color:#1a2a4a;font-weight:600;
+    text-align:left;padding:10px 14px;font-size:13px;
+    border-bottom:2px solid #d0d7e2;
+  }
+  .glass-table td{
+    padding:9px 14px;font-size:13px;color:#444;
+    border-bottom:1px solid #eef1f5;
+  }
+  .glass-table tbody tr:hover{background:#f8fafc}
+  .glass-table .center{text-align:center}
+  .glass-table .dim{color:#bcc5d0}
+
+  /* badges */
+  .badge{
+    display:inline-block;padding:2px 10px;border-radius:20px;
+    font-size:11px;font-weight:600;margin:0 3px;
+  }
+  .badge-admin{background:rgba(59,130,246,.12);color:#2563eb;border:1px solid rgba(59,130,246,.25)}
+  .badge-inspector{background:rgba(34,197,94,.12);color:#16a34a;border:1px solid rgba(34,197,94,.2)}
+  .badge-viewer{background:rgba(249,115,22,.12);color:#ea580c;border:1px solid rgba(249,115,22,.2)}
+
+  /* feature list */
+  .feat-list{list-style:none;padding:0}
+  .feat-list li{
+    position:relative;padding:5px 0 5px 18px;font-size:13px;
+  }
+  .feat-list li::before{
+    content:'';position:absolute;left:0;top:12px;
+    width:7px;height:7px;border-radius:50%;background:#5bb8ff;
+  }
+  .feat-list li strong{color:#1a2a4a}
+
+  /* iframe preview */
+  .preview-wrap{
+    border:1px solid rgba(255,255,255,.12);border-radius:10px;
+    overflow:hidden;margin:16px 0;background:#0a1a2e;
+    box-shadow:0 8px 32px rgba(0,0,0,.35);
+  }
+  .preview-bar{
+    display:flex;align-items:center;justify-content:space-between;
+    padding:8px 14px;background:rgba(13,58,110,.04);
+    border-bottom:1px solid rgba(255,255,255,.08);
+  }
+  .preview-bar span{font-size:11px;color:#8896a8}
+  .preview-bar a{
+    font-size:11px;color:#5bb8ff;text-decoration:none;
+    background:rgba(91,184,255,.12);padding:3px 10px;border-radius:6px;
+  }
+  .preview-bar a:hover{background:rgba(91,184,255,.22)}
+  .preview-frame{
+    width:166.67%;height:667px;
+    transform:scale(0.6);transform-origin:top left;
+    border:none;display:block;
+  }
+  .preview-container{
+    overflow:hidden;height:400px;
+  }
+  .preview-placeholder{
+    height:320px;
+    background:#e8ecf1;
+    border:1px solid #e0e4ea;
+    border-radius:10px;
+    display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:10px;
+    color:#8896a8;font-size:13px;
+    cursor:pointer;transition:all 0.3s;
+    text-decoration:none;position:relative;overflow:hidden;
+  }
+  .preview-placeholder:hover{background:#f0f3f7;color:#6b7a8d;border-color:#93c5fd;}
+  .preview-placeholder svg{width:36px;height:36px;opacity:0.3;}
+  .preview-placeholder .ph-filename{font-size:12px;color:#bcc5d0;}
+  .preview-placeholder .ph-btn{
+    display:inline-flex;align-items:center;gap:6px;
+    padding:8px 18px;border-radius:8px;
+    background:rgba(100,181,246,0.15);border:1px solid rgba(100,181,246,0.3);
+    color:#64b5f6;font-size:12px;font-weight:700;margin-top:6px;
+  }
+  .preview-placeholder:hover .ph-btn{background:rgba(100,181,246,0.25);}
+  .preview-placeholder .ph-hint{font-size:11px;color:#ccd3dc;position:absolute;bottom:12px;}
+  /* iframe 미리보기 */
+  .preview-iframe-wrap{
+    overflow:hidden;height:800px;border-radius:10px;
+    border:1px solid #e0e4ea;position:relative;
+    margin-bottom:4px;
+  }
+  .preview-iframe-wrap iframe{
+    width:166.67%;height:1333px;
+    transform:scale(0.6);transform-origin:top left;
+    border:none;display:block;
+  }
+  .preview-iframe-wrap .iframe-link{
+    position:absolute;bottom:10px;right:10px;z-index:10;
+    font-size:12px;color:#fff;text-decoration:none;
+    background:#0d3a6e;padding:6px 16px;border-radius:6px;
+    border:1px solid rgba(100,181,246,0.3);
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  }
+  .preview-iframe-wrap .iframe-link:hover{background:#1a5f9e;}
+  /* 이미지 미리보기 */
+  .preview-img-wrap{position:relative;margin-bottom:8px;}
+  .preview-img-wrap > a{display:block;}
+  .preview-img{
+    width:100%;border-radius:10px;border:1px solid #e0e4ea;
+    display:block;cursor:pointer;transition:opacity 0.2s;
+    box-shadow:0 2px 12px rgba(0,0,0,0.08);
+  }
+  .preview-img:hover{opacity:0.9;}
+  .preview-open-btn{
+    position:absolute;bottom:10px;right:10px;z-index:10;
+    font-size:12px;color:#fff;text-decoration:none;
+    background:#0d3a6e;padding:6px 16px;border-radius:6px;
+    border:1px solid rgba(100,181,246,0.3);
+    box-shadow:0 2px 8px rgba(0,0,0,0.2);
+  }
+  .preview-open-btn:hover{background:#1a5f9e;}
+  .preview-placeholder-fallback{
+    height:300px;display:flex;flex-direction:column;
+    align-items:center;justify-content:center;gap:8px;
+    background:#eef2f7;border:2px dashed #d0d7e2;border-radius:10px;
+    color:#8896a8;font-size:14px;text-align:center;
+  }
+  .preview-placeholder-fallback small{font-size:12px;color:#a0aab8;}
+
+  /* 이미지 원본 모달 */
+  .img-modal{display:none;position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,0.85);
+    align-items:center;justify-content:center;cursor:zoom-out;}
+  .img-modal.open{display:flex;}
+  .img-modal img{max-width:95vw;max-height:95vh;border-radius:8px;box-shadow:0 10px 40px rgba(0,0,0,0.5);}
+
+  /* code */
+  code,.code-block{
+    font-family:'Consolas','Courier New',monospace;
+    background:#eef2f7;border-radius:5px;
+    font-size:12px;color:#0d3a6e;
+  }
+  code{padding:2px 6px}
+  .code-block{display:block;padding:14px 18px;margin:10px 0;overflow-x:auto;white-space:pre;line-height:1.5}
+
+  /* responsive notes */
+  .resp-note{
+    background:rgba(91,184,255,.08);border-left:3px solid #5bb8ff;
+    padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;
+    font-size:13px;
+  }
+  .resp-note strong{color:#93c5fd}
+
+  /* screen section */
+  .screen-section{margin-bottom:48px}
+  .screen-header{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:6px}
+  .screen-header h3{font-size:18px;font-weight:700;color:#1a2a4a;margin:0}
+  .screen-desc{color:#6b7a8d;font-size:13px;margin-bottom:14px}
+
+  /* permissions row */
+  .perm-row{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px}
+
+  /* subsection */
+  .sub-title{font-size:15px;font-weight:600;color:#2d3e52;margin:20px 0 8px}
+
+  /* info grid */
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0}
+  .info-item{
+    background:#f8fafc;border-radius:8px;padding:12px 16px;
+    border:1px solid rgba(255,255,255,.08);
+  }
+  .info-item .label{font-size:11px;color:#8896a8;margin-bottom:2px}
+  .info-item .value{font-size:13px;color:#1a2a4a;font-weight:600}
+
+  /* ---------- RESPONSIVE ---------- */
+  @media(max-width:1024px){
+    .sidebar{transform:translateX(-100%)}
+    .sidebar.open{transform:translateX(0)}
+    .hamburger{display:flex;align-items:center;justify-content:center}
+    .overlay.open{display:block}
+    .main{margin-left:0;padding:40px 24px 60px}
+  }
+  @media(max-width:768px){
+    .main{padding:32px 14px 48px}
+    .page-header h1{font-size:20px}
+    .glass-table{font-size:12px}
+    .glass-table th,.glass-table td{padding:7px 8px}
+    .info-grid{grid-template-columns:1fr}
+    .preview-container{height:300px}
+    .preview-frame{height:500px}
+  }
+  @media(max-width:480px){
+    .card{padding:18px 16px;border-radius:10px}
+    .section-title{font-size:18px}
+  }
+</style>
+</head>
+<body>
+
+<!-- Hamburger -->
+<button class="hamburger" onclick="toggleSidebar()" aria-label="메뉴 열기">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="sb-wrap">
+<!-- ========== SIDEBAR ========== -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2>화면 설계서</h2>
+    <p>하천·계곡 불법 시설 정비 지원시스템</p>
+  </div>
+  <ul class="toc">
+    <li class="toc-group">개요</li>
+    <li><a href="#overview">1. 시스템 개요</a></li>
+    <li><a href="#menu-auth">2. 권한별 메뉴 구조</a></li>
+    <li><a href="#layout">3. 공통 레이아웃</a></li>
+
+    <li class="toc-group">인증</li>
+    <li><a href="#login" class="toc-sub">4.1 로그인</a></li>
+    <li><a href="#register" class="toc-sub">4.2 회원가입</a></li>
+
+    <li class="toc-group">사용자 화면</li>
+    <li><a href="#dashboard" class="toc-sub">5.1 지도 대시보드</a></li>
+    <li><a href="#notice" class="toc-sub">5.2 공지사항</a></li>
+    <li><a href="#faq" class="toc-sub">5.3 자주 묻는 질문</a></li>
+    <li><a href="#mypage" class="toc-sub">5.4 마이페이지</a></li>
+
+    <li class="toc-group">관리자 포털</li>
+    <li><a href="#admin-dashboard" class="toc-sub">6.1 대시보드</a></li>
+    <li><a href="#admin-members" class="toc-sub">6.2 회원 관리</a></li>
+    <li><a href="#admin-access" class="toc-sub">6.3 접속 현황</a></li>
+    <li><a href="#admin-region" class="toc-sub">6.4 지역 이용 현황</a></li>
+    <li><a href="#admin-logs" class="toc-sub">6.5 접속 로그</a></li>
+    <li><a href="#admin-notice" class="toc-sub">6.6 공지사항 관리</a></li>
+    <li><a href="#admin-faq" class="toc-sub">6.7 자주 묻는 질문 관리</a></li>
+    <li><a href="#admin-mypage" class="toc-sub">6.8 관리자 마이페이지</a></li>
+  </ul>
+</nav>
+
+<!-- ========== MAIN ========== -->
+<div class="main">
+
+  <div class="page-header">
+    <h1>하천·계곡 및 주변 지역 불법 시설 정비 지원시스템<br>화면 설계서</h1>
+    <p class="sub">Screen Design Storyboard &mdash; v1.0</p>
+  </div>
+
+  <!-- ===================== 1. 시스템 개요 ===================== -->
+  <h2 class="section-title" id="overview">1. 시스템 개요</h2>
+  <div class="card">
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">시스템명</div>
+        <div class="value">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</div>
+      </div>
+      <div class="info-item">
+        <div class="label">소관부처</div>
+        <div class="value">행정안전부</div>
+      </div>
+      <div class="info-item">
+        <div class="label">목적</div>
+        <div class="value">하천·계곡 주변 불법 시설물의 위치 확인, 현황 관리, 정비 지원</div>
+      </div>
+      <div class="info-item">
+        <div class="label">대상 사용자</div>
+        <div class="value">
+          <span class="badge badge-admin">관리자</span>
+          <span class="badge badge-inspector">점검자</span>
+          <span class="badge badge-viewer">열람자</span>
+        </div>
+      </div>
+    </div>
+    <h4>기술 스택</h4>
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">프론트엔드</div>
+        <div class="value">HTML5, CSS3, JavaScript (Vanilla)</div>
+      </div>
+      <div class="info-item">
+        <div class="label">지도 엔진</div>
+        <div class="value">Leaflet.js 1.9.4</div>
+      </div>
+      <div class="info-item">
+        <div class="label">클러스터링</div>
+        <div class="value">Leaflet.MarkerCluster 1.5.3</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 2. 권한별 메뉴 구조 ===================== -->
+  <h2 class="section-title" id="menu-auth">2. 권한별 메뉴 구조</h2>
+  <div class="card">
+    <h3>메뉴별 접근 권한</h3>
+    <table class="glass-table">
+      <thead>
+        <tr><th>메뉴</th><th class="center">관리자</th><th class="center">점검자</th><th class="center">열람자</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>지도 대시보드</td><td class="center">&#10003;</td><td class="center">&#10003;</td><td class="center">&#10003;</td></tr>
+        <tr><td>공지사항</td><td class="center">&#10003;</td><td class="center">&#10003;</td><td class="center">&#10003;</td></tr>
+        <tr><td>자주 묻는 질문</td><td class="center">&#10003;</td><td class="center">&#10003;</td><td class="center">&#10003;</td></tr>
+        <tr><td>마이페이지</td><td class="center">&#10003;</td><td class="center">&#10003;</td><td class="center">&#10003;</td></tr>
+        <tr><td>관리자 대시보드</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>회원 관리</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>접속 현황</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>지역 이용 현황</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>접속 로그</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>공지사항 관리</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+        <tr><td>자주 묻는 질문 관리</td><td class="center">&#10003;</td><td class="center dim">&mdash;</td><td class="center dim">&mdash;</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 3. 공통 레이아웃 ===================== -->
+  <h2 class="section-title" id="layout">3. 공통 레이아웃</h2>
+  <div class="card">
+    <h3>사용자 헤더</h3>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_user.png" alt="사용자 헤더">
+    </div>
+    <ul class="feat-list">
+      <li><strong>좌측:</strong> 행정안전부 로고 + 시스템명 (클릭 시 지도 대시보드로 이동)</li>
+      <li><strong>우측 네비게이션:</strong> 지도 | 서비스 지원(hover 시 드롭다운: 공지사항, 자주 묻는 질문) | 관리 | 사용자 드롭다운</li>
+      <li><strong>관리 버튼:</strong> 관리자 권한 사용자에게만 표시됨. 일반 사용자(점검자, 열람자)에게는 숨김 처리</li>
+      <li><strong>사용자 드롭다운:</strong> 클릭 시 마이페이지, 로그아웃 메뉴 표시</li>
+    </ul>
+
+    <h4>관리자 헤더</h4>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_admin.png" alt="관리자 헤더">
+    </div>
+    <ul class="feat-list">
+      <li><strong>좌측:</strong> "관리자 포털" 타이틀 (클릭 시 관리자 대시보드로 이동)</li>
+      <li><strong>센터:</strong> 네비게이션 메뉴 (대시보드, 회원 관리, 접속 현황, 지역 이용 현황, 접속 로그, 게시판 관리 드롭다운)</li>
+      <li><strong>게시판 관리 드롭다운:</strong> hover 시 공지사항 관리, 자주 묻는 질문 관리 서브메뉴 표시</li>
+      <li><strong>우측:</strong> 지도 (사용자 대시보드로 이동) | 사용자 드롭다운 (마이페이지, 로그아웃)</li>
+      <li><strong>모바일(1024px 이하):</strong> 센터 네비게이션 숨김, 햄버거 버튼으로 사이드바 메뉴 표시</li>
+    </ul>
+
+    <h4>관리자 헤더 — 게시판 관리 드롭다운</h4>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_admin_submenu.png" alt="관리자 게시판 관리 드롭다운">
+    </div>
+
+    <h4>관리자 헤더 — 사용자 드롭다운</h4>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_admin_usermenu.png" alt="관리자 사용자 드롭다운">
+    </div>
+
+    <h4>사용자 헤더 — 서비스 지원 드롭다운</h4>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_user_dropdown.png" alt="사용자 서비스 지원 드롭다운">
+    </div>
+
+    <h4>사용자 헤더 — 사용자 드롭다운</h4>
+    <div class="preview-img-wrap">
+      <img class="preview-img" src="assets/img/screens/header_user_usermenu.png" alt="사용자 드롭다운">
+    </div>
+
+    <h4>반응형 브레이크포인트</h4>
+    <table class="glass-table">
+      <thead><tr><th>브레이크포인트</th><th>변경 사항</th></tr></thead>
+      <tbody>
+        <tr><td><code>1024px</code></td><td>사이드바 &rarr; 햄버거 메뉴, 관리자 네비게이션 축소</td></tr>
+        <tr><td><code>768px</code></td><td>테이블 &rarr; 카드형, 필터 &rarr; 토글 패널</td></tr>
+        <tr><td><code>480px</code></td><td>전체 너비 레이아웃, 풀 사이즈 버튼</td></tr>
+      </tbody>
+    </table>
+
+    <div class="resp-note">
+      <strong>모바일 공통:</strong> 필터 토글 버튼, 카드형 테이블, 바텀 시트 모달
+    </div>
+  </div>
+
+  <!-- ===================== 4. 인증 ===================== -->
+  <h2 class="section-title">4. 인증</h2>
+
+  <!-- 4.1 로그인 -->
+  <div class="screen-section" id="login">
+    <div class="card">
+      <div class="screen-header">
+        <h3>4.1 로그인</h3>
+        <code>index.html</code>
+      </div>
+      <p class="screen-desc">시스템 진입점. 아이디/비밀번호 인증을 통해 권한에 맞는 화면으로 진입한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+        <span class="badge badge-inspector">점검자</span>
+        <span class="badge badge-viewer">열람자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>index.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/index.png" alt="index 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/index.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>로그인 폼:</strong> 아이디(ID) 입력, 비밀번호 입력, 로그인 버튼</li>
+        <li><strong>에러 처리:</strong> 빈 필드 검증, 잘못된 자격증명 시 인라인 에러 메시지</li>
+        <li><strong>회원가입 링크:</strong> 로그인 폼 하단에 회원가입 페이지 이동 링크</li>
+        <li><strong>리다이렉트:</strong> 인증 성공 시 대시보드(dashboard.html)로 이동</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>텍스트 입력 필드 (아이디, 비밀번호)</li>
+        <li>로그인 버튼 (primary)</li>
+        <li>회원가입 텍스트 링크</li>
+        <li>에러 메시지 영역</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 로그인 폼은 모든 해상도에서 중앙 정렬. 모바일에서 전체 너비 입력 필드.
+      </div>
+    </div>
+  </div>
+
+  <!-- 4.2 회원가입 -->
+  <div class="screen-section" id="register">
+    <div class="card">
+      <div class="screen-header">
+        <h3>4.2 회원가입</h3>
+        <code>register.html</code>
+      </div>
+      <p class="screen-desc">3단계 프로세스를 통한 회원가입. 약관 동의, 정보 입력, 가입 완료 순으로 진행한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-viewer">비회원</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>register.html</span>
+          
+        </div>
+        <h4>Step 1 — 약관 동의</h4>
+        <div class="preview-img-wrap">
+          <img class="preview-img" src="assets/img/screens/register_step1.png" alt="회원가입 Step 1 약관 동의">
+        </div>
+        <h4>Step 2 — 기본정보 입력</h4>
+        <div class="preview-img-wrap">
+          <img class="preview-img" src="assets/img/screens/register_step2.png" alt="회원가입 Step 2 기본정보">
+        </div>
+        <h4>Step 3 — 가입 완료</h4>
+        <div class="preview-img-wrap">
+          <img class="preview-img" src="assets/img/screens/register_step3.png" alt="회원가입 Step 3 완료">
+        </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>Step 1 — 약관 동의:</strong> 서비스 이용약관, 개인정보 처리방침 동의 체크. 필수 약관 미동의 시 다음 단계 버튼 비활성</li>
+        <li><strong>Step 2 — 기본정보 입력:</strong> 이름, 이메일, 인증번호 확인. 필수 필드 미입력 시 에러 메시지 표시</li>
+        <li><strong>이메일 인증:</strong> 인증번호 발송 및 확인 절차</li>
+        <li><strong>Step 3 — 가입 완료:</strong> 확인/성공 모달, 로그인 페이지 이동</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>스텝 인디케이터 (1/2/3 단계 표시)</li>
+        <li>약관 동의 체크박스</li>
+        <li>폼 입력 필드 (텍스트, 이메일, 비밀번호, 셀렉트)</li>
+        <li>이메일 인증 버튼 + 타이머</li>
+        <li>확인/성공 모달</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 모바일에서 스텝 인디케이터는 축소형 표시. 입력 필드 1열 레이아웃.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 5. 사용자 화면 ===================== -->
+  <h2 class="section-title">5. 사용자 화면</h2>
+
+  <!-- 5.1 지도 대시보드 -->
+  <div class="screen-section" id="dashboard">
+    <div class="card">
+      <div class="screen-header">
+        <h3>5.1 지도 대시보드</h3>
+        <code>dashboard.html</code>
+      </div>
+      <p class="screen-desc">시스템의 핵심 화면. 전국 불법 시설물 현황을 지도 기반으로 시각화하며, 3단계 클러스터링으로 상세 조회가 가능하다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+        <span class="badge badge-inspector">점검자</span>
+        <span class="badge badge-viewer">열람자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>dashboard.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/dashboard.png" alt="dashboard 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/dashboard.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>1단계 — 전국 파이차트 (기본 뷰)</h4>
+      <p>줌 레벨 7 이하에서 시·도별 원형 차트로 걸침(오렌지)/구역내(빨강) 비율을 시각화합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_piechart.png" alt="전국 파이차트">
+      </div>
+
+      <h4>사이드바 — 시·도 클릭 상태</h4>
+      <p>좌측 사이드바에서 시·도를 클릭하면 해당 지역이 확장되어 시·군·구 목록이 표시되고, 지도가 해당 영역으로 줌인됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_sido_click.png" alt="사이드바 시도 클릭">
+      </div>
+
+      <h4>2단계 — 클러스터링</h4>
+      <p>시·도 선택 또는 줌인(줌 8+) 시 Leaflet MarkerCluster로 자동 클러스터링됩니다. 줌인할수록 클러스터가 분산되며, 걸침 포함은 오렌지, 구역내만은 빨간색으로 표시됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_cluster.png" alt="클러스터링">
+      </div>
+
+      <h4>사이드바 — 시·군·구 클릭 상태</h4>
+      <p>시·군·구를 클릭하면 해당 지역의 시설물 목록이 표시되고, 지도에 시설물 폴리곤이 렌더링됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_sigungu_click.png" alt="사이드바 시군구 클릭">
+      </div>
+
+      <h4>사이드바 — 시설물 클릭 상태</h4>
+      <p>시설물을 클릭하면 지도에서 해당 폴리곤이 하이라이트되고, 다크 글래스 팝업이 표시됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_facility_click.png" alt="시설물 클릭">
+      </div>
+
+      <h4>3단계 — 시설물 팝업</h4>
+      <p>시설물 폴리곤 또는 목록 클릭 시 다크 글래스 스타일의 상세 팝업이 표시됩니다. 걸침(55%) 또는 구역내(100%) 유형, 하천등급, 하천명, 주소, 건물면적, 점유면적, 점유율 정보를 제공합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_popup.png" alt="시설물 팝업">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>3단계 클러스터링:</strong> 파이차트(시·도 레벨, 줌 7 이하) → MarkerCluster(시·군·구 레벨, 줌 8~14) → 폴리곤(개별 시설물, 줌 15+)</li>
+        <li><strong>좌측 사이드바:</strong> 지역별 현황 (걸침/구역내 분류), 정렬 기능(걸침순/구역내순/지역명순), 시설물 목록 스크롤</li>
+        <li><strong>KPI 표시:</strong> 상단에 전국 현황 — 걸침 총합, 구역내 총합, 걸침+구역내 프로그레스 바</li>
+        <li><strong>시설물 팝업:</strong> 다크 글래스 스타일. 하천등급, 하천명, 주소, 건물면적, 점유면적, 점유율 표시. X 버튼으로 닫기</li>
+        <li><strong>시설물 폴리곤:</strong> 걸침(오렌지, 점선 테두리), 구역내(빨강, 실선 테두리). 클릭 시 하이라이트(흰색 테두리)</li>
+        <li><strong>베이스맵 전환:</strong> 위성(기본) / 일반 / 그레이 / 다크 배경지도 선택</li>
+        <li><strong>보안 서약서 모달:</strong> 데이터 다운로드 시 서약서 동의 + 요청명/활용기간/사용목적 입력</li>
+        <li><strong>줌아웃 시 자동 복귀:</strong> 줌 7 이하로 축소 시 파이차트로 자동 복귀, 클러스터 숨김</li>
+        <li><strong>지도 이동 시 폴리곤 갱신:</strong> 줌 15+ 에서 현재 화면 영역에 동적으로 폴리곤 생성. 팝업 열린 상태에서는 유지</li>
+      </ul>
+
+      <h4>검색 기능</h4>
+      <p>우측 상단 검색 버튼 클릭 시 검색 오버레이가 열리며, 지역명/시설물명으로 검색 가능합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_search.png" alt="검색 입력">
+      </div>
+      <p>검색어 입력 후 엔터 시 결과 목록이 표시됩니다. 결과를 클릭하면 해당 위치로 이동합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_search_result.png" alt="검색 결과 목록">
+      </div>
+
+      <h4>배경지도 변경</h4>
+      <p>우측 도구의 배경지도 버튼 클릭 시 위성/일반/그레이/다크 배경을 선택할 수 있습니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_basemap.png" alt="배경지도 변경">
+      </div>
+
+      <h4>측정 도구</h4>
+      <p>거리 측정, 면적 측정 등 지도 위에서 측정 기능을 제공합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_measure.png" alt="측정 도구">
+      </div>
+
+      <h4>그리기 도구</h4>
+      <p>지도 위에 점/선/면을 그릴 수 있는 도구입니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_draw.png" alt="그리기 도구">
+      </div>
+
+      <h4>보안 서약서 모달 (내보내기 시)</h4>
+      <p>데이터 다운로드 또는 지도 저장 시 보안 서약서 동의가 필요합니다. 서약 내용 확인, 동의 체크, 요청명/활용기간/사용목적 입력 후 실행합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_modal_pledge.png" alt="보안 서약서 모달">
+      </div>
+
+      <h4>지도 저장 모달</h4>
+      <p>보안 서약서 동의 후 지도 미리보기와 메모를 입력하여 지도를 PNG로 저장할 수 있습니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/dashboard_modal_save.png" alt="지도 저장 모달">
+      </div>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>Leaflet 지도 (전체 화면 배경)</li>
+        <li>파이차트 마커 (시·도 단위 집계)</li>
+        <li>MarkerCluster 그룹 (자동 클러스터링)</li>
+        <li>폴리곤 오버레이 (시설물 경계, 걸침=오렌지 점선, 구역내=빨강 실선)</li>
+        <li>좌측 사이드바 패널 (접기/펼치기, 정렬, 필터)</li>
+        <li>KPI 리본 바 (걸침 총합, 구역내 총합)</li>
+        <li>우측 도구 모음 (검색, 배경지도, 측정, 그리기, 내보내기, 줌)</li>
+        <li>글래스모피즘 다크 팝업 (시설물 상세)</li>
+        <li>보안 서약서 모달 + 지도 저장 모달</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 모바일에서 좌측 사이드바 &rarr; 바텀 시트로 전환. KPI는 리본 형태로 축소. 베이스맵 스위처는 축소 아이콘으로 표시.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.2 공지사항 -->
+  <div class="screen-section" id="notice">
+    <div class="card">
+      <div class="screen-header">
+        <h3>5.2 공지사항</h3>
+        <code>notice.html</code>
+      </div>
+      <p class="screen-desc">공지사항 목록 및 상세 조회. 읽기 전용으로 관리 기능은 제공하지 않는다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+        <span class="badge badge-inspector">점검자</span>
+        <span class="badge badge-viewer">열람자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>notice.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/notice.png" alt="notice 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/notice.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>상세 조회 화면</h4>
+      <p>목록에서 공지사항을 클릭하면 읽기 전용 상세 화면으로 전환됩니다. 카테고리 배지, 제목, 등록일, 본문 내용이 표시되며, 첨부 파일이 있는 경우에만 파일 영역이 표시됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/notice_detail.png" alt="공지사항 상세">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>목록 보기:</strong> 구분(긴급/일반/업무), 제목, 등록일 표시. 등록자는 숨김 처리</li>
+        <li><strong>상세 보기:</strong> 읽기 전용 모드. 카테고리 뱃지, 제목, 등록일, 본문 내용 표시</li>
+        <li><strong>첨부 파일:</strong> 파일이 등록된 경우에만 영역 표시. 파일명, 용량 표시. 미등록 시 숨김</li>
+        <li><strong>목록 복귀:</strong> "목록" 버튼으로 리스트 화면 이동</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>공지사항 테이블 (구분, 제목, 등록일)</li>
+        <li>카테고리 뱃지 (일반=파랑)</li>
+        <li>상세 보기 카드</li>
+        <li>첨부파일 다운로드 링크</li>
+        <li>페이지네이션</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 768px 이하에서 테이블 &rarr; 카드형 목록으로 전환.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.3 자주 묻는 질문 -->
+  <div class="screen-section" id="faq">
+    <div class="card">
+      <div class="screen-header">
+        <h3>5.3 자주 묻는 질문</h3>
+        <code>faq.html</code>
+      </div>
+      <p class="screen-desc">FAQ를 아코디언 형태로 제공. 카테고리별 분류 뱃지로 빠른 식별이 가능하다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+        <span class="badge badge-inspector">점검자</span>
+        <span class="badge badge-viewer">열람자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>faq.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/faq.png" alt="faq 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/faq.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>아코디언 펼침 상태</h4>
+      <p>질문을 클릭하면 답변이 펼쳐집니다. 카테고리 배지가 파란색으로 활성화되고, 화살표가 위로 회전합니다. 다른 항목을 클릭하면 기존 항목은 접힙니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/faq_open.png" alt="FAQ 아코디언 펼침">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>아코디언 목록:</strong> 질문 클릭 시 답변 영역 펼침/접힘. 한 번에 하나만 열림</li>
+        <li><strong>카테고리 뱃지:</strong> 시설물 조회, 지도/레이어, 계정/인증, 시스템 일반. 펼침 시 파란색 활성화</li>
+        <li><strong>등록일 표시:</strong> 각 항목에 날짜 표시, 작성자는 숨김</li>
+        <li><strong>화살표 애니메이션:</strong> 펼침 시 180도 회전</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>아코디언 패널 (열기/닫기 토글)</li>
+        <li>카테고리 뱃지 칩</li>
+        <li>날짜 텍스트</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 모바일에서도 동일한 아코디언 구조 유지. 텍스트 크기만 축소.
+      </div>
+    </div>
+  </div>
+
+  <!-- 5.4 마이페이지 -->
+  <div class="screen-section" id="mypage">
+    <div class="card">
+      <div class="screen-header">
+        <h3>5.4 마이페이지</h3>
+        <code>mypage.html</code>
+      </div>
+      <p class="screen-desc">사용자 개인정보 조회 및 수정, 비밀번호 변경, 최근 활동 확인 기능을 제공한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+        <span class="badge badge-inspector">점검자</span>
+        <span class="badge badge-viewer">열람자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>mypage.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/mypage.png" alt="mypage 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/mypage.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>비밀번호 변경 모달</h4>
+      <p>"비밀번호 변경" 버튼 클릭 시 글래스 스타일 모달이 표시됩니다. 현재 비밀번호, 새 비밀번호, 새 비밀번호 확인 3개 필드를 입력하며, 미입력 시 에러 메시지가 표시됩니다. 비밀번호 불일치 시 별도 에러 메시지를 표시합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/mypage_pw_change.png" alt="비밀번호 변경 모달">
+      </div>
+
+      <h4>회원정보 수정 — 비밀번호 확인 모달</h4>
+      <p>"회원정보 수정" 버튼 클릭 시 먼저 비밀번호 확인 모달이 표시됩니다. 비밀번호 입력 후 확인 버튼을 클릭하면 수정 화면으로 전환됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/mypage_pw_verify.png" alt="비밀번호 확인 모달">
+      </div>
+
+      <h4>회원정보 수정 화면</h4>
+      <p>비밀번호 확인 후 수정 화면이 표시됩니다. 이름/이메일은 읽기 전용이며, 전화번호, 부서, 소속 지역(시·도→시·군·구 연동)을 수정할 수 있습니다. 하단에 정보 이용 동의 설정(홍보 정보수집, SMS 수신, Email 수신)이 있습니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/mypage_edit.png" alt="회원정보 수정 화면">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>환영 메시지:</strong> 로그인한 사용자 이름을 포함한 환영 문구 ("홍길동님 반갑습니다.")</li>
+        <li><strong>회원정보 카드:</strong> 이름, 이메일, 부서, 소속 지역, 가입일시, 권한 표시</li>
+        <li><strong>최근 활동 카드:</strong> 최근 로그인, 지도 조회, 화면 조회 등 활동 이력. 오늘=파란 점, 어제 이전=회색 점</li>
+        <li><strong>비밀번호 변경:</strong> 글래스 모달. 현재/새/확인 3필드 + 유효성 검증 + 불일치 에러</li>
+        <li><strong>회원정보 수정:</strong> 비밀번호 확인 → 수정 폼 (전화번호, 부서, 소속 지역) + 정보 이용 동의 설정</li>
+        <li><strong>알림 모달:</strong> 글래스 스타일 커스텀 모달 (시스템 alert 사용 금지). 성공 아이콘 + 제목 + 설명 + 확인 버튼</li>
+        <li><strong>관리자 포털 접근:</strong> 관리자 포털에서 마이페이지 진입 시 관리자 헤더 유지 (admin_mypage.html)</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>환영 헤더 영역</li>
+        <li>정보 카드 (그리드 레이아웃)</li>
+        <li>비밀번호 변경 모달</li>
+        <li>비밀번호 확인 모달</li>
+        <li>회원정보 수정 폼</li>
+        <li>글래스모피즘 알림 모달</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 카드 그리드는 모바일에서 1열로 전환. 모달은 전체 화면 모달로 표시.
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== 6. 관리자 포털 ===================== -->
+  <h2 class="section-title">6. 관리자 포털</h2>
+
+  <!-- 6.1 관리자 대시보드 -->
+  <div class="screen-section" id="admin-dashboard">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.1 대시보드</h3>
+        <code>admin_dashboard.html</code>
+      </div>
+      <p class="screen-desc">관리자 포털의 기본 화면. 별도 페이지 타이틀 없이 핵심 지표와 최근 현황을 한눈에 보여준다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_dashboard.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_dashboard.png" alt="admin_dashboard 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_dashboard.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>승인 대기 배너:</strong> 대기 건수(3건) 표시 + 바로가기 링크</li>
+        <li><strong>KPI 카드:</strong> 전체 회원(33), 오늘 접속(12), 현재 접속(5), 승인 대기(3)</li>
+        <li><strong>최근 가입 테이블:</strong> 이름, 소속, 처리 상태, 신청일</li>
+        <li><strong>최근 접속 로그 테이블:</strong> 사용자, 행동, 세부 내역, 시간</li>
+        <li><strong>24시간 접속 차트:</strong> 세로 막대 그래프, 호버 툴팁, KPI 요약</li>
+        <li><strong>지도 조회 TOP 10:</strong> 가로 막대 그래프</li>
+        <li><strong>최근 공지사항:</strong> 카드 리스트</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>알림 배너 (승인 대기)</li>
+        <li>KPI 카드 4개 (아이콘 + 숫자 + 라벨)</li>
+        <li>데이터 테이블 2개</li>
+        <li>세로 막대 차트 (CSS/Canvas)</li>
+        <li>가로 막대 차트</li>
+        <li>공지사항 카드 리스트</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> KPI 카드 2열&rarr;1열. 차트 가로 스크롤. 테이블은 카드형으로 전환.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.2 회원 관리 -->
+  <div class="screen-section" id="admin-members">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.2 회원 관리</h3>
+        <code>admin_members.html</code>
+      </div>
+      <p class="screen-desc">회원 목록 조회, 검색 필터링, 상세 정보 확인 및 승인/거부 처리, 권한 변경 기능을 제공한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_members.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_members.png" alt="admin_members 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_members.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>승인 대기 배너:</strong> 대기 건수 + "대기 목록 보기" 필터 버튼</li>
+        <li><strong>검색 필터:</strong> 아이디, 이름, 전화번호, 소속 지역(시·도 &rarr; 시·군·구 연동 셀렉트), 부서, 계정 상태(전체/정상/탈퇴), 처리 상태(전체/승인/거부/대기), 가입일</li>
+        <li><strong>회원 테이블:</strong> 아이디, 이름, 전화번호, 부서, 소속 지역, 계정 상태, 가입 일시, 처리 상태, 처리자, 처리 일시</li>
+        <li><strong>상세 보기 (3열 카드):</strong> 소속 정보 카드, 계정 정보 카드(탈퇴/비밀번호 초기화 버튼), 권한 정보 카드(점검자/열람자/관리자 라디오 버튼 + 승인/거부 버튼)</li>
+        <li><strong>로그인 이력 탭:</strong> 접속 일시, IP, 브라우저 정보</li>
+        <li><strong>비밀번호 변경 이력 탭:</strong> 변경 일시, 변경자</li>
+        <li><strong>대기 필터:</strong> "대기 목록 보기" 클릭 시 처리 상태 '대기'로 필터링 + 테이블 갱신</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>알림 배너 + 필터 바로가기</li>
+        <li>검색 필터 폼 (연동 셀렉트, 날짜 입력)</li>
+        <li>데이터 테이블 + 페이지네이션</li>
+        <li>상세 정보 카드 3열 그리드</li>
+        <li>라디오 버튼 그룹 (권한 선택)</li>
+        <li>승인/거부 액션 버튼</li>
+        <li>탭 네비게이션 (로그인 이력 / 비밀번호 변경 이력)</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 필터 영역 토글 패널. 상세 카드 3열 &rarr; 1열. 테이블 카드형 전환.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.3 접속 현황 -->
+  <div class="screen-section" id="admin-access">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.3 접속 현황</h3>
+        <code>admin_access.html</code>
+      </div>
+      <p class="screen-desc">일간/주간/월간 기준 접속 추이를 세로 막대 차트로 시각화한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_access.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_access.png" alt="admin_access 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_access.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>일간 차트 (기본값)</h4>
+      <p>00시~23시까지 24개 막대로 시간대별 접속 수를 표시합니다. 기준일은 date picker로 선택합니다. 가장 많은 접속 시간대를 100%로 계산하여 막대 높이를 결정합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_access_daily.png" alt="일간 접속 현황">
+      </div>
+
+      <h4>주간 차트</h4>
+      <p>선택한 주의 월요일~일요일까지 7개 막대로 요일별 접속 수를 표시합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_access_weekly.png" alt="주간 접속 현황">
+      </div>
+
+      <h4>월간 차트</h4>
+      <p>선택한 월의 1일~말일까지 막대를 표시합니다. 이번 달은 오늘까지만 데이터가 있으며, 기준일은 month picker로 선택합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_access_monthly.png" alt="월간 접속 현황">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>KPI 카드:</strong> 현재 접속자, 오늘 총 접속, 이번 주 접속, 이번 달 접속 (전주/전월 대비 증감 표시)</li>
+        <li><strong>필터:</strong> 조회 유형 버튼(일간/주간/월간), 기준일(일간·주간=date picker, 월간=month picker), 초기화/조회</li>
+        <li><strong>조회 버튼:</strong> 클릭 시에만 차트 갱신 (모드 전환만으로는 변경 안 됨)</li>
+        <li><strong>세로 막대 차트:</strong> 호버 시 반투명 툴팁(정확한 시각 + 접속 수)</li>
+        <li><strong>차트 헤더:</strong> 차트 타이틀 + 우측에 총 접속 건수 표시</li>
+        <li><strong>모바일(768px 이하):</strong> 일간 24시간 → 3시간 단위 8개 막대로 병합</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 필터 토글 패널. 차트 가로 스크롤. KPI 카드 2열 → 1열. 모바일 일간 3시간 병합.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.4 지역 이용 현황 -->
+  <div class="screen-section" id="admin-region">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.4 지역 이용 현황</h3>
+        <code>admin_region.html</code>
+      </div>
+      <p class="screen-desc">지역별 지도 조회 빈도를 가로 막대 차트 TOP 20으로 표시한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_region.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_region.png" alt="admin_region 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_region.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>필터:</strong> 조회 기간 (전체/오늘/1개월/3개월/6개월/12개월), 초기화/조회 버튼</li>
+        <li><strong>가로 막대 차트 TOP 20:</strong> 지역명 + 조회 수 막대</li>
+        <li><strong>헤더 총 건수:</strong> 전체 조회 합계 표시</li>
+        <li><strong>차트 제목:</strong> "오늘" 또는 조회 기간 범위 표시</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>기간 필터 버튼 그룹</li>
+        <li>가로 막대 차트</li>
+        <li>총 건수 헤더</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 차트 세로 스크롤. 필터 버튼 줄바꿈.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.5 접속 로그 -->
+  <div class="screen-section" id="admin-logs">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.5 접속 로그</h3>
+        <code>admin_logs.html</code>
+      </div>
+      <p class="screen-desc">전체 사용자의 접속 및 행동 로그를 조회하는 관리 화면.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_logs.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_logs.png" alt="admin_logs 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_logs.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>행동 유형 및 세부 내역 정의</h4>
+      <table class="glass-table">
+        <thead><tr><th>행동</th><th>세부 내역 형식</th><th>예시</th></tr></thead>
+        <tbody>
+          <tr><td>지도 조회</td><td>조회한 지역명</td><td>경기 안성시</td></tr>
+          <tr><td>화면 조회</td><td>조회한 화면명</td><td>공지사항, 자주 묻는 질문, 지도</td></tr>
+          <tr><td>사용자 유형 변경</td><td>대상: 변경 전 → 변경 후</td><td>김성진: 관리자 → 열람자</td></tr>
+          <tr><td>로그인</td><td>성공/실패 여부</td><td>로그인 성공</td></tr>
+          <tr><td>로그아웃</td><td>정상 여부</td><td>정상 로그아웃</td></tr>
+        </tbody>
+      </table>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>검색 필터:</strong> 사용자 이름, 행동(전체/지도 조회/화면 조회/사용자 유형 변경/로그인/로그아웃), IP 주소, 기간(전체/1/3/6/12개월)</li>
+        <li><strong>로그 테이블:</strong> 일시, 사용자 이름, 행동, 세부 내역, IP (5컬럼)</li>
+        <li><strong>페이지 크기:</strong> 기본값 20건 (20/50/100 선택)</li>
+        <li><strong>초기화 버튼:</strong> 검색 필터 전체 초기화</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 필터 토글 패널. 테이블 카드형 전환. IP 컬럼 모바일 숨김.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.6 공지사항 관리 -->
+  <div class="screen-section" id="admin-notice">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.6 공지사항 관리</h3>
+        <code>admin_notice.html</code>
+      </div>
+      <p class="screen-desc">공지사항 CRUD 관리. WYSIWYG 에디터를 통한 본문 작성 및 첨부파일, 팝업 설정을 지원한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_notice.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_notice.png" alt="admin_notice 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_notice.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>등록 화면</h4>
+      <p>"등록" 버튼 클릭 시 빈 폼이 표시됩니다. 구분, 제목, 게시 기간, 팝업 설정, 내용(WYSIWYG 에디터), 첨부 파일을 입력합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_notice_create.png" alt="공지사항 등록">
+      </div>
+
+      <h4>수정 화면</h4>
+      <p>목록에서 공지사항을 클릭하면 기존 데이터가 채워진 수정 폼이 표시됩니다. 하단에 등록자/등록일시/수정자/수정일시 메타 정보와 삭제/저장 버튼이 있습니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_notice_edit.png" alt="공지사항 수정">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>검색 필터:</strong> 검색어(전체/제목/내용/등록자), 구분(전체/긴급/일반/업무), 게시 기간(전체/1/3/6/12개월)</li>
+        <li><strong>목록 테이블:</strong> 체크박스, 구분, 제목, 게시 시작, 게시 종료, 등록자, 등록 일시</li>
+        <li><strong>등록/수정 폼:</strong> 구분 + 제목(글자 수 카운트), 게시 기간(무한 게시 체크 시 종료일 비활성), 팝업 설정(체크 시 날짜 활성 + 주 단위 버튼), WYSIWYG 에디터, 첨부파일(최대 3개, 10MB)</li>
+        <li><strong>에디터 툴바:</strong> 폰트, B/U/I/S/위첨자/아래첨자, 글자색, 순서 목록/비순서 목록, 들여쓰기/내어쓰기, 표, 링크, 이미지, 서식 지우기</li>
+        <li><strong>에디터 리사이즈:</strong> 세로 방향 크기 조절 가능 (우하단 핸들)</li>
+        <li><strong>비활성 필드:</strong> 점선 테두리 + 투명도 감소로 활성 필드와 구분</li>
+        <li><strong>선택 삭제:</strong> 체크박스 선택 후 일괄 삭제</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>검색 필터 폼 (모바일: 토글 접기)</li>
+        <li>체크박스 테이블 + 일괄 삭제 (모바일: 카드형)</li>
+        <li>등록/수정 폼 레이아웃</li>
+        <li>WYSIWYG 에디터 (리사이즈 가능)</li>
+        <li>첨부파일 업로드 영역</li>
+        <li>무한 게시 체크박스</li>
+        <li>팝업 설정 토글</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 에디터 전체 너비. 필터 토글 패널. 테이블 카드형 전환.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.7 자주 묻는 질문 관리 -->
+  <div class="screen-section" id="admin-faq">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.7 자주 묻는 질문 관리</h3>
+        <code>admin_faq.html</code>
+      </div>
+      <p class="screen-desc">FAQ CRUD 관리. 공지사항 관리와 동일한 필터/테이블 패턴에 카테고리 분류가 추가된다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_faq.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_faq.png" alt="admin_faq 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_faq.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>등록 화면</h4>
+      <p>"등록" 버튼 클릭 시 빈 폼이 표시됩니다. 구분(카테고리), 제목(질문), 내용(답변 WYSIWYG 에디터), 첨부 파일을 입력합니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_faq_create.png" alt="FAQ 등록">
+      </div>
+
+      <h4>수정 화면</h4>
+      <p>목록에서 FAQ를 클릭하면 기존 데이터가 채워진 수정 폼이 표시됩니다.</p>
+      <div class="preview-img-wrap">
+        <img class="preview-img" src="assets/img/screens/admin_faq_edit.png" alt="FAQ 수정">
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>검색 필터:</strong> 검색어, 구분(전체/시설물 조회/지도·레이어/계정·인증/시스템 일반), 등록일</li>
+        <li><strong>카테고리:</strong> 시설물 조회, 지도/레이어, 계정/인증, 시스템 일반</li>
+        <li><strong>목록 테이블:</strong> 체크박스, 구분, 제목, 등록자, 등록 일시</li>
+        <li><strong>등록/수정 폼:</strong> 구분(카테고리) 선택 + 제목(질문) 입력 + WYSIWYG 에디터(답변) + 첨부 파일</li>
+        <li><strong>에디터:</strong> 공지사항 관리와 동일한 WYSIWYG 에디터 + 리사이즈</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>검색 필터 폼</li>
+        <li>카테고리 셀렉트</li>
+        <li>체크박스 테이블 + 일괄 삭제</li>
+        <li>상세/수정 폼</li>
+        <li>WYSIWYG 에디터</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 공지사항 관리와 동일한 반응형 동작.
+      </div>
+    </div>
+  </div>
+
+  <!-- 6.8 관리자 마이페이지 -->
+  <div class="screen-section" id="admin-mypage">
+    <div class="card">
+      <div class="screen-header">
+        <h3>6.8 관리자 마이페이지</h3>
+        <code>admin_mypage.html</code>
+      </div>
+      <p class="screen-desc">사용자 마이페이지와 동일한 기능을 관리자 헤더/네비게이션 안에서 제공한다.</p>
+      <div class="perm-row">
+        <span class="badge badge-admin">관리자</span>
+      </div>
+
+      <div class="preview-wrap">
+        <div class="preview-bar">
+          <span>admin_mypage.html</span>
+          
+        </div>
+        <div class="preview-img-wrap">
+            <span>
+              <img class="preview-img" src="assets/img/screens/admin_mypage.png" alt="admin_mypage 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/admin_mypage.png</small></div>'">
+            </a>
+            
+          </div>
+      </div>
+
+      <h4>주요 기능</h4>
+      <ul class="feat-list">
+        <li><strong>관리자 헤더:</strong> 관리자 포털 네비게이션 유지</li>
+        <li><strong>회원정보 카드:</strong> 사용자 마이페이지와 동일</li>
+        <li><strong>비밀번호 변경:</strong> 사용자 마이페이지와 동일 모달</li>
+        <li><strong>회원정보 수정:</strong> 사용자 마이페이지와 동일 프로세스</li>
+        <li><strong>최근 활동:</strong> 관리 활동 포함 이력 표시</li>
+      </ul>
+
+      <h4>UI 컴포넌트</h4>
+      <ul class="feat-list">
+        <li>관리자 헤더 네비게이션</li>
+        <li>정보 카드 (사용자 마이페이지와 동일)</li>
+        <li>비밀번호 변경 모달</li>
+        <li>회원정보 수정 폼</li>
+      </ul>
+
+      <div class="resp-note">
+        <strong>반응형:</strong> 사용자 마이페이지와 동일. 관리자 헤더는 햄버거 메뉴로 축소.
+      </div>
+    </div>
+  </div>
+
+</div><!-- /.main -->
+
+<script>
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Active TOC highlight on scroll
+(function(){
+  const links=document.querySelectorAll('.toc a[href^="#"]');
+  const ids=Array.from(links).map(a=>a.getAttribute('href').slice(1));
+  function onScroll(){
+    let current='';
+    for(const id of ids){
+      const el=document.getElementById(id);
+      if(el&&el.getBoundingClientRect().top<=120) current=id;
+    }
+    links.forEach(a=>{
+      a.classList.toggle('active',a.getAttribute('href')==='#'+current);
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+
+// Close sidebar on TOC click (mobile)
+document.querySelectorAll('.toc a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    if(window.innerWidth<=1024){
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+  });
+});
+
+// localStorage에 세션 설정 (새 창에서도 Storage.get 폴백으로 로그인 유지)
+localStorage.setItem('hcs_user', JSON.stringify({id:'admin', name:'홍길동', org:'LX 시스템 관리팀', role:'admin', roleLabel:'관리자'}));
+
+/* ── iframe 세션 주입 후 로드 ── */
+function loadIframes() {
+  const mockUser = JSON.stringify({id:'admin', name:'홍길동', org:'LX 시스템 관리팀', role:'admin', roleLabel:'관리자'});
+
+  document.querySelectorAll('.sb-iframe').forEach(iframe => {
+    const src = iframe.dataset.src;
+    if (!src) return;
+
+    // 먼저 빈 페이지를 로드하여 세션 주입
+    iframe.src = 'about:blank';
+    iframe.onload = function() {
+      try {
+        iframe.contentWindow.sessionStorage.setItem('hcs_user', mockUser);
+      } catch(e) {}
+      // 세션 주입 후 실제 페이지 로드
+      iframe.onload = null;
+      iframe.src = src;
+    };
+  });
+}
+
+// IntersectionObserver로 뷰포트 진입 시 lazy-load
+if ('IntersectionObserver' in window) {
+  const noAuthPages = ['index.html', 'register.html'];
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const iframe = entry.target;
+        const src = iframe.dataset.src;
+        if (src && !iframe.src.includes(src)) {
+          // 인증 불필요 페이지는 직접 로드
+          if (noAuthPages.includes(src)) {
+            iframe.src = src;
+          } else {
+            const mockUser = JSON.stringify({id:'admin', name:'홍길동', org:'LX 시스템 관리팀', role:'admin', roleLabel:'관리자'});
+            iframe.src = 'about:blank';
+            iframe.onload = function() {
+              try { iframe.contentWindow.sessionStorage.setItem('hcs_user', mockUser); } catch(e) {}
+              iframe.onload = null;
+              iframe.src = src;
+            };
+          }
+        }
+        observer.unobserve(iframe);
+      }
+    });
+  }, { rootMargin: '200px' });
+
+  document.querySelectorAll('.sb-iframe').forEach(iframe => observer.observe(iframe));
+} else {
+  loadIframes();
+}
+</script>
+</div><!-- /sb-wrap -->
+
+<!-- 이미지 원본 모달 -->
+<div class="img-modal" id="imgModal" onclick="this.classList.remove('open')">
+  <img id="imgModalSrc" src="" alt="원본 이미지">
+</div>
+<script>
+document.querySelectorAll('.preview-img').forEach(img => {
+  img.style.cursor = 'zoom-in';
+  img.addEventListener('click', (e) => {
+    e.preventDefault();
+    document.getElementById('imgModalSrc').src = img.src;
+    document.getElementById('imgModal').classList.add('open');
+  });
+});
+</script>
+</body>
+</html>

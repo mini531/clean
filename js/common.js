@@ -137,7 +137,17 @@ const MOCK_HISTORIES = {
 /* --- Storage 래퍼 --- */
 const Storage = {
   get(key) {
-    try { return JSON.parse(sessionStorage.getItem(key)); } catch { return null; }
+    try {
+      const val = sessionStorage.getItem(key);
+      if (val) return JSON.parse(val);
+      // sessionStorage에 없으면 localStorage 폴백 (스토리보드 새창 지원)
+      const lval = localStorage.getItem(key);
+      if (lval) {
+        sessionStorage.setItem(key, lval); // sessionStorage로 복사
+        return JSON.parse(lval);
+      }
+      return null;
+    } catch { return null; }
   },
   set(key, value) {
     sessionStorage.setItem(key, JSON.stringify(value));
