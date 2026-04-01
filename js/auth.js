@@ -17,8 +17,8 @@ const Auth = {
 
   /** 로그아웃 */
   logout() {
-    Storage.remove(this.SESSION_KEY);
-    location.href = 'index.html';
+    sessionStorage.clear();
+    location.replace('login.html');
   },
 
   /** 현재 로그인 사용자 반환. 없으면 null */
@@ -30,7 +30,7 @@ const Auth = {
   requireLogin() {
     const user = this.getCurrentUser();
     if (!user) {
-      location.href = 'index.html';
+      location.href = 'login.html';
       return null;
     }
     return user;
@@ -231,6 +231,6 @@ function initRegisterForm() {
   });
 
   btnModalFinish.addEventListener('click', () => {
-    location.href = 'index.html';
+    location.href = 'login.html';
   });
 }

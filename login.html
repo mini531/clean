@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>로그인 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/auth.css">
+  <link rel="stylesheet" href="css/responsive.css">
+</head>
+
+<body>
+  <div class="auth-wrapper">
+    <main class="auth-box" role="main">
+      <!-- 헤더 -->
+      <header class="auth-header">
+        <div class="logo-icon">
+          <img src="assets/img/main_logo_white.png" alt="시스템 로고"
+            onerror="this.src='https://placehold.co/200x60?text=LOGO'">
+        </div>
+        <h1 class="service-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</h1>
+        <p class="service-sub">River &amp; Valley Illegal Facility Management System</p>
+      </header>
+
+      <!-- 로그인 폼 -->
+      <section class="auth-body">
+        <form id="login-form" novalidate>
+          <div class="form-group mb-2">
+            <label for="login-id" class="required">아이디</label>
+            <input type="text" id="login-id" class="form-control" placeholder="아이디를 입력하세요" autocomplete="username"
+              required>
+          </div>
+          <div class="form-group mb-3">
+            <label for="login-pw" class="required">비밀번호</label>
+            <input type="password" id="login-pw" class="form-control" placeholder="비밀번호를 입력하세요"
+              autocomplete="current-password" required>
+            <p id="login-error" class="form-error" role="alert"></p>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg">
+            <span id="btn-login-text">로그인</span>
+          </button>
+        </form>
+
+        <!-- 회원가입/추가 링크 -->
+        <div class="auth-extra-links">
+          계정이 없으신가요? <a href="register.html">회원가입</a>
+        </div>
+
+        <!-- 테스트 계정 안내 -->
+        <aside class="mt-2" style="background:var(--bg-panel);border-radius:var(--radius-sm);padding:10px 12px;">
+          <p style="font-size:var(--font-size-xs);color:var(--text-muted);font-weight:600;margin-bottom:6px;">테스트 계정</p>
+          <dl
+            style="font-size:var(--font-size-xs);color:var(--text-secondary);display:grid;grid-template-columns:auto 1fr;gap:2px 10px;">
+            <dt style="font-weight:600;">관리자</dt>
+            <dd>admin / admin123</dd>
+            <dt style="font-weight:600;">담당자</dt>
+            <dd>officer / officer1</dd>
+          </dl>
+        </aside>
+
+        <!-- 문의처 정보 -->
+        <div class="auth-contact">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 14c0 1.1.9 2 2 2h1a2 2 0 002-2V9a2 2 0 00-2-2H6a2 2 0 00-2 2v5z"/><path d="M15 14c0 1.1.9 2 2 2h1a2 2 0 002-2V9a2 2 0 00-2-2h-1a2 2 0 00-2 2v5z"/><path d="M4 11V9a8 8 0 0116 0v2"/><path d="M12 20a3 3 0 01-3-3"/>
+            </svg>
+            <span class="icon-lbl">문의처</span>
+          </div>
+          <div class="contact-info">
+            <div><span class="org">행정안전부</span><span>044-205-5154, 5155</span></div>
+            <div><span class="org">한국국토정보공사</span><span>063-713-1421, 1208(시스템)</span></div>
+          </div>
+        </div>
+
+        <!-- 협력사 로고 -->
+        <div class="auth-lx-logo">
+          <img src="assets/img/lx_logo.svg" alt="LX 한국국토정보공사" onerror="this.style.display='none'">
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', initLoginForm);
+  </script>
+</body>
+
+</html>

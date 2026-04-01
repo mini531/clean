@@ -461,7 +461,7 @@
     <div class="card">
       <div class="screen-header">
         <h3>4.1 로그인</h3>
-        <code>index.html</code>
+        <code>login.html</code>
       </div>
       <p class="screen-desc">시스템 진입점. 아이디/비밀번호 인증을 통해 권한에 맞는 화면으로 진입한다.</p>
       <div class="perm-row">
@@ -472,12 +472,12 @@
 
       <div class="preview-wrap">
         <div class="preview-bar">
-          <span>index.html</span>
+          <span>login.html</span>
           
         </div>
         <div class="preview-img-wrap">
             <span>
-              <img class="preview-img" src="assets/img/screens/index.png" alt="index 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/index.png</small></div>'">
+              <img class="preview-img" src="assets/img/screens/login.png" alt="index 화면" onerror="this.parentElement.innerHTML='<div class=preview-placeholder-fallback>캡처 이미지 준비 중<br><small>assets/img/screens/login.png</small></div>'">
             </a>
             
           </div>
@@ -1438,7 +1438,7 @@ function loadIframes() {
 
 // IntersectionObserver로 뷰포트 진입 시 lazy-load
 if ('IntersectionObserver' in window) {
-  const noAuthPages = ['index.html', 'register.html'];
+  const noAuthPages = ['login.html', 'register.html'];
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {

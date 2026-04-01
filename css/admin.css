@@ -1548,14 +1548,13 @@ select.adm-sel:disabled,
     padding: 5px 0;
     border-top: none !important;
     border-bottom: 1px solid rgba(255,255,255,0.04);
-  }
-  .adm-table td:last-child { border-bottom: none; }
-  .adm-table td {
     word-break: break-word;
     overflow-wrap: break-word;
     min-width: 0;
     max-width: 100%;
+    box-sizing: border-box;
   }
+  .adm-table td:last-child { border-bottom: none; }
   .adm-table tbody { display: block; width: 100%; }
   .adm-table td::before {
     content: attr(data-label);
@@ -1563,6 +1562,7 @@ select.adm-sel:disabled,
     font-weight: 700;
     color: rgba(255,255,255,0.4);
     flex-shrink: 0;
+    min-width: fit-content;
     margin-right: 12px;
     white-space: nowrap;
   }
@@ -1576,7 +1576,7 @@ select.adm-sel:disabled,
 @media (max-width: 480px) {
   .kpi-grid { grid-template-columns: 1fr; }
   .adm-sidebar { width: 100vw; }
-  .adm-table { min-width: 500px; }
+  .adm-table { min-width: 0; }
   .nf-meta-grid { grid-template-columns: 1fr; }
   .nf-date, .nf-time { width: 100%; min-width: 0; }
   .nf-date-group, .nf-popup-dates { gap: 4px; }
