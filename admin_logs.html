@@ -10,696 +10,6 @@
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/admin.css">
-  <style>
-    /* ── Admin Dashboard Overrides ── */
-    :root {
-      --accent2: #ffab40;
-      --glass: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-hover: rgba(255, 255, 255, 0.12);
-      --text-sub: rgba(255, 255, 255, 0.6);
-      --text-muted: rgba(255, 255, 255, 0.38);
-    }
-
-    html,
-    body {
-      height: 100%;
-      background: #0d3a6e;
-      color: #fff;
-      overflow-y: auto;
-    }
-
-    body {
-      background: linear-gradient(145deg, #0d3a6e 0%, #1a5f9e 60%, #2e7d6e 100%);
-      min-height: 100vh;
-    }
-
-    /* Header adjustments for larger admin header */
-    .gvt-header {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 96px;
-      /* Increased height */
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to right, #002259, #003478);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .gvt-header-desktop {
-      display: flex;
-      flex-direction: column;
-      /* Stack logo and title */
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .gvt-logo-wrap {
-      height: auto;
-      border: none;
-      padding: 0;
-    }
-
-    .gvt-logo-wrap img {
-      height: 20px;
-      /* Small logo at top */
-    }
-
-    .gvt-service-name-full {
-      padding: 0;
-      font-size: 15px;
-      /* Original size at bottom */
-      font-weight: 700;
-      margin: 0;
-    }
-
-    /* Centered Admin Nav */
-    .adm-header-nav-center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .adm-nav-item {
-      display: flex;
-      flex-direction: column;
-      /* Stack logo and text vertically */
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 18px;
-      min-width: 100px;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      /* Base border for transition */
-      background: none;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 13.5px;
-      /* Balanced size for vertical layout */
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 14px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .adm-nav-item svg {
-      width: 20px;
-      height: 20px;
-      stroke-width: 2.2;
-    }
-
-    .adm-nav-item:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.25);
-      /* Glass-like border */
-      backdrop-filter: blur(4px);
-    }
-
-    .adm-nav-item.active {
-      color: #FFB74D;
-      /* Sophisticated Muted Amber/Gold */
-      background: rgba(255, 183, 77, 0.05);
-      /* Very subtle tint */
-      border-color: #FFB74D;
-      /* Muted gold border */
-      box-shadow: 0 0 12px rgba(255, 183, 77, 0.15);
-    }
-
-    .adm-nav-item.active svg {
-      color: #FFB74D;
-    }
-
-    /* Fix user dropdown position for larger header */
-    .ud-dropdown {
-      top: 100px !important;
-    }
-
-    /* ── Page Layout ── */
-    .adm-page {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 32px 24px 60px;
-      display: none;
-    }
-
-    .adm-page.active {
-      display: block;
-    }
-
-    /* ── Alert Banner ── */
-    .pending-banner {
-      background: linear-gradient(135deg, rgba(255, 171, 64, 0.12), rgba(255, 171, 64, 0.06));
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 18px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* ── Section Title ── */
-    .sec-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sec-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    /* ── Alert Banner (승인 대기) ── */
-    .pending-banner {
-      background: linear-gradient(135deg, rgba(255, 171, 64, 0.12), rgba(255, 171, 64, 0.06));
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 18px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .pending-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255, 171, 64, 0.15);
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .pending-icon svg {
-      width: 22px;
-      height: 22px;
-      color: var(--accent2);
-    }
-
-    .pending-info {
-      flex: 1;
-    }
-
-    .pending-info h3 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent2);
-      margin-bottom: 3px;
-    }
-
-    .pending-info p {
-      font-size: 13px;
-      color: var(--text-sub);
-    }
-
-    .pending-count {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent2);
-      font-family: 'Outfit', sans-serif;
-      line-height: 1;
-    }
-
-    .pending-count span {
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.7;
-    }
-
-    .btn-review {
-      background: rgba(255, 171, 64, 0.15);
-      border: 1px solid rgba(255, 171, 64, 0.4);
-      border-radius: 8px;
-      padding: 9px 18px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent2);
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn-review:hover {
-      background: rgba(255, 171, 64, 0.25);
-    }
-
-    /* ── KPI Grid ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .kpi-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      transition: background var(--transition);
-    }
-
-    .kpi-card:hover {
-      background: var(--glass-hover);
-    }
-
-    .kpi-label {
-      font-size: 12px;
-      color: var(--text-sub);
-      font-weight: 600;
-      margin-bottom: 10px;
-      letter-spacing: 0.02em;
-    }
-
-    .kpi-value {
-      font-size: 28px;
-      font-weight: 800;
-      font-family: 'Outfit', sans-serif;
-      line-height: 1;
-    }
-
-    .kpi-value.blue {
-      color: var(--accent);
-    }
-
-    .kpi-value.orange {
-      color: var(--accent2);
-    }
-
-    .kpi-value.red {
-      color: var(--danger);
-    }
-
-    .kpi-value.green {
-      color: var(--success);
-    }
-
-    .kpi-sub {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    /* ── Table Card ── */
-    .table-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-
-    .table-card-hd {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .table-card-hd h3 {
-      font-size: 14px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .table-card-hd h3 svg {
-      width: 15px;
-      height: 15px;
-      color: var(--accent);
-    }
-
-    .tc-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-sm-ghost {
-      background: none;
-      border: 1px solid var(--glass-border);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-sub);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .btn-sm-ghost:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    .btn-sm-primary {
-      background: rgba(100, 181, 246, 0.15);
-      border: 1px solid rgba(100, 181, 246, 0.3);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--accent);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .btn-sm-primary:hover {
-      background: rgba(100, 181, 246, 0.25);
-    }
-
-    .adm-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .adm-table th {
-      padding: 10px 16px;
-      text-align: left;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #fff;
-      background: rgba(255,255,255,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      white-space: nowrap;
-    }
-
-    .adm-table td {
-      padding: 12px 16px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .adm-table tr:hover td {
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .status-badge.pending {
-      background: rgba(255, 171, 64, 0.12);
-      color: var(--accent2);
-      border: 1px solid rgba(255, 171, 64, 0.25);
-    }
-
-    .status-badge.active {
-      background: rgba(105, 240, 174, 0.12);
-      color: var(--success);
-      border: 1px solid rgba(105, 240, 174, 0.25);
-    }
-
-    .status-badge.inactive {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-muted);
-      border: 1px solid var(--glass-border);
-    }
-
-    .status-badge.danger {
-      background: rgba(255, 82, 82, 0.12);
-      color: var(--danger);
-      border: 1px solid rgba(255, 82, 82, 0.25);
-    }
-
-    .tbl-btn {
-      background: none;
-      border: 1px solid var(--glass-border);
-      border-radius: 5px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-sub);
-      cursor: pointer;
-      transition: all var(--transition);
-      margin-right: 4px;
-    }
-
-    .tbl-btn:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: #fff;
-    }
-
-    .tbl-btn.approve {
-      border-color: rgba(105, 240, 174, 0.3);
-      color: var(--success);
-    }
-
-    .tbl-btn.approve:hover {
-      background: rgba(105, 240, 174, 0.1);
-    }
-
-    .tbl-btn.reject {
-      border-color: rgba(255, 82, 82, 0.3);
-      color: var(--danger);
-    }
-
-    .tbl-btn.reject:hover {
-      background: rgba(255, 82, 82, 0.1);
-    }
-
-    /* ── Two-col Grid ── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Chart Placeholder ── */
-    .chart-placeholder {
-      padding: 20px 22px 24px;
-    }
-
-    .mini-bar-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .mini-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mini-bar-label {
-      font-size: 12px;
-      color: var(--text-sub);
-      width: 60px;
-      flex-shrink: 0;
-      text-align: right;
-    }
-
-    .mini-bar-track {
-      flex: 1;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .mini-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: linear-gradient(90deg, var(--accent), rgba(100, 181, 246, 0.6));
-    }
-
-    .mini-bar-val {
-      font-size: 12px;
-      font-weight: 700;
-      font-family: 'Outfit', sans-serif;
-      color: var(--text);
-      width: 36px;
-      flex-shrink: 0;
-    }
-
-    /* ── Log list ── */
-    .log-list {
-      padding: 8px 0;
-    }
-
-    .log-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 12.5px;
-    }
-
-    .log-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .log-dot.blue {
-      background: var(--accent);
-    }
-
-    .log-dot.orange {
-      background: var(--accent2);
-    }
-
-    .log-dot.red {
-      background: var(--danger);
-    }
-
-    .log-user {
-      font-weight: 600;
-      color: var(--text);
-      flex: 1;
-    }
-
-    .log-action {
-      color: var(--text-sub);
-      flex: 2;
-    }
-
-    .log-time {
-      color: var(--text-muted);
-      font-size: 11.5px;
-      white-space: nowrap;
-    }
-
-    /* ── Pagination ── */
-    .tbl-pagination {
-      padding: 14px 22px;
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tbl-pagination-info {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .pg-btns {
-      display: flex;
-      gap: 4px;
-    }
-
-    .pg-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 5px;
-      border: 1px solid var(--glass-border);
-      background: none;
-      color: var(--text-sub);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-    }
-
-    .pg-btn:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    .pg-btn.active {
-      background: rgba(100, 181, 246, 0.15);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── Search bar ── */
-    .search-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .adm-search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      padding: 7px 14px;
-      flex: 1;
-      max-width: 360px;
-    }
-
-    .adm-search-box svg {
-      width: 14px;
-      height: 14px;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .adm-search-box input {
-      background: none;
-      border: none;
-      outline: none;
-      font-size: 13px;
-      color: #fff;
-      flex: 1;
-      font-family: inherit;
-    }
-
-    .adm-search-box input::placeholder {
-      color: var(--text-muted);
-    }
-
-    select.adm-sel {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 12.5px;
-      color: var(--text-sub);
-      font-family: inherit;
-      cursor: pointer;
-      outline: none;
-    }
-
-    select.adm-sel option {
-      background: #0e1a2e;
-    }
-  </style>
 <body>
 
   <!-- ── Header ── -->
@@ -716,8 +26,9 @@
           </svg>
           행정안전부
         </span>
+
       </div>
-      <h1 class="gvt-service-name-full">관리자 포털<span class="adm-title-detail"> — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</span></h1>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
       <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
     </div>
 
@@ -775,7 +86,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
             </div>
             <div class="adm-sub-text">
-              <span class="adm-sub-title">공지사항</span>
+              <span class="adm-sub-title">공지사항 관리</span>
               <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
             </div>
           </a>
@@ -784,7 +95,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
             </div>
             <div class="adm-sub-text">
-              <span class="adm-sub-title">자주 묻는 질문</span>
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
               <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
             </div>
           </a>
@@ -793,12 +104,12 @@
     </nav>
 
     <nav class="gvt-header-nav">
-      <a href="dashboard.html" class="gvt-nav-btn" title="지도로 돌아가기">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
-          <path d="M19 12H5M12 5l-7 7 7 7" />
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
         </svg>
-        <span class="nav-label">지도로 돌아가기</span><span class="nav-label-short">지도</span>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
       </a>
       <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -830,111 +141,114 @@
       <a class="adm-sidebar-link active" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
       <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
       <div class="adm-sidebar-sub">
-        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항</a>
-        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문</a>
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
       </div>
     </nav>
   </aside>
 
   <section class="adm-page active" id="page-logs">
+
+    <h2 class="adm-page-title">접속 로그</h2>
+
+    <!-- 검색 필터 영역 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">사용자 이름</label>
+          <input type="text" class="adm-filter-input" placeholder="사용자 이름" style="max-width:150px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">행동</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>지도 조회</option>
+            <option>화면 조회</option>
+            <option>사용자 유형 변경</option>
+            <option>로그인</option>
+            <option>로그아웃</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">IP</label>
+          <input type="text" class="adm-filter-input" placeholder="IP 주소" style="max-width:160px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">기간</label>
+          <div class="adm-filter-input-group">
+            <input type="date" class="adm-filter-input" id="log-date-start" style="max-width:150px;">
+            <span style="color:var(--text-muted);">~</span>
+            <input type="date" class="adm-filter-input" id="log-date-end" style="max-width:150px;">
+            <div class="adm-period-btns">
+              <button class="adm-period-btn" data-months="0">전체</button>
+              <button class="adm-period-btn" data-months="1">1개월</button>
+              <button class="adm-period-btn" data-months="3">3개월</button>
+              <button class="adm-period-btn" data-months="6">6개월</button>
+              <button class="adm-period-btn" data-months="12">12개월</button>
+            </div>
+          </div>
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost">초기화</button>
+          <button class="btn-sm-primary">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로그 목록 -->
     <div class="table-card">
       <div class="table-card-hd">
-        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
-            <polyline points="14 2 14 8 20 8" />
-          </svg>접속 로그</h3>
-        <div class="tc-actions"><button class="btn-sm-ghost">CSV 내보내기</button></div>
-      </div>
-      <div class="search-row">
-        <div class="adm-search-box">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-          <input type="text" placeholder="사용자 또는 IP 검색">
-        </div>
-        <select class="adm-sel">
-          <option>전체 유형</option>
-          <option>로그인</option>
-          <option>검색</option>
-          <option>다운로드</option>
-          <option>오류</option>
-        </select>
-        <select class="adm-sel">
-          <option>오늘</option>
-          <option>최근 7일</option>
-          <option>이번 달</option>
-        </select>
+        <h3>로그 목록</h3>
+        <div class="tc-actions"></div>
       </div>
       <table class="adm-table">
         <thead>
           <tr>
-            <th>시간</th>
-            <th>사용자</th>
-            <th>IP 주소</th>
-            <th>행위</th>
-            <th>상세 내용</th>
-            <th>결과</th>
+            <th>일시</th>
+            <th>사용자 이름</th>
+            <th>행동</th>
+            <th>세부 내역</th>
+            <th>IP</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td>14:52:30</td>
-            <td>홍길동</td>
-            <td>125.6.xx.xx</td>
-            <td>검색</td>
-            <td>경기 가평군 시설물 검색</td>
-            <td><span class="status-badge active">성공</span></td>
-          </tr>
-          <tr>
-            <td>14:48:11</td>
-            <td>김민준</td>
-            <td>221.3.xx.xx</td>
-            <td>로그인</td>
-            <td>비밀번호 오류 3회</td>
-            <td><span class="status-badge danger">실패</span></td>
-          </tr>
-          <tr>
-            <td>14:41:05</td>
-            <td>이서연</td>
-            <td>58.12.xx.xx</td>
-            <td>열람</td>
-            <td>강원 춘천시 레이어 확인</td>
-            <td><span class="status-badge active">성공</span></td>
-          </tr>
-          <tr>
-            <td>14:33:52</td>
-            <td>박도현</td>
-            <td>118.44.xx.xx</td>
-            <td>다운로드</td>
-            <td>지도 PNG 다운로드</td>
-            <td><span class="status-badge active">성공</span></td>
-          </tr>
-          <tr>
-            <td>14:21:08</td>
-            <td>-</td>
-            <td>192.168.xx.xx</td>
-            <td>비정상 접근</td>
-            <td>존재하지 않는 경로 반복 요청</td>
-            <td><span class="status-badge danger">차단</span></td>
-          </tr>
-          <tr>
-            <td>14:10:33</td>
-            <td>최지우</td>
-            <td>61.74.xx.xx</td>
-            <td>열람</td>
-            <td>경남 창원시 시설물 목록</td>
-            <td><span class="status-badge active">성공</span></td>
-          </tr>
+          <tr><td data-label="일시">2026-04-01 14:52:30</td><td data-label="사용자 이름">김성진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 안성시</td><td data-label="IP">211.234.56.78</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:48:11</td><td data-label="사용자 이름">박준영</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="IP">125.131.22.45</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:41:05</td><td data-label="사용자 이름">고유정</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전북 전주시</td><td data-label="IP">175.212.44.31</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:33:52</td><td data-label="사용자 이름">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">김성진: 관리자 → 열람자</td><td data-label="IP">10.0.0.1</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:21:08</td><td data-label="사용자 이름">이민혁</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경남 창원시</td><td data-label="IP">112.187.55.92</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:10:33</td><td data-label="사용자 이름">최수연</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">자주 묻는 질문</td><td data-label="IP">220.95.12.77</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:55:20</td><td data-label="사용자 이름">한동우</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충남 천안시</td><td data-label="IP">211.44.88.163</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:42:15</td><td data-label="사용자 이름">나지혜</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전남 순천시</td><td data-label="IP">118.235.77.42</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:30:44</td><td data-label="사용자 이름">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">나지혜: 열람자 → 점검자</td><td data-label="IP">10.0.0.1</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:18:09</td><td data-label="사용자 이름">윤태호</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">지도</td><td data-label="IP">58.120.33.89</td></tr>
+          <tr><td data-label="일시">2026-04-01 12:50:33</td><td data-label="사용자 이름">서은진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">대전 유성구</td><td data-label="IP">203.247.51.66</td></tr>
+          <tr><td data-label="일시">2026-04-01 12:35:18</td><td data-label="사용자 이름">임원재</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충북 청주시</td><td data-label="IP">121.165.22.48</td></tr>
+          <tr><td data-label="일시">2026-04-01 11:20:45</td><td data-label="사용자 이름">김성진</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">211.234.56.78</td></tr>
+          <tr><td data-label="일시">2026-04-01 11:15:30</td><td data-label="사용자 이름">고유정</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="IP">175.212.44.31</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:55:12</td><td data-label="사용자 이름">박준영</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 시흥시</td><td data-label="IP">125.131.22.45</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:40:08</td><td data-label="사용자 이름">최수연</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">220.95.12.77</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:22:55</td><td data-label="사용자 이름">한동우</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충남 아산시</td><td data-label="IP">211.44.88.163</td></tr>
+          <tr><td data-label="일시">2026-04-01 09:45:33</td><td data-label="사용자 이름">이민혁</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">112.187.55.92</td></tr>
+          <tr><td data-label="일시">2026-04-01 09:30:10</td><td data-label="사용자 이름">서은진</td><td data-label="행동">로그아웃</td><td data-label="세부 내역">정상 로그아웃</td><td data-label="IP">203.247.51.66</td></tr>
+          <tr><td data-label="일시">2026-04-01 08:50:22</td><td data-label="사용자 이름">나지혜</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">118.235.77.42</td></tr>
         </tbody>
       </table>
       <div class="tbl-pagination">
-        <span class="tbl-pagination-info"></span>
         <div class="pg-btns">
-          <button class="pg-btn">‹</button>
-          <button class="pg-btn active">1</button><button class="pg-btn">2</button><button class="pg-btn">3</button>
-          <button class="pg-btn">›</button>
+          <button class="pg-btn">처음</button>
+          <button class="pg-btn">이전</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">다음</button>
+          <button class="pg-btn">마지막</button>
+          <select class="adm-sel" style="margin-left:12px;padding:5px 30px 5px 12px;font-size:12px;width:75px;">
+            <option>20</option><option>50</option><option>100</option>
+          </select>
+          <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">페이지 크기</span>
         </div>
+        <span class="tbl-pagination-info" style="display:block;">총 248건 중 1-20행</span>
       </div>
     </div>
   </section>
@@ -951,7 +265,7 @@
       <div class="ud-role" id="dd-user-role"></div>
     </div>
     <div class="ud-menu">
-      <a href="#" class="ud-item">
+      <a href="admin_mypage.html" class="ud-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -999,6 +313,23 @@
           location.href = 'dashboard.html';
         }
       }
+
+    // 기간 버튼
+    document.querySelectorAll('.adm-period-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const months = parseInt(btn.dataset.months);
+        const startInput = document.getElementById('log-date-start');
+        const endInput = document.getElementById('log-date-end');
+        if (months === 0) { startInput.value = ''; endInput.value = ''; }
+        else {
+          const today = new Date(); const start = new Date();
+          start.setMonth(today.getMonth() - months);
+          startInput.value = start.toISOString().split('T')[0];
+          endInput.value = today.toISOString().split('T')[0];
+        }
+      });
+    });
 
     // Mobile sidebar toggle
     (function() {

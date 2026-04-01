@@ -10,696 +10,6 @@
   <link rel="stylesheet" href="css/dashboard.css">
   <link rel="stylesheet" href="css/responsive.css">
   <link rel="stylesheet" href="css/admin.css">
-  <style>
-    /* ── Admin Dashboard Overrides ── */
-    :root {
-      --accent2: #ffab40;
-      --glass: rgba(255, 255, 255, 0.08);
-      --glass-border: rgba(255, 255, 255, 0.15);
-      --glass-hover: rgba(255, 255, 255, 0.12);
-      --text-sub: rgba(255, 255, 255, 0.6);
-      --text-muted: rgba(255, 255, 255, 0.38);
-    }
-
-    html,
-    body {
-      height: 100%;
-      background: #0d3a6e;
-      color: #fff;
-      overflow-y: auto;
-    }
-
-    body {
-      background: linear-gradient(145deg, #0d3a6e 0%, #1a5f9e 60%, #2e7d6e 100%);
-      min-height: 100vh;
-    }
-
-    /* Header adjustments for larger admin header */
-    .gvt-header {
-      position: sticky;
-      top: 0;
-      width: 100%;
-      height: 96px;
-      /* Increased height */
-      padding: 0 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      background: linear-gradient(to right, #002259, #003478);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .gvt-header-desktop {
-      display: flex;
-      flex-direction: column;
-      /* Stack logo and title */
-      align-items: flex-start;
-      gap: 4px;
-    }
-
-    .gvt-logo-wrap {
-      height: auto;
-      border: none;
-      padding: 0;
-    }
-
-    .gvt-logo-wrap img {
-      height: 20px;
-      /* Small logo at top */
-    }
-
-    .gvt-service-name-full {
-      padding: 0;
-      font-size: 15px;
-      /* Original size at bottom */
-      font-weight: 700;
-      margin: 0;
-    }
-
-    /* Centered Admin Nav */
-    .adm-header-nav-center {
-      position: absolute;
-      left: 50%;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .adm-nav-item {
-      display: flex;
-      flex-direction: column;
-      /* Stack logo and text vertically */
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      padding: 10px 18px;
-      min-width: 100px;
-      cursor: pointer;
-      border: 1.5px solid transparent;
-      /* Base border for transition */
-      background: none;
-      color: rgba(255, 255, 255, 0.7);
-      font-size: 13.5px;
-      /* Balanced size for vertical layout */
-      font-weight: 700;
-      font-family: inherit;
-      border-radius: 14px;
-      transition: all 0.2s ease;
-      white-space: nowrap;
-    }
-
-    .adm-nav-item svg {
-      width: 20px;
-      height: 20px;
-      stroke-width: 2.2;
-    }
-
-    .adm-nav-item:hover {
-      color: #fff;
-      background: rgba(255, 255, 255, 0.08);
-      border-color: rgba(255, 255, 255, 0.25);
-      /* Glass-like border */
-      backdrop-filter: blur(4px);
-    }
-
-    .adm-nav-item.active {
-      color: #FFB74D;
-      /* Sophisticated Muted Amber/Gold */
-      background: rgba(255, 183, 77, 0.05);
-      /* Very subtle tint */
-      border-color: #FFB74D;
-      /* Muted gold border */
-      box-shadow: 0 0 12px rgba(255, 183, 77, 0.15);
-    }
-
-    .adm-nav-item.active svg {
-      color: #FFB74D;
-    }
-
-    /* Fix user dropdown position for larger header */
-    .ud-dropdown {
-      top: 100px !important;
-    }
-
-    /* ── Page Layout ── */
-    .adm-page {
-      max-width: 1600px;
-      margin: 0 auto;
-      padding: 32px 24px 60px;
-      display: none;
-    }
-
-    .adm-page.active {
-      display: block;
-    }
-
-    /* ── Alert Banner ── */
-    .pending-banner {
-      background: linear-gradient(135deg, rgba(255, 171, 64, 0.12), rgba(255, 171, 64, 0.06));
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 18px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    /* ── Section Title ── */
-    .sec-title {
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--text-sub);
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
-      margin-bottom: 14px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .sec-title::after {
-      content: '';
-      flex: 1;
-      height: 1px;
-      background: rgba(255, 255, 255, 0.07);
-    }
-
-    /* ── Alert Banner (승인 대기) ── */
-    .pending-banner {
-      background: linear-gradient(135deg, rgba(255, 171, 64, 0.12), rgba(255, 171, 64, 0.06));
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      border-radius: var(--radius-lg);
-      padding: 18px 24px;
-      margin-bottom: 28px;
-      display: flex;
-      align-items: center;
-      gap: 16px;
-    }
-
-    .pending-icon {
-      width: 44px;
-      height: 44px;
-      border-radius: 50%;
-      background: rgba(255, 171, 64, 0.15);
-      border: 1px solid rgba(255, 171, 64, 0.3);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .pending-icon svg {
-      width: 22px;
-      height: 22px;
-      color: var(--accent2);
-    }
-
-    .pending-info {
-      flex: 1;
-    }
-
-    .pending-info h3 {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--accent2);
-      margin-bottom: 3px;
-    }
-
-    .pending-info p {
-      font-size: 13px;
-      color: var(--text-sub);
-    }
-
-    .pending-count {
-      font-size: 32px;
-      font-weight: 800;
-      color: var(--accent2);
-      font-family: 'Outfit', sans-serif;
-      line-height: 1;
-    }
-
-    .pending-count span {
-      font-size: 14px;
-      font-weight: 600;
-      opacity: 0.7;
-    }
-
-    .btn-review {
-      background: rgba(255, 171, 64, 0.15);
-      border: 1px solid rgba(255, 171, 64, 0.4);
-      border-radius: 8px;
-      padding: 9px 18px;
-      font-size: 13px;
-      font-weight: 700;
-      color: var(--accent2);
-      cursor: pointer;
-      transition: all var(--transition);
-      white-space: nowrap;
-    }
-
-    .btn-review:hover {
-      background: rgba(255, 171, 64, 0.25);
-    }
-
-    /* ── KPI Grid ── */
-    .kpi-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-      margin-bottom: 28px;
-    }
-
-    .kpi-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      padding: 20px 22px;
-      transition: background var(--transition);
-    }
-
-    .kpi-card:hover {
-      background: var(--glass-hover);
-    }
-
-    .kpi-label {
-      font-size: 12px;
-      color: var(--text-sub);
-      font-weight: 600;
-      margin-bottom: 10px;
-      letter-spacing: 0.02em;
-    }
-
-    .kpi-value {
-      font-size: 28px;
-      font-weight: 800;
-      font-family: 'Outfit', sans-serif;
-      line-height: 1;
-    }
-
-    .kpi-value.blue {
-      color: var(--accent);
-    }
-
-    .kpi-value.orange {
-      color: var(--accent2);
-    }
-
-    .kpi-value.red {
-      color: var(--danger);
-    }
-
-    .kpi-value.green {
-      color: var(--success);
-    }
-
-    .kpi-sub {
-      font-size: 11.5px;
-      color: var(--text-muted);
-      margin-top: 6px;
-    }
-
-    /* ── Table Card ── */
-    .table-card {
-      background: var(--glass);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-lg);
-      overflow: hidden;
-      margin-bottom: 28px;
-    }
-
-    .table-card-hd {
-      padding: 16px 22px;
-      border-bottom: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-    }
-
-    .table-card-hd h3 {
-      font-size: 14px;
-      font-weight: 700;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .table-card-hd h3 svg {
-      width: 15px;
-      height: 15px;
-      color: var(--accent);
-    }
-
-    .tc-actions {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .btn-sm-ghost {
-      background: none;
-      border: 1px solid var(--glass-border);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 600;
-      color: var(--text-sub);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .btn-sm-ghost:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    .btn-sm-primary {
-      background: rgba(100, 181, 246, 0.15);
-      border: 1px solid rgba(100, 181, 246, 0.3);
-      border-radius: 6px;
-      padding: 5px 12px;
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--accent);
-      cursor: pointer;
-      transition: all var(--transition);
-    }
-
-    .btn-sm-primary:hover {
-      background: rgba(100, 181, 246, 0.25);
-    }
-
-    .adm-table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-
-    .adm-table th {
-      padding: 10px 16px;
-      text-align: left;
-      font-size: 11.5px;
-      font-weight: 700;
-      color: #fff;
-      background: rgba(255,255,255,0.1);
-      border-bottom: 1px solid rgba(255,255,255,0.12);
-      white-space: nowrap;
-    }
-
-    .adm-table td {
-      padding: 12px 16px;
-      font-size: 13px;
-      color: rgba(255, 255, 255, 0.85);
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-    }
-
-    .adm-table tr:hover td {
-      background: rgba(255, 255, 255, 0.03);
-    }
-
-    .status-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 3px 9px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      white-space: nowrap;
-    }
-
-    .status-badge.pending {
-      background: rgba(255, 171, 64, 0.12);
-      color: var(--accent2);
-      border: 1px solid rgba(255, 171, 64, 0.25);
-    }
-
-    .status-badge.active {
-      background: rgba(105, 240, 174, 0.12);
-      color: var(--success);
-      border: 1px solid rgba(105, 240, 174, 0.25);
-    }
-
-    .status-badge.inactive {
-      background: rgba(255, 255, 255, 0.06);
-      color: var(--text-muted);
-      border: 1px solid var(--glass-border);
-    }
-
-    .status-badge.danger {
-      background: rgba(255, 82, 82, 0.12);
-      color: var(--danger);
-      border: 1px solid rgba(255, 82, 82, 0.25);
-    }
-
-    .tbl-btn {
-      background: none;
-      border: 1px solid var(--glass-border);
-      border-radius: 5px;
-      padding: 4px 10px;
-      font-size: 11px;
-      font-weight: 600;
-      color: var(--text-sub);
-      cursor: pointer;
-      transition: all var(--transition);
-      margin-right: 4px;
-    }
-
-    .tbl-btn:hover {
-      border-color: rgba(255, 255, 255, 0.3);
-      color: #fff;
-    }
-
-    .tbl-btn.approve {
-      border-color: rgba(105, 240, 174, 0.3);
-      color: var(--success);
-    }
-
-    .tbl-btn.approve:hover {
-      background: rgba(105, 240, 174, 0.1);
-    }
-
-    .tbl-btn.reject {
-      border-color: rgba(255, 82, 82, 0.3);
-      color: var(--danger);
-    }
-
-    .tbl-btn.reject:hover {
-      background: rgba(255, 82, 82, 0.1);
-    }
-
-    /* ── Two-col Grid ── */
-    .two-col {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      margin-bottom: 28px;
-    }
-
-    /* ── Chart Placeholder ── */
-    .chart-placeholder {
-      padding: 20px 22px 24px;
-    }
-
-    .mini-bar-group {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .mini-bar-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .mini-bar-label {
-      font-size: 12px;
-      color: var(--text-sub);
-      width: 60px;
-      flex-shrink: 0;
-      text-align: right;
-    }
-
-    .mini-bar-track {
-      flex: 1;
-      height: 8px;
-      background: rgba(255, 255, 255, 0.06);
-      border-radius: 4px;
-      overflow: hidden;
-    }
-
-    .mini-bar-fill {
-      height: 100%;
-      border-radius: 4px;
-      background: linear-gradient(90deg, var(--accent), rgba(100, 181, 246, 0.6));
-    }
-
-    .mini-bar-val {
-      font-size: 12px;
-      font-weight: 700;
-      font-family: 'Outfit', sans-serif;
-      color: var(--text);
-      width: 36px;
-      flex-shrink: 0;
-    }
-
-    /* ── Log list ── */
-    .log-list {
-      padding: 8px 0;
-    }
-
-    .log-item {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 9px 22px;
-      border-top: 1px solid rgba(255, 255, 255, 0.04);
-      font-size: 12.5px;
-    }
-
-    .log-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
-
-    .log-dot.blue {
-      background: var(--accent);
-    }
-
-    .log-dot.orange {
-      background: var(--accent2);
-    }
-
-    .log-dot.red {
-      background: var(--danger);
-    }
-
-    .log-user {
-      font-weight: 600;
-      color: var(--text);
-      flex: 1;
-    }
-
-    .log-action {
-      color: var(--text-sub);
-      flex: 2;
-    }
-
-    .log-time {
-      color: var(--text-muted);
-      font-size: 11.5px;
-      white-space: nowrap;
-    }
-
-    /* ── Pagination ── */
-    .tbl-pagination {
-      padding: 14px 22px;
-      border-top: 1px solid var(--glass-border);
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .tbl-pagination-info {
-      font-size: 12px;
-      color: var(--text-muted);
-    }
-
-    .pg-btns {
-      display: flex;
-      gap: 4px;
-    }
-
-    .pg-btn {
-      width: 28px;
-      height: 28px;
-      border-radius: 5px;
-      border: 1px solid var(--glass-border);
-      background: none;
-      color: var(--text-sub);
-      font-size: 12px;
-      font-weight: 600;
-      cursor: pointer;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: all var(--transition);
-    }
-
-    .pg-btn:hover {
-      border-color: rgba(255, 255, 255, 0.25);
-      color: #fff;
-    }
-
-    .pg-btn.active {
-      background: rgba(100, 181, 246, 0.15);
-      border-color: var(--accent);
-      color: var(--accent);
-    }
-
-    /* ── Search bar ── */
-    .search-row {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      padding: 14px 22px;
-      border-bottom: 1px solid var(--glass-border);
-    }
-
-    .adm-search-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      padding: 7px 14px;
-      flex: 1;
-      max-width: 360px;
-    }
-
-    .adm-search-box svg {
-      width: 14px;
-      height: 14px;
-      color: var(--text-muted);
-      flex-shrink: 0;
-    }
-
-    .adm-search-box input {
-      background: none;
-      border: none;
-      outline: none;
-      font-size: 13px;
-      color: #fff;
-      flex: 1;
-      font-family: inherit;
-    }
-
-    .adm-search-box input::placeholder {
-      color: var(--text-muted);
-    }
-
-    select.adm-sel {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid var(--glass-border);
-      border-radius: 8px;
-      padding: 7px 12px;
-      font-size: 12.5px;
-      color: var(--text-sub);
-      font-family: inherit;
-      cursor: pointer;
-      outline: none;
-    }
-
-    select.adm-sel option {
-      background: #0e1a2e;
-    }
-  </style>
 <body>
 
   <!-- ── Header ── -->
@@ -716,8 +26,9 @@
           </svg>
           행정안전부
         </span>
+
       </div>
-      <h1 class="gvt-service-name-full">관리자 포털<span class="adm-title-detail"> — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</span></h1>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
       <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
     </div>
 
@@ -775,7 +86,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
             </div>
             <div class="adm-sub-text">
-              <span class="adm-sub-title">공지사항</span>
+              <span class="adm-sub-title">공지사항 관리</span>
               <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
             </div>
           </a>
@@ -784,7 +95,7 @@
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
             </div>
             <div class="adm-sub-text">
-              <span class="adm-sub-title">자주 묻는 질문</span>
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
               <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
             </div>
           </a>
@@ -793,12 +104,12 @@
     </nav>
 
     <nav class="gvt-header-nav">
-      <a href="dashboard.html" class="gvt-nav-btn" title="지도로 돌아가기">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
-          <path d="M19 12H5M12 5l-7 7 7 7" />
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
         </svg>
-        <span class="nav-label">지도로 돌아가기</span><span class="nav-label-short">지도</span>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
       </a>
       <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
@@ -830,8 +141,8 @@
       <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
       <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
       <div class="adm-sidebar-sub">
-        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항</a>
-        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문</a>
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
       </div>
     </nav>
   </aside>
@@ -851,30 +162,32 @@
         <h3>회원 승인 대기</h3>
         <p>가입 신청 후 승인 대기 중인 회원이 있습니다. 확인 후 승인 처리해 주세요.</p>
       </div>
-      <div class="pending-count">7<span>건</span></div>
-      <a class="btn-review" href="admin_members.html" style="text-decoration:none">승인 처리 →</a>
+      <div class="pending-count-row">
+        <div class="pending-count">3<span>건</span></div>
+        <a class="btn-review" href="admin_members.html" style="text-decoration:none">승인 처리 →</a>
+      </div>
     </div>
 
     <!-- KPI -->
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-label">전체 회원</div>
-        <div class="kpi-value">1,284</div>
-        <div class="kpi-sub">이번 달 +23명 신규 가입</div>
+        <div class="kpi-value">33</div>
+        <div class="kpi-sub">이번 달 +3명 신규 가입</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">오늘 접속자</div>
-        <div class="kpi-value">142</div>
-        <div class="kpi-sub">어제 대비 +18명</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">어제 대비 +3명</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">현재 접속자</div>
-        <div class="kpi-value">38</div>
+        <div class="kpi-value">5</div>
         <div class="kpi-sub">실시간 기준</div>
       </div>
       <div class="kpi-card">
         <div class="kpi-label">승인 대기</div>
-        <div class="kpi-value">7</div>
+        <div class="kpi-value">3</div>
         <div class="kpi-sub">신규 가입 승인 필요</div>
       </div>
     </div>
@@ -883,122 +196,104 @@
       <!-- 최근 가입 신청 -->
       <div class="table-card">
         <div class="table-card-hd">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
-              <circle cx="8.5" cy="7" r="4" />
-              <line x1="20" y1="8" x2="20" y2="14" />
-              <line x1="23" y1="11" x2="17" y2="11" />
-            </svg>최근 가입 신청</h3>
+          <h3>최근 가입 신청</h3>
           <a class="btn-sm-primary" href="admin_members.html" style="text-decoration:none">전체 보기</a>
         </div>
-        <div class="log-list">
-          <div class="log-item">
-            <div class="log-dot orange"></div>
-            <span class="log-user">김민준</span>
-            <span class="log-action">경기 수원시 · 하천관리과</span>
-            <span class="log-time">04.01</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot orange"></div>
-            <span class="log-user">이서연</span>
-            <span class="log-action">서울 강남구 · 도시안전과</span>
-            <span class="log-time">03.31</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot blue"></div>
-            <span class="log-user">박도현</span>
-            <span class="log-action">강원 춘천시 · 하천관리팀</span>
-            <span class="log-time">03.28</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot blue"></div>
-            <span class="log-user">정수빈</span>
-            <span class="log-action">전남 여수시 · 하천관리과</span>
-            <span class="log-time">03.20</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot red"></div>
-            <span class="log-user">최지우</span>
-            <span class="log-action">경남 창원시 · 수자원과</span>
-            <span class="log-time">03.25</span>
-          </div>
-        </div>
+        <table class="adm-table">
+          <thead>
+            <tr><th>이름</th><th>소속</th><th>처리 상태</th><th>신청일</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="이름">김하영</td><td data-label="소속">경기 안양시 · 하천관리과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-04-01</td></tr>
+            <tr><td data-label="이름">정승우</td><td data-label="소속">충남 아산시 · 수자원과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-03-31</td></tr>
+            <tr><td data-label="이름">오예린</td><td data-label="소속">전남 여수시 · 재난안전과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-03-30</td></tr>
+            <tr><td data-label="이름">김성진</td><td data-label="소속">경기 수원시 · 하천관리과</td><td data-label="처리 상태"><span class="status-badge active">승인</span></td><td data-label="신청일">2026-03-17</td></tr>
+            <tr><td data-label="이름">박준영</td><td data-label="소속">강원 춘천시 · 수자원과</td><td data-label="처리 상태"><span class="status-badge active">승인</span></td><td data-label="신청일">2026-03-16</td></tr>
+          </tbody>
+        </table>
       </div>
+
       <!-- 최근 접속 로그 -->
       <div class="table-card">
         <div class="table-card-hd">
-          <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            </svg>최근 접속 로그</h3>
+          <h3>최근 접속 로그</h3>
           <a class="btn-sm-primary" href="admin_logs.html" style="text-decoration:none">전체 보기</a>
         </div>
-        <div class="log-list">
-          <div class="log-item">
-            <div class="log-dot blue"></div><span class="log-user">홍길동</span><span class="log-action">경기 가평군 시설물
-              검색</span><span class="log-time">14:52</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot orange"></div><span class="log-user">김민준</span><span class="log-action">로그인 시도
-              (실패)</span><span class="log-time">14:48</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot blue"></div><span class="log-user">이서연</span><span class="log-action">강원 춘천시 레이어
-              확인</span><span class="log-time">14:41</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot blue"></div><span class="log-user">박도현</span><span class="log-action">지도 저장 (PNG
-              다운로드)</span><span class="log-time">14:33</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot red"></div><span class="log-user">unknown</span><span class="log-action">비정상 접근 시도
-              감지</span><span class="log-time">14:21</span>
-          </div>
-          <div class="log-item">
-            <div class="log-dot blue"></div><span class="log-user">최지우</span><span class="log-action">경남 창원시 시설물 목록
-              열람</span><span class="log-time">14:10</span>
+        <table class="adm-table">
+          <thead>
+            <tr><th>사용자</th><th>행동</th><th>세부 내역</th><th>시간</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="사용자">김성진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 안성시</td><td data-label="시간">14:52</td></tr>
+            <tr><td data-label="사용자">박준영</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="시간">14:48</td></tr>
+            <tr><td data-label="사용자">고유정</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전북 전주시</td><td data-label="시간">14:41</td></tr>
+            <tr><td data-label="사용자">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">김성진: 관리자 → 열람자</td><td data-label="시간">14:33</td></tr>
+            <tr><td data-label="사용자">이민혁</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경남 창원시</td><td data-label="시간">14:21</td></tr>
+            <tr><td data-label="사용자">최수연</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">자주 묻는 질문</td><td data-label="시간">14:10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 접속 현황 차트 + 지도 조회 TOP 10 (2열) -->
+    <div class="two-col">
+      <!-- 오늘 시간대별 접속 현황 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>최근 24시간 접속 내역</h3>
+          <a class="btn-sm-primary" href="admin_access.html" style="text-decoration:none">더 보기</a>
+        </div>
+        <div id="dash-access-chart" style="padding:0;"></div>
+      </div>
+
+      <!-- 오늘 지도 조회 TOP 10 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>지도 조회 TOP 10 (오늘)</h3>
+          <a class="btn-sm-primary" href="admin_region.html" style="text-decoration:none">더 보기</a>
+        </div>
+        <div style="padding:20px 22px 24px;">
+          <div class="mini-bar-group">
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">1. 경기 수원시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:100%"></div></div><span class="mini-bar-val">48</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">2. 경기 안성시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:85%"></div></div><span class="mini-bar-val">41</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">3. 강원 춘천시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:73%"></div></div><span class="mini-bar-val">35</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">4. 전북 전주시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:63%"></div></div><span class="mini-bar-val">30</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">5. 경남 창원시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:54%"></div></div><span class="mini-bar-val">26</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">6. 전남 순천시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:46%"></div></div><span class="mini-bar-val">22</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">7. 충남 천안시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:40%"></div></div><span class="mini-bar-val">19</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">8. 대전 유성구</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:33%"></div></div><span class="mini-bar-val">16</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">9. 경북 포항시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:27%"></div></div><span class="mini-bar-val">13</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">10. 충북 청주시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:21%"></div></div><span class="mini-bar-val">10</span></div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- 지역별 이용 현황 -->
+    <!-- 최근 공지사항 -->
     <div class="table-card">
       <div class="table-card-hd">
-        <h3><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20" />
-          </svg>지역별 이용 현황 (이번 달)</h3>
+        <h3>최근 공지사항</h3>
+        <a class="btn-sm-primary" href="admin_notice.html" style="text-decoration:none">전체 보기</a>
       </div>
-      <div class="chart-placeholder">
-        <div class="mini-bar-group">
-          <div class="mini-bar-row"><span class="mini-bar-label">경기</span>
-            <div class="mini-bar-track">
-              <div class="mini-bar-fill" style="width:88%"></div>
-            </div><span class="mini-bar-val">1,842</span>
-          </div>
-          <div class="mini-bar-row"><span class="mini-bar-label">경북</span>
-            <div class="mini-bar-track">
-              <div class="mini-bar-fill" style="width:72%"></div>
-            </div><span class="mini-bar-val">1,503</span>
-          </div>
-          <div class="mini-bar-row"><span class="mini-bar-label">강원</span>
-            <div class="mini-bar-track">
-              <div class="mini-bar-fill" style="width:60%"></div>
-            </div><span class="mini-bar-val">1,258</span>
-          </div>
-          <div class="mini-bar-row"><span class="mini-bar-label">경남</span>
-            <div class="mini-bar-track">
-              <div class="mini-bar-fill" style="width:54%"></div>
-            </div><span class="mini-bar-val">1,132</span>
-          </div>
-          <div class="mini-bar-row"><span class="mini-bar-label">전남</span>
-            <div class="mini-bar-track">
-              <div class="mini-bar-fill" style="width:45%"></div>
-            </div><span class="mini-bar-val">941</span>
-          </div>
-        </div>
+      <div class="log-list" style="padding:4px 0;">
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">시스템 정기점검 안내 (4월 5일)</span>
+          <span class="log-time">2026-04-01</span>
+        </a>
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">2026년 상반기 시스템 업데이트 안내</span>
+          <span class="log-time">2026-03-15</span>
+        </a>
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">불법 시설물 신고 절차 변경 안내</span>
+          <span class="log-time">2026-03-01</span>
+        </a>
       </div>
     </div>
+
   </section>
 
   <!-- 사용자 드롭다운 -->
@@ -1009,7 +304,7 @@
       <div class="ud-role" id="dd-user-role"></div>
     </div>
     <div class="ud-menu">
-      <a href="#" class="ud-item">
+      <a href="admin_mypage.html" class="ud-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
@@ -1057,6 +352,79 @@
           location.href = 'dashboard.html';
         }
       }
+
+    // 대시보드 최근 24시간 접속 차트
+    (function() {
+      const chartArea = document.getElementById('dash-access-chart');
+      if (!chartArea) return;
+      const now = new Date();
+      const curHour = now.getHours();
+      const barH = 160;
+      const labels = [];
+      const values = [];
+      // 최근 24시간: (현재시-23)시 ~ 현재시
+      for (let i = 23; i >= 0; i--) {
+        const h = (curHour - i + 24) % 24;
+        labels.push(String(h).padStart(2,'0'));
+        values.push(Math.floor(Math.random() * 25) + 2);
+      }
+      const max = Math.max(...values, 1);
+      chartArea.innerHTML =
+        `<div id="dash-chart-tooltip" style="display:none; position:fixed; padding:6px 12px; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15); border-radius:6px; font-size:12px; color:#fff; pointer-events:none; z-index:9999; white-space:nowrap; line-height:1.5;"></div>
+        <div style="display:flex; align-items:flex-end; gap:2px; min-height:${barH + 30}px; padding:16px 16px 0; overflow-x:auto;">` +
+        values.map((v, i) => {
+          const h = Math.round((v / max) * barH);
+          return `<div style="flex:1; min-width:18px; display:flex; flex-direction:column; align-items:center; gap:3px; justify-content:flex-end;">
+            <span style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:600;">${v}</span>
+            <div class="dash-bar" data-label="${labels[i]}시" data-val="${v}명" style="width:100%; max-width:24px; height:${h}px; background:linear-gradient(180deg, #64b5f6, rgba(100,181,246,0.4)); border-radius:3px 3px 0 0; cursor:pointer; transition:opacity 0.15s;"></div>
+          </div>`;
+        }).join('') +
+        `</div>
+        <div style="display:flex; gap:2px; padding:4px 16px 12px; border-top:1px solid rgba(255,255,255,0.06);">` +
+        labels.map(l => `<div style="flex:1; min-width:18px; text-align:center; font-size:9px; color:rgba(255,255,255,0.35);">${l}시</div>`).join('') +
+        `</div>`;
+
+      // 툴팁 이벤트
+      const tip = document.getElementById('dash-chart-tooltip');
+      chartArea.querySelectorAll('.dash-bar').forEach(bar => {
+        bar.addEventListener('mouseenter', () => {
+          tip.innerHTML = `<b>${bar.dataset.label}</b> · 접속: <b style="color:#64b5f6;">${bar.dataset.val}</b>`;
+          tip.style.display = 'block';
+          bar.style.opacity = '0.7';
+        });
+        bar.addEventListener('mousemove', (e) => {
+          tip.style.left = (e.clientX + 12) + 'px';
+          tip.style.top = (e.clientY - 10) + 'px';
+        });
+        bar.addEventListener('mouseleave', () => {
+          tip.style.display = 'none';
+          bar.style.opacity = '1';
+        });
+      });
+
+      // 차트 하단 요약 KPI
+      const total = values.reduce((a, b) => a + b, 0);
+      const maxVal = Math.max(...values);
+      const minVal = Math.min(...values);
+      const peakIdx = values.indexOf(maxVal);
+      const lowIdx = values.indexOf(minVal);
+      const peakLabel = labels[peakIdx] + '시대';
+      const lowLabel = labels[lowIdx] + '시대';
+      chartArea.innerHTML += `<div style="display:flex; gap:12px; padding:10px 16px 14px; border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap;">
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">총 접속</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${total}<span style="font-size:11px; color:rgba(255,255,255,0.5);">명</span></div>
+        </div>
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0; border-left:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">피크 시간</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${peakLabel}<span style="font-size:11px; color:rgba(255,255,255,0.5);"> (${maxVal}명)</span></div>
+        </div>
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0; border-left:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">한산 시간</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${lowLabel}<span style="font-size:11px; color:rgba(255,255,255,0.5);"> (${minVal}명)</span></div>
+        </div>
+      </div>`;
+    })();
 
     // Mobile sidebar toggle
     (function() {

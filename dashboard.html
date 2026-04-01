@@ -28,7 +28,7 @@
             행정안전부
           </span>
         </div>
-        <h1 class="gvt-service-name-full">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</h1>
+        <a href="dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</a>
       </div>
 
       <!-- Mobile Header -->
@@ -41,14 +41,26 @@
 
       <div class="gvt-spacer"></div>
       <nav class="gvt-header-nav" aria-label="주요 메뉴">
-        <a href="#" class="gvt-nav-btn" title="이용 가이드">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10" />
-            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
-            <line x1="12" y1="17" x2="12.01" y2="17" />
-          </svg>
-          <span class="nav-label">이용 가이드</span>
-        </a>
+        <div class="gvt-nav-dropdown">
+          <button class="gvt-nav-btn" title="서비스 지원">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            <span class="nav-label">서비스 지원</span>
+          </button>
+          <div class="gvt-nav-submenu">
+            <a href="notice.html" class="gvt-nav-sub-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+              공지사항
+            </a>
+            <a href="faq.html" class="gvt-nav-sub-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+              자주 묻는 질문
+            </a>
+          </div>
+        </div>
         <a href="admin_dashboard.html" class="gvt-nav-btn" id="btn-nav-admin" title="관리">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <circle cx="12" cy="12" r="3" />
@@ -461,7 +473,7 @@
       <div class="ud-role" id="dd-user-role"></div>
     </div>
     <div class="ud-menu">
-      <a href="#" class="ud-item">
+      <a href="mypage.html" class="ud-item">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
           stroke-linejoin="round">
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />

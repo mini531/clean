@@ -15,7 +15,7 @@ body {
   display: flex;
   align-items: center;
   padding: 0 20px;
-  z-index: 700;
+  z-index: 9000;
   flex-shrink: 0;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
 }
@@ -110,6 +110,76 @@ body {
   width: 16px;
   height: 16px;
   color: currentcolor;
+}
+
+/* ── Nav Dropdown (서비스 지원) ── */
+.gvt-nav-dropdown {
+  position: relative;
+}
+.gvt-nav-dropdown > .gvt-nav-btn {
+  cursor: pointer;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+.gvt-nav-submenu {
+  display: none;
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  background: rgba(10, 30, 60, 0.65);
+  backdrop-filter: blur(16px) saturate(1.4);
+  -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 12px;
+  padding: 6px;
+  min-width: 180px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255,255,255,0.06);
+  z-index: 9999;
+  flex-direction: column;
+  gap: 2px;
+}
+.gvt-nav-submenu::before {
+  content: '';
+  position: absolute;
+  top: -12px;
+  left: 0;
+  right: 0;
+  height: 12px;
+  background: transparent;
+}
+.gvt-nav-submenu::after {
+  content: '';
+  position: absolute;
+  top: -5px;
+  right: 24px;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid rgba(255, 255, 255, 0.12);
+}
+.gvt-nav-dropdown:hover > .gvt-nav-submenu {
+  display: flex;
+}
+.gvt-nav-sub-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 7px;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: all 0.15s;
+}
+.gvt-nav-sub-item:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: #fff;
+}
+.gvt-nav-sub-item svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
 }
 
 .gvt-user-btn {
