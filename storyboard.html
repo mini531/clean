@@ -1412,8 +1412,8 @@ document.querySelectorAll('.toc a').forEach(a=>{
   });
 });
 
-// localStorage에 세션 설정 (새 창에서도 Storage.get 폴백으로 로그인 유지)
-localStorage.setItem('hcs_user', JSON.stringify({id:'admin', name:'홍길동', org:'LX 시스템 관리팀', role:'admin', roleLabel:'관리자'}));
+// sessionStorage에 세션 설정 (스토리보드 내 iframe 미리보기용)
+sessionStorage.setItem('hcs_user', JSON.stringify({id:'admin', name:'홍길동', org:'LX 시스템 관리팀', role:'admin', roleLabel:'관리자'}));
 
 /* ── iframe 세션 주입 후 로드 ── */
 function loadIframes() {
