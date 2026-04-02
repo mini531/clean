@@ -18,6 +18,7 @@ const Auth = {
   /** 로그아웃 */
   logout() {
     sessionStorage.clear();
+    localStorage.removeItem(this.SESSION_KEY);
     location.replace('login.html');
   },
 
