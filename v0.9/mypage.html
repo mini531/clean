@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>마이페이지 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/mypage.css">
+</head>
+
+<body class="user-page-body">
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="assets/img/main_logo_white.png" alt="행정안전부" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback"><svg width="18" height="18" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white" font-size="9" font-weight="bold">정</text></svg> 행정안전부</span>
+      </div>
+      <a href="dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</a>
+    </div>
+    <div class="gvt-header-mobile">
+      <div class="gvt-title-info"><small class="gvt-org-name">행정안전부</small><h1 class="gvt-service-name">하천·계곡 정비 지원</h1></div>
+    </div>
+    <div class="gvt-spacer"></div>
+    <nav class="gvt-header-nav" aria-label="주요 메뉴">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" /></svg><span class="nav-label">지도</span></a>
+      <div class="gvt-nav-dropdown">
+        <button class="gvt-nav-btn" title="서비스 지원"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg><span class="nav-label">서비스 지원</span></button>
+        <div class="gvt-nav-submenu">
+          <a href="notice.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항</a>
+          <a href="faq.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문</a>
+        </div>
+      </div>
+      <a href="admin_dashboard.html" class="gvt-nav-btn" id="btn-nav-admin" title="관리" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg><span class="nav-label">관리</span></a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50" style="width:11px;height:11px;"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+    </nav>
+  </header>
+
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="mypage.html" class="ud-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg><span>마이페이지</span></a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg><span>로그아웃</span></button>
+    </div>
+  </div>
+
+  <div class="user-page">
+
+    <!-- ===== 마이페이지 뷰 ===== -->
+    <div id="mypage-view">
+
+    <!-- 환영 메시지 -->
+    <div class="my-welcome">
+      <div class="my-welcome-name"><span id="my-name">홍길동</span>님 반갑습니다.</div>
+      <div class="my-welcome-sub" id="my-org">행정안전부</div>
+    </div>
+
+    <div class="my-grid">
+      <!-- 회원 정보 -->
+      <div class="my-card">
+        <div class="my-card-title">회원 정보</div>
+        <div class="my-card-body">
+          <div class="my-field"><span class="my-field-label">이름</span><span class="my-field-value" id="my-info-name">-</span></div>
+          <div class="my-field"><span class="my-field-label">아이디(이메일)</span><span class="my-field-value" id="my-info-email">-</span></div>
+          <div class="my-field"><span class="my-field-label">부서</span><span class="my-field-value" id="my-info-dept">-</span></div>
+          <div class="my-field"><span class="my-field-label">소속 지역</span><span class="my-field-value" id="my-info-region">-</span></div>
+          <div class="my-field"><span class="my-field-label">가입 일시</span><span class="my-field-value" id="my-info-join">-</span></div>
+          <div class="my-field"><span class="my-field-label">권한</span><span class="my-field-value" id="my-info-role">-</span></div>
+        </div>
+        <div class="my-actions">
+          <button class="my-btn my-btn-ghost" id="btn-change-pw">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            비밀번호 변경
+          </button>
+          <button class="my-btn my-btn-ghost" id="btn-edit-info">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+            회원정보 수정
+          </button>
+        </div>
+      </div>
+
+      <!-- 최근 활동 -->
+      <div class="my-card">
+        <div class="my-card-title">최근 활동</div>
+        <div class="my-card-body">
+          <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">경기 안성시 지도 조회</span><span class="my-activity-time">오늘 14:52</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">공지사항 조회</span><span class="my-activity-time">오늘 14:48</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">전북 전주시 지도 조회</span><span class="my-activity-time">오늘 14:41</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot"></div><span class="my-activity-text">로그인</span><span class="my-activity-time">오늘 09:30</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot" class="past"></div><span class="my-activity-text">경기 수원시 지도 조회</span><span class="my-activity-time">어제 16:20</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot" class="past"></div><span class="my-activity-text">자주 묻는 질문 조회</span><span class="my-activity-time">어제 10:15</span></div>
+          <div class="my-activity-item"><div class="my-activity-dot" class="past"></div><span class="my-activity-text">로그인</span><span class="my-activity-time">어제 09:05</span></div>
+        </div>
+      </div>
+    </div>
+
+    </div><!-- /mypage-view -->
+
+    <!-- ===== 회원정보 수정 뷰 ===== -->
+    <div id="edit-view" style="display:none;">
+      <h2 class="page-title">회원정보 수정</h2>
+
+      <div class="my-card my-card-mb">
+        <div class="my-card-title">기본 정보</div>
+        <div class="edit-form-section">
+          <div class="edit-form-row">
+            <div>
+              <label class="edit-label">이름</label>
+              <span class="edit-value" id="edit-name">홍길동</span>
+            </div>
+            <div>
+              <label class="edit-label">아이디(이메일)</label>
+              <span class="edit-value" id="edit-email">admin@korea.kr</span>
+            </div>
+          </div>
+          <div class="edit-form-row">
+            <div>
+              <label class="edit-label edit-label-editable">전화번호<span class="req">*</span></label>
+              <input type="text" class="edit-input" id="edit-phone" value="010-3182-7540">
+            </div>
+            <div>
+              <label class="edit-label edit-label-editable">부서<span class="req">*</span></label>
+              <input type="text" class="edit-input" id="edit-dept" value="하천관리과">
+            </div>
+          </div>
+          <div>
+            <label class="edit-label edit-label-editable">소속 지역<span class="req">*</span></label>
+            <div class="edit-select-row">
+              <select class="edit-select" id="edit-sido">
+                <option>서울</option><option>부산</option><option>대구</option><option>인천</option><option>광주</option><option>대전</option><option>울산</option><option>세종</option><option selected>경기</option><option>강원</option><option>충북</option><option>충남</option><option>전북</option><option>전남</option><option>경북</option><option>경남</option><option>제주</option>
+              </select>
+              <select class="edit-select" id="edit-sigungu">
+                <option selected>수원시</option><option>안양시</option><option>안성시</option><option>시흥시</option><option>고양시</option><option>용인시</option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="my-card my-card-mb">
+        <div class="my-card-title">정보 이용 동의 설정</div>
+        <div class="consent-group">
+          <label class="consent-item"><input type="checkbox" checked> [선택] 홍보를 위한 정보수집 동의</label>
+          <label class="consent-item"><input type="checkbox" checked> [선택] 광고성 정보 SMS 수신 동의</label>
+          <label class="consent-item"><input type="checkbox" checked> [선택] 광고성 정보 Email 수신 동의</label>
+        </div>
+      </div>
+
+      <div class="edit-bottom">
+        <button class="my-btn my-btn-ghost" id="edit-cancel">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          취소
+        </button>
+        <button class="my-btn my-btn-save" id="edit-save">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+          저장
+        </button>
+      </div>
+    </div><!-- /edit-view -->
+
+  </div>
+
+  <!-- 비밀번호 확인 모달 -->
+  <div class="modal-overlay" id="pw-verify-modal">
+    <div class="modal-pledge-box modal-glass">
+      <button class="modal-close-icon" id="pw-verify-close">&times;</button>
+      <header class="pledge-header modal-glass-header"><h1>비밀번호 확인</h1></header>
+      <div class="modal-glass-body">
+        <div class="p-form-group">
+          <label class="modal-form-label">비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-verify-input" placeholder="비밀번호를 입력해 주세요.">
+          <div class="p-error-msg">비밀번호를 입력해 주세요.</div>
+        </div>
+        <div class="modal-btn-row">
+          <button class="btn-p btn-p-cancel" id="pw-verify-cancel">취소</button>
+          <button class="btn-p btn-p-exec" id="pw-verify-submit">확인</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 공용 알림 모달 -->
+  <div class="modal-overlay" id="alert-modal">
+    <div class="modal-pledge-box modal-glass-sm">
+      <div class="alert-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="#69f0ae" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+      </div>
+      <h2 class="alert-title" id="alert-title">완료</h2>
+      <p class="alert-desc" id="alert-desc">작업이 완료되었습니다.</p>
+      <button class="btn-p btn-p-exec alert-ok" id="alert-modal-ok">확인</button>
+    </div>
+  </div>
+
+  <!-- 비밀번호 변경 모달 -->
+  <div class="modal-overlay" id="pw-modal">
+    <div class="modal-pledge-box modal-glass">
+      <button class="modal-close-icon" id="pw-modal-close">&times;</button>
+      <header class="pledge-header modal-glass-header">
+        <h1>비밀번호 변경</h1>
+        <p class="pledge-sub">새로운 비밀번호를 설정해 주세요.</p>
+      </header>
+      <div class="modal-glass-body">
+        <div class="p-form-group">
+          <label class="modal-form-label">현재 비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-current" placeholder="현재 비밀번호를 입력해 주세요.">
+          <div class="p-error-msg">현재 비밀번호를 입력해 주세요.</div>
+        </div>
+        <div class="p-form-group">
+          <label class="modal-form-label">새 비밀번호<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-new" placeholder="새 비밀번호를 입력해 주세요.">
+          <div class="p-error-msg">새 비밀번호를 입력해 주세요.</div>
+        </div>
+        <div class="p-form-group">
+          <label class="modal-form-label">새 비밀번호 확인<span class="req">*</span></label>
+          <input type="password" class="modal-form-input" id="pw-confirm" placeholder="새 비밀번호 확인을 입력해 주세요.">
+          <div class="p-error-msg" id="pw-confirm-error">새 비밀번호 확인을 입력해 주세요.</div>
+        </div>
+        <div class="modal-btn-row">
+          <button class="btn-p btn-p-cancel" id="pw-modal-cancel">취소</button>
+          <button class="btn-p btn-p-exec" id="pw-modal-submit">변경</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (!user) return;
+
+      // 헤더
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      btn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.toggle('active'); });
+      document.addEventListener('click', () => dropdown.classList.remove('active'));
+      if (user.role === 'admin') {
+        const adminBtn = document.getElementById('btn-nav-admin');
+        if (adminBtn) adminBtn.style.display = 'flex';
+      }
+
+      // 공용 알림 모달
+      const alertModal = document.getElementById('alert-modal');
+      function showAlert(title, desc) {
+        document.getElementById('alert-title').textContent = title;
+        document.getElementById('alert-desc').textContent = desc;
+        alertModal.classList.add('active');
+      }
+      document.getElementById('alert-modal-ok').addEventListener('click', () => alertModal.classList.remove('active'));
+      alertModal.addEventListener('click', (e) => { if (e.target === alertModal) alertModal.classList.remove('active'); });
+
+      // 비밀번호 변경 모달
+      const pwModal = document.getElementById('pw-modal');
+      const closePw = () => {
+        pwModal.classList.remove('active');
+        pwModal.querySelectorAll('.p-form-group').forEach(g => g.classList.remove('has-error'));
+        pwModal.querySelectorAll('input').forEach(i => i.value = '');
+      };
+      document.getElementById('btn-change-pw').addEventListener('click', () => pwModal.classList.add('active'));
+      document.getElementById('pw-modal-close').addEventListener('click', closePw);
+      document.getElementById('pw-modal-cancel').addEventListener('click', closePw);
+      pwModal.addEventListener('click', (e) => { if (e.target === pwModal) closePw(); });
+
+      // 입력 시 에러 해제
+      pwModal.querySelectorAll('input').forEach(inp => {
+        inp.addEventListener('input', () => inp.closest('.p-form-group').classList.remove('has-error'));
+      });
+
+      // 변경 버튼 클릭 시 유효성 검증
+      document.getElementById('pw-modal-submit').addEventListener('click', () => {
+        const current = document.getElementById('pw-current');
+        const newPw = document.getElementById('pw-new');
+        const confirm = document.getElementById('pw-confirm');
+        let valid = true;
+
+        [current, newPw, confirm].forEach(inp => {
+          const group = inp.closest('.p-form-group');
+          if (!inp.value.trim()) {
+            group.classList.add('has-error');
+            valid = false;
+          } else {
+            group.classList.remove('has-error');
+          }
+        });
+
+        // 비밀번호 불일치 체크
+        if (newPw.value && confirm.value && newPw.value !== confirm.value) {
+          const group = confirm.closest('.p-form-group');
+          group.classList.add('has-error');
+          document.getElementById('pw-confirm-error').textContent = '새 비밀번호가 일치하지 않습니다.';
+          valid = false;
+        } else {
+          document.getElementById('pw-confirm-error').textContent = '새 비밀번호 확인을 입력해 주세요.';
+        }
+
+        if (valid) {
+          closePw();
+          showAlert('비밀번호 변경 완료', '비밀번호가 성공적으로 변경되었습니다.');
+        }
+      });
+
+      // 회원정보 수정 흐름
+      const mypageView = document.getElementById('mypage-view');
+      const editView = document.getElementById('edit-view');
+      const pwVerifyModal = document.getElementById('pw-verify-modal');
+      const closePwVerify = () => {
+        pwVerifyModal.classList.remove('active');
+        document.getElementById('pw-verify-input').value = '';
+        pwVerifyModal.querySelector('.p-form-group').classList.remove('has-error');
+      };
+
+      document.getElementById('btn-edit-info').addEventListener('click', () => pwVerifyModal.classList.add('active'));
+      document.getElementById('pw-verify-close').addEventListener('click', closePwVerify);
+      document.getElementById('pw-verify-cancel').addEventListener('click', closePwVerify);
+      pwVerifyModal.addEventListener('click', (e) => { if (e.target === pwVerifyModal) closePwVerify(); });
+      document.getElementById('pw-verify-input').addEventListener('input', function() {
+        this.closest('.p-form-group').classList.remove('has-error');
+      });
+
+      document.getElementById('pw-verify-submit').addEventListener('click', () => {
+        const inp = document.getElementById('pw-verify-input');
+        if (!inp.value.trim()) {
+          inp.closest('.p-form-group').classList.add('has-error');
+          return;
+        }
+        closePwVerify();
+        mypageView.style.display = 'none';
+        editView.style.display = 'block';
+        window.scrollTo(0, 0);
+      });
+
+      document.getElementById('edit-cancel').addEventListener('click', () => {
+        editView.style.display = 'none';
+        mypageView.style.display = 'block';
+      });
+
+      document.getElementById('edit-save').addEventListener('click', () => {
+        editView.style.display = 'none';
+        mypageView.style.display = 'block';
+        showAlert('저장 완료', '회원정보가 성공적으로 수정되었습니다.');
+      });
+
+      // 마이페이지 데이터 채우기
+      document.getElementById('my-name').textContent = user.name;
+      document.getElementById('my-org').textContent = user.org;
+      document.getElementById('my-info-name').textContent = user.name;
+      document.getElementById('my-info-email').textContent = user.id + '@korea.kr';
+      document.getElementById('my-info-dept').textContent = '하천관리과';
+      document.getElementById('my-info-region').textContent = '경기 수원시';
+      document.getElementById('my-info-join').textContent = '2026-03-17 09:39';
+      document.getElementById('my-info-role').textContent = user.roleLabel;
+    });
+  </script>
+</body>
+
+</html>

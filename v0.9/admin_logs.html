@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>접속 로그 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item active" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link active" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-logs">
+
+    <h2 class="adm-page-title">접속 로그</h2>
+
+    <!-- 검색 필터 영역 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">사용자 이름</label>
+          <input type="text" class="adm-filter-input" placeholder="사용자 이름" style="max-width:150px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">행동</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>지도 조회</option>
+            <option>화면 조회</option>
+            <option>사용자 유형 변경</option>
+            <option>로그인</option>
+            <option>로그아웃</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">IP</label>
+          <input type="text" class="adm-filter-input" placeholder="IP 주소" style="max-width:160px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">기간</label>
+          <div class="adm-filter-input-group">
+            <input type="date" class="adm-filter-input" id="log-date-start" style="max-width:150px;">
+            <span style="color:var(--text-muted);">~</span>
+            <input type="date" class="adm-filter-input" id="log-date-end" style="max-width:150px;">
+            <div class="adm-period-btns">
+              <button class="adm-period-btn" data-months="0">전체</button>
+              <button class="adm-period-btn" data-months="1">1개월</button>
+              <button class="adm-period-btn" data-months="3">3개월</button>
+              <button class="adm-period-btn" data-months="6">6개월</button>
+              <button class="adm-period-btn" data-months="12">12개월</button>
+            </div>
+          </div>
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost">초기화</button>
+          <button class="btn-sm-primary">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 로그 목록 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3>로그 목록</h3>
+        <div class="tc-actions"></div>
+      </div>
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th>일시</th>
+            <th>사용자 이름</th>
+            <th>행동</th>
+            <th>세부 내역</th>
+            <th>IP</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td data-label="일시">2026-04-01 14:52:30</td><td data-label="사용자 이름">김성진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 안성시</td><td data-label="IP">211.234.56.78</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:48:11</td><td data-label="사용자 이름">박준영</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="IP">125.131.22.45</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:41:05</td><td data-label="사용자 이름">고유정</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전북 전주시</td><td data-label="IP">175.212.44.31</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:33:52</td><td data-label="사용자 이름">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">김성진: 관리자 → 열람자</td><td data-label="IP">10.0.0.1</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:21:08</td><td data-label="사용자 이름">이민혁</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경남 창원시</td><td data-label="IP">112.187.55.92</td></tr>
+          <tr><td data-label="일시">2026-04-01 14:10:33</td><td data-label="사용자 이름">최수연</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">자주 묻는 질문</td><td data-label="IP">220.95.12.77</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:55:20</td><td data-label="사용자 이름">한동우</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충남 천안시</td><td data-label="IP">211.44.88.163</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:42:15</td><td data-label="사용자 이름">나지혜</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전남 순천시</td><td data-label="IP">118.235.77.42</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:30:44</td><td data-label="사용자 이름">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">나지혜: 열람자 → 점검자</td><td data-label="IP">10.0.0.1</td></tr>
+          <tr><td data-label="일시">2026-04-01 13:18:09</td><td data-label="사용자 이름">윤태호</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">지도</td><td data-label="IP">58.120.33.89</td></tr>
+          <tr><td data-label="일시">2026-04-01 12:50:33</td><td data-label="사용자 이름">서은진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">대전 유성구</td><td data-label="IP">203.247.51.66</td></tr>
+          <tr><td data-label="일시">2026-04-01 12:35:18</td><td data-label="사용자 이름">임원재</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충북 청주시</td><td data-label="IP">121.165.22.48</td></tr>
+          <tr><td data-label="일시">2026-04-01 11:20:45</td><td data-label="사용자 이름">김성진</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">211.234.56.78</td></tr>
+          <tr><td data-label="일시">2026-04-01 11:15:30</td><td data-label="사용자 이름">고유정</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="IP">175.212.44.31</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:55:12</td><td data-label="사용자 이름">박준영</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 시흥시</td><td data-label="IP">125.131.22.45</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:40:08</td><td data-label="사용자 이름">최수연</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">220.95.12.77</td></tr>
+          <tr><td data-label="일시">2026-04-01 10:22:55</td><td data-label="사용자 이름">한동우</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">충남 아산시</td><td data-label="IP">211.44.88.163</td></tr>
+          <tr><td data-label="일시">2026-04-01 09:45:33</td><td data-label="사용자 이름">이민혁</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">112.187.55.92</td></tr>
+          <tr><td data-label="일시">2026-04-01 09:30:10</td><td data-label="사용자 이름">서은진</td><td data-label="행동">로그아웃</td><td data-label="세부 내역">정상 로그아웃</td><td data-label="IP">203.247.51.66</td></tr>
+          <tr><td data-label="일시">2026-04-01 08:50:22</td><td data-label="사용자 이름">나지혜</td><td data-label="행동">로그인</td><td data-label="세부 내역">로그인 성공</td><td data-label="IP">118.235.77.42</td></tr>
+        </tbody>
+      </table>
+      <div class="tbl-pagination">
+        <div class="pg-btns">
+          <button class="pg-btn">처음</button>
+          <button class="pg-btn">이전</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">다음</button>
+          <button class="pg-btn">마지막</button>
+          <select class="adm-sel" style="margin-left:12px;padding:5px 30px 5px 12px;font-size:12px;width:75px;">
+            <option>20</option><option>50</option><option>100</option>
+          </select>
+          <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">페이지 크기</span>
+        </div>
+        <span class="tbl-pagination-info" style="display:block;">총 248건 중 1-20행</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ══════════════════════════════════
+     Page: 게시판 관리
+════════════════════════════════════ -->
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // 기간 버튼
+    document.querySelectorAll('.adm-period-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const months = parseInt(btn.dataset.months);
+        const startInput = document.getElementById('log-date-start');
+        const endInput = document.getElementById('log-date-end');
+        if (months === 0) { startInput.value = ''; endInput.value = ''; }
+        else {
+          const today = new Date(); const start = new Date();
+          start.setMonth(today.getMonth() - months);
+          startInput.value = start.toISOString().split('T')[0];
+          endInput.value = today.toISOString().split('T')[0];
+        }
+      });
+    });
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+    });
+  </script>
+</body>
+
+</html>

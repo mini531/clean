@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Land-XI 프로토타입 UI 구성 검토 의견서</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{font-family:'Segoe UI','Malgun Gothic',sans-serif;background:#fff;color:#1a1a1a;font-size:15px;line-height:1.85}
+  .wrap{max-width:840px;margin:0 auto;padding:60px 32px 100px}
+
+  .doc-hd{padding:0 0 32px;border-bottom:3px solid #111;margin-bottom:48px}
+  .doc-hd h1{font-size:26px;font-weight:900;line-height:1.3;letter-spacing:-1px}
+  .doc-hd p{font-size:14px;color:#666;margin-top:6px}
+
+  h2{font-size:21px;font-weight:800;margin:56px 0 16px;letter-spacing:-0.5px;border-bottom:2px solid #111;padding-bottom:8px}
+  h3{font-size:17px;font-weight:700;margin:28px 0 10px}
+  p{margin:6px 0;color:#333}
+
+  .img-box{margin:16px 0;border-radius:8px;overflow:hidden;border:1px solid #ddd}
+  .img-box img{width:100%;display:block}
+  .cap{font-size:11px;color:#999;margin:4px 0 16px;text-align:center}
+
+  /* 판정 박스 */
+  .verdict{padding:16px 20px;border-radius:8px;margin:16px 0;font-size:14px;line-height:1.75}
+  .verdict strong{display:block;margin-bottom:2px;font-size:15px}
+  .v-issue{background:#fef2f2;border-left:4px solid #ef4444;color:#991b1b}
+  .v-good{background:#f0fdf4;border-left:4px solid #22c55e;color:#166534}
+  .v-suggest{background:#f0f4ff;border-left:4px solid #2563eb;color:#1e3a5f}
+  .v-neutral{background:#f9fafb;border-left:4px solid #9ca3af;color:#374151}
+
+  /* 수치 강조 */
+  .num-highlight{font-size:28px;font-weight:900;color:#2563eb;letter-spacing:-1px}
+
+  /* 비교 테이블 */
+  table{width:100%;border-collapse:collapse;margin:14px 0;font-size:13.5px}
+  th{background:#f5f5f5;font-weight:700;text-align:left;padding:10px 14px;border-bottom:2px solid #ddd}
+  td{padding:9px 14px;border-bottom:1px solid #eee;vertical-align:top}
+
+  /* 전략 블록 */
+  .alt{background:#111;color:#fff;border-radius:10px;padding:20px 24px;margin:14px 0}
+  .alt h4{font-size:15px;font-weight:800;color:#93c5fd;margin-bottom:4px}
+  .alt p{color:rgba(255,255,255,.8);font-size:14px;margin:2px 0}
+
+  /* 트렌드 카드 */
+  .trend-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0}
+  .trend-card{background:#f8f9fa;border:1px solid #e8e8e8;border-radius:10px;padding:18px 20px}
+  .trend-card h4{font-size:14px;font-weight:800;color:#2563eb;margin-bottom:4px}
+  .trend-card p{font-size:13px;color:#555;margin:0;line-height:1.6}
+
+  .muted{color:#999;font-size:12px}
+  .muted a{color:#2563eb}
+
+  @media(max-width:640px){
+    .wrap{padding:32px 16px 60px}
+    .doc-hd h1{font-size:21px}
+    h2{font-size:18px}
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="doc-hd">
+    <h1>Land-XI 프로토타입<br>UI 구성 검토 의견서</h1>
+    <p>2026.04 &mdash; UX 구조 분석 및 설계 방향 제안</p>
+  </header>
+
+  <!-- ============================================ -->
+  <h2>1. AI 공간정보 플랫폼 UI 트렌드</h2>
+  <!-- ============================================ -->
+
+  <p>2025~2026년 주요 GIS/AI 플랫폼이 공통적으로 채택하고 있는 UI 패턴입니다.</p>
+
+  <div class="trend-grid">
+    <div class="trend-card">
+      <h4>지도 퍼스트</h4>
+      <p>대시보드가 아닌 지도가 기본 진입점. 필요한 정보만 플로팅 HUD로 표출.</p>
+    </div>
+    <div class="trend-card">
+      <h4>레이어 상시 노출</h4>
+      <p>레이어 패널은 항상 접근 가능. 분석·검색 등은 독립 패널로 분리하여 동시 작업 가능.</p>
+    </div>
+    <div class="trend-card">
+      <h4>프로그레시브 디스클로저</h4>
+      <p>모든 기능을 한 번에 노출하지 않음. 사용자 행동에 따라 점진적으로 상세 정보 표출.</p>
+    </div>
+    <div class="trend-card">
+      <h4>역할 기반 UI</h4>
+      <p>분석가·관리자·열람자별로 메뉴와 기능을 다르게 구성. 불필요한 기능은 숨기는 것이 표준.</p>
+    </div>
+  </div>
+
+  <!-- ============================================ -->
+  <h2>2. 유사 서비스 벤치마킹</h2>
+  <!-- ============================================ -->
+
+  <p>Land-XI는 AI 모델 관리(학습·배포) + 분석 실행 + 결과 지도 조회가 결합된 플랫폼입니다. 이에 맞는 비교 대상을 선정했습니다.</p>
+
+  <h3>FlyPix AI &mdash; 위성/드론 영상 AI 분석 플랫폼</h3>
+  <div class="img-box"><img src="assets/img/report/bench_flypix.png" alt="FlyPix AI Workspace"></div>
+  <p class="cap">FlyPix AI &mdash; 지도 풀스크린 + 좌측에 AI 분석 결과(객체 탐지 목록) 상시 노출</p>
+  <ul class="clean">
+    <li><strong>구조:</strong> 지도가 기본 화면, 좌측 패널에 AI 탐지 결과(객체 수, 면적)가 상시 표시</li>
+    <li><strong>네비게이션:</strong> 상단 바 최소화 (프로젝트명 + 모드 전환만), 기능은 좌측 패널과 우측 도구로 분리</li>
+    <li><strong>분석 워크플로우:</strong> 영상 업로드 → 모델 선택 → 분석 실행이 단일 워크스페이스 내에서 완결</li>
+  </ul>
+  <p class="muted">출처: <a href="https://flypix.ai/platform/">FlyPix AI Platform</a></p>
+
+  <h3>Roboflow &mdash; 컴퓨터 비전 모델 관리·배포 플랫폼</h3>
+  <div class="img-box"><img src="assets/img/report/bench_roboflow_detail.png" alt="Roboflow Model Monitoring"></div>
+  <p class="cap">Roboflow &mdash; 모델 모니터링 대시보드 (요청 수, 평균 신뢰도, 추론 시간 KPI)</p>
+  <div class="img-box"><img src="assets/img/report/bench_roboflow_dashboard.png" alt="Roboflow Projects"></div>
+  <p class="cap">Roboflow &mdash; 프로젝트/워크플로우/모니터링 탭 구조</p>
+  <ul class="clean">
+    <li><strong>대시보드:</strong> KPI 카드(요청 수·신뢰도·추론시간) + 모델별 추론 이력 테이블</li>
+    <li><strong>네비게이션:</strong> 상단에 Projects / Workflows / Monitoring / Devices 4개 탭만 배치</li>
+    <li><strong>분석 파이프라인:</strong> 데이터 업로드 → 라벨링 → 학습 → 배포 → 모니터링 전체를 하나의 플랫폼에서 관리</li>
+  </ul>
+  <p class="muted">출처: <a href="https://blog.roboflow.com/model-monitoring/">Roboflow Blog — Model Monitoring</a></p>
+
+  <h3>Felt &mdash; 지도 기반 협업 플랫폼 (UI 구조 참고)</h3>
+  <div class="img-box"><img src="assets/img/report/bench_felt_interface.png" alt="Felt Interface Structure"></div>
+  <p class="cap">Felt &mdash; 인터페이스 구조도: Toolbar(상단) + Legend(좌측 상시) + Map(중앙) + Detail Panel(우측, 필요 시)</p>
+  <ul class="clean">
+    <li><strong>핵심:</strong> 레이어(Legend)가 좌측에 상시 노출, 상세 패널은 클릭 시에만 우측에 표시</li>
+    <li><strong>지도와 패널이 공존:</strong> 탭 전환 없이 여러 패널을 동시에 볼 수 있는 구조</li>
+  </ul>
+  <p class="muted">출처: <a href="https://help.felt.com/getting-started/tour-the-interface">Felt Help — Tour the Interface</a></p>
+
+  <h3>비교표</h3>
+  <table>
+    <thead><tr><th>항목</th><th>FlyPix AI</th><th>Roboflow</th><th>Felt</th><th>Land-XI</th></tr></thead>
+    <tbody>
+      <tr>
+        <td><strong>서비스 성격</strong></td>
+        <td>영상 AI 분석</td><td>모델 관리·배포</td><td>지도 협업</td>
+        <td>AI 분석 + 지도</td>
+      </tr>
+      <tr>
+        <td><strong>기본 진입</strong></td>
+        <td>지도(워크스페이스)</td><td>프로젝트 목록</td><td>지도</td>
+        <td style="color:#ef4444;font-weight:700">대시보드</td>
+      </tr>
+      <tr>
+        <td><strong>탑 메뉴 수</strong></td>
+        <td>3~4개</td><td>4개</td><td>5개</td>
+        <td style="color:#ef4444;font-weight:700">9개</td>
+      </tr>
+      <tr>
+        <td><strong>지도 레이어</strong></td>
+        <td>좌측 상시</td><td>N/A</td><td>좌측 상시</td>
+        <td style="color:#ef4444;font-weight:700">탭 전환</td>
+      </tr>
+      <tr>
+        <td><strong>모델 관리</strong></td>
+        <td>워크스페이스 내</td><td>별도 탭</td><td>N/A</td>
+        <td>별도 메뉴</td>
+      </tr>
+      <tr>
+        <td><strong>권한 분기</strong></td>
+        <td>역할 기반</td><td>팀/개인</td><td>편집/뷰어</td>
+        <td style="color:#22c55e;font-weight:700">3단계</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="verdict v-suggest">
+    <strong>시사점</strong>
+    AI 분석 플랫폼들은 공통적으로 탑 네비게이션을 4~5개 이내로 유지하며, 지도를 다루는 서비스는 레이어를 상시 노출합니다. Land-XI의 권한별 3단계 UI 분기는 벤치마킹 대상 대비 앞서는 강점이지만, 9개 수평 메뉴와 사이드바 탭 전환 방식은 업계 흐름과 차이가 있습니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>3. 탑 네비게이션 구조</h2>
+  <!-- ============================================ -->
+
+  <div class="img-box"><img src="assets/img/report/admin_dashboard.png" alt="관리자 대시보드"></div>
+  <p class="cap">관리자 뷰 &mdash; 수평 네비게이션 9개 메뉴</p>
+
+  <h3>문제: 메뉴 수와 가로 해상도</h3>
+
+  <p>현재 관리자 화면에 <strong>9개 메뉴</strong>가 수평으로 나열되어 있습니다. 탑 네비게이션에서 메뉴가 정상적으로 표시되려면 각 메뉴 아이템에 아이콘(16px) + 텍스트(한글 4자 기준 약 56px) + 좌우 패딩(24px) = 약 <strong>96px</strong>이 필요합니다.</p>
+
+  <table>
+    <thead><tr><th>메뉴 수</th><th>필요 너비</th><th>대응 해상도</th></tr></thead>
+    <tbody>
+      <tr><td>5개</td><td>~480px</td><td>태블릿 이상 대응 가능</td></tr>
+      <tr><td>7개</td><td>~672px</td><td>1024px 이상 권장</td></tr>
+      <tr><td><strong>9개</strong></td><td><strong>~864px</strong></td><td><strong>1280px 이상 필수, 로고+우측 영역 포함 시 1440px+</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="verdict v-issue">
+    <strong>우려 사항</strong>
+    9개 메뉴를 수평 나열하면 1280px 미만 해상도에서 메뉴가 잘리거나 줄바꿈이 발생합니다. Nielsen Norman Group의 연구에 따르면 탑 네비게이션의 권장 메뉴 수는 <strong>5~7개</strong>이며, 이를 초과할 경우 사용자의 탐색 효율이 감소합니다. 실제로 지자체 뷰(6개)와 비교했을 때 관리자 뷰(9개)는 시각적 밀도가 높아 어떤 메뉴가 핵심인지 구분이 어렵습니다.
+  </div>
+
+  <div class="img-box"><img src="assets/img/report/local_dashboard.png" alt="지자체 대시보드"></div>
+  <p class="cap">지자체 뷰 &mdash; 6개 메뉴, 상대적으로 여유 있는 구성</p>
+
+  <div class="verdict v-suggest">
+    <strong>대안</strong>
+    핵심 메뉴(대시보드·지도서비스·보고서)와 관리 메뉴(영상·학습·모델 등)를 <strong>2단 그룹핑</strong>하거나, 관리 메뉴를 드롭다운/사이드바로 분리하면 5~6개 수준으로 축소 가능합니다. 이렇게 하면 1024px 해상도에서도 안정적으로 대응됩니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>4. 메뉴 하위 사이드바 탭 구조</h2>
+  <!-- ============================================ -->
+
+  <div class="img-box"><img src="assets/img/report/map_layer.png" alt="레이어 탭"></div>
+  <p class="cap">지도서비스 &mdash; 좌측 사이드바에 레이어/분석/라벨링/검색 4개 탭</p>
+
+  <h3>구조: 네비게이션 → 사이드바 → 탭</h3>
+  <p>현재 사용자가 특정 기능에 도달하기까지의 계층 구조:</p>
+  <p><strong>탑 메뉴(지도서비스)</strong> → <strong>좌측 사이드바</strong> → <strong>탭(레이어/분석/라벨링/검색)</strong> → <strong>기능 내용</strong></p>
+  <p>총 <strong>3단계 계층</strong>입니다.</p>
+
+  <div class="verdict v-issue">
+    <strong>우려 사항 1 &mdash; 컨텍스트 유실</strong>
+    탭 전환 시 이전 탭의 상태가 사라집니다. 예를 들어 레이어를 조정하다가 분석 탭으로 이동하면, 레이어 설정 화면이 완전히 사라져 두 기능을 동시에 참조할 수 없습니다. GIS 작업에서는 레이어를 보면서 분석을 실행하거나, 검색 결과를 보면서 레이어를 조정하는 것이 일반적인 워크플로우입니다.
+  </div>
+
+  <div class="img-box"><img src="assets/img/report/map_analysis.png" alt="분석 탭"></div>
+  <p class="cap">분석 탭 전환 시 레이어 설정이 사라짐</p>
+
+  <div class="verdict v-issue">
+    <strong>우려 사항 2 &mdash; 탭의 성격 혼재</strong>
+    레이어 관리(상시 필요)와 라벨링(전문 기능)이 동일 탭 레벨에 있습니다. 사용 빈도와 성격이 전혀 다른 기능이 같은 우선순위로 배치되면 사용자가 "이 탭이 나한테 필요한 건가?" 판단하는 데 불필요한 인지 부하가 발생합니다.
+  </div>
+
+  <div class="verdict v-good">
+    <strong>장점</strong>
+    사이드바 영역을 재활용하므로 화면 공간을 절약할 수 있고, 각 탭의 내용이 독립적이라 개별 기능의 UI가 깔끔하게 유지됩니다. 분석 탭의 "카드 선택 → 범위 설정 → 실행" 워크플로우는 직관적으로 잘 설계되어 있습니다.
+  </div>
+
+  <div class="verdict v-suggest">
+    <strong>대안</strong>
+    <strong>레이어 패널을 상시 노출</strong>하고, 분석·검색은 별도 플로팅 패널로 분리하는 방식이 GIS 플랫폼의 표준입니다 (ArcGIS Online, QGIS, Felt). 이렇게 하면 레이어를 보면서 동시에 분석을 실행할 수 있고, 라벨링 같은 전문 기능은 별도 모드로 진입하는 구조가 됩니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>5. 대시보드 vs 지도 진입점</h2>
+  <!-- ============================================ -->
+
+  <p>현재 로그인 후 기본 화면은 <strong>대시보드</strong>입니다.</p>
+
+  <div class="verdict v-neutral">
+    <strong>현황</strong>
+    대시보드에 KPI 카드, 최근 분석, 스토리지 현황, 공지사항, 프로젝트 목록이 한 화면에 배치되어 있습니다. 이는 프로젝트 관리 중심 사용자에게 적합하지만, 지도 기반 업무를 수행하는 사용자에게는 지도까지 한 번 더 클릭해야 하는 불필요한 동선이 됩니다.
+  </div>
+
+  <table>
+    <thead><tr><th>기본 진입점</th><th>적합한 사용자</th><th>사례</th></tr></thead>
+    <tbody>
+      <tr><td>대시보드</td><td>프로젝트 관리자, 데이터 사이언티스트</td><td>Weights & Biases, MLflow</td></tr>
+      <tr><td><strong>지도 풀스크린</strong></td><td><strong>공간정보 분석가, 현장 담당자, 열람자</strong></td><td><strong>ArcGIS Online, Google Earth Engine, Felt</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="verdict v-suggest">
+    <strong>제안</strong>
+    사용자 역할에 따라 기본 진입점을 분기할 것을 권장합니다. 관리자는 대시보드, 열람자/분석가는 지도서비스로 직접 진입. Land-XI의 권한별 뷰 분기 구조를 활용하면 구현 가능합니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>6. 권한별 UI 분기</h2>
+  <!-- ============================================ -->
+
+  <p>Land-XI는 이미 관리자/LX/지자체 3단계 권한별 화면 분기를 구현하고 있습니다. 이 구조는 매우 긍정적입니다.</p>
+
+  <div class="img-box"><img src="assets/img/report/lx_dashboard.png" alt="LX 대시보드"></div>
+  <p class="cap">LX 뷰 &mdash; 관리자 대비 보고서·통계 메뉴 제거</p>
+
+  <table>
+    <thead><tr><th>권한</th><th>메뉴 수</th><th>빠른 실행</th></tr></thead>
+    <tbody>
+      <tr><td>관리자</td><td>9개</td><td>4개 (지도·영상·프로젝트·라벨링)</td></tr>
+      <tr><td>LX</td><td>7개</td><td>4개</td></tr>
+      <tr><td>지자체</td><td>6개</td><td>2개 (지도·영상)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="verdict v-good">
+    <strong>좋은 구조</strong>
+    지자체 뷰에서 학습데이터·모델학습 등 전문 메뉴가 제거되고 빠른 실행이 2개로 축소된 것은 역할 기반 UI의 좋은 사례입니다. 이 패턴을 우리 서비스에 그대로 활용할 수 있습니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>7. 디자인 시스템</h2>
+  <!-- ============================================ -->
+
+  <div class="verdict v-good">
+    <strong>장점</strong>
+    카드 컴포넌트, 뱃지, 테이블, 버튼(Primary/Secondary) 스타일이 전반적으로 일관되며, 다크 네이비 헤더 + 라이트 배경 + 화이트 카드의 3단 색상 체계가 안정적입니다.
+  </div>
+
+  <div class="verdict v-issue">
+    <strong>우려 사항</strong>
+    아이콘이 대부분 placeholder(빈 사각형)로 표시되고 있어 실제 사용 시 시각적 구분력이 떨어질 수 있습니다. 최종 구현 시 의미 있는 아이콘으로 교체가 필요합니다.
+  </div>
+
+  <!-- ============================================ -->
+  <h2>8. 종합</h2>
+  <!-- ============================================ -->
+
+  <table>
+    <thead><tr><th>항목</th><th>판정</th><th>핵심 의견</th></tr></thead>
+    <tbody>
+      <tr><td>탑 네비게이션 9개</td><td style="color:#ef4444;font-weight:700">개선 권장</td><td>5~7개 그룹핑 또는 2단 분리. 1440px 미만 대응 어려움</td></tr>
+      <tr><td>사이드바 탭 전환</td><td style="color:#ef4444;font-weight:700">개선 권장</td><td>레이어 상시 + 분석 독립 패널. 컨텍스트 유실 해소</td></tr>
+      <tr><td>대시보드 기본 진입</td><td style="color:#f59e0b;font-weight:700">선택적</td><td>역할별 분기 권장 (관리자→대시보드, 열람자→지도)</td></tr>
+      <tr><td>권한별 UI 분기</td><td style="color:#22c55e;font-weight:700">우수</td><td>3단계 분기 이미 구현. 그대로 활용</td></tr>
+      <tr><td>디자인 시스템</td><td style="color:#22c55e;font-weight:700">양호</td><td>컴포넌트 일관성 좋음. 아이콘 교체 필요</td></tr>
+      <tr><td>분석 워크플로우</td><td style="color:#22c55e;font-weight:700">우수</td><td>카드 선택→범위→실행 구조 직관적</td></tr>
+    </tbody>
+  </table>
+
+  <p class="muted" style="margin-top:32px">참고: Nielsen Norman Group Navigation Design, Esri UX Workshop, Eleken GIS UX Design Guide, Revival Pixel GIS Dashboard UX 2025</p>
+
+</div>
+</body>
+</html>

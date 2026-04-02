@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자주 묻는 질문 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="../assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item active" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link active" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-board">
+
+    <!-- ===== 목록 뷰 ===== -->
+    <div id="faq-list-view">
+
+    <h2 class="adm-page-title">자주 묻는 질문 관리</h2>
+
+    <!-- 검색 필터 영역 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">검색어</label>
+          <div class="adm-filter-input-group">
+            <select class="adm-sel">
+              <option>전체</option>
+              <option>제목</option>
+              <option>내용</option>
+              <option>등록자</option>
+            </select>
+            <input type="text" class="adm-filter-input" placeholder="검색어를 입력하세요">
+          </div>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">구분</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>시설물 조회</option>
+            <option>지도/레이어</option>
+            <option>계정/인증</option>
+            <option>시스템 일반</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">등록일</label>
+          <div class="adm-filter-input-group">
+            <input type="date" class="adm-filter-input" id="faq-date-start" style="max-width:150px;">
+            <span style="color:var(--text-muted);">~</span>
+            <input type="date" class="adm-filter-input" id="faq-date-end" style="max-width:150px;">
+            <div class="adm-period-btns">
+              <button class="adm-period-btn" data-months="0">전체</button>
+              <button class="adm-period-btn" data-months="1">1개월</button>
+              <button class="adm-period-btn" data-months="3">3개월</button>
+              <button class="adm-period-btn" data-months="6">6개월</button>
+              <button class="adm-period-btn" data-months="12">12개월</button>
+            </div>
+          </div>
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost">초기화</button>
+          <button class="btn-sm-primary">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- FAQ 목록 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3>자주 묻는 질문 목록</h3>
+        <div class="tc-actions">
+          <button class="btn-sm-ghost" id="faq-bulk-delete">선택 삭제</button>
+          <button class="btn-sm-primary" id="faq-btn-create">등록</button>
+        </div>
+      </div>
+      <table class="adm-table" id="faq-table">
+        <thead>
+          <tr>
+            <th style="width:40px;"><input type="checkbox" id="faq-chk-all"></th>
+            <th>구분</th>
+            <th>제목</th>
+            <th>등록자</th>
+            <th>등록 일시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시설물 조회</td><td data-label="제목">불법 시설물의 '걸침'과 '구역내'는 무슨 뜻인가요?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-03-20 09:30:15</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시설물 조회</td><td data-label="제목">특정 지역의 불법 시설물 목록은 어떻게 확인하나요?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-03-15 14:22:40</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">지도/레이어</td><td data-label="제목">지도에서 하천 구역 경계를 표시하려면 어떻게 하나요?</td><td data-label="등록자">신상미</td><td data-label="등록 일시">2026-03-10 11:05:33</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시설물 조회</td><td data-label="제목">시설물 상세 정보에서 확인할 수 있는 항목은?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-03-05 16:18:27</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">지도/레이어</td><td data-label="제목">지도 위성 영상과 일반 지도를 전환하는 방법은?</td><td data-label="등록자">신상미</td><td data-label="등록 일시">2026-02-28 10:42:55</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시설물 조회</td><td data-label="제목">시·도별 불법 시설물 현황을 한눈에 보려면?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-02-20 13:35:10</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">계정/인증</td><td data-label="제목">회원가입 승인은 얼마나 걸리나요?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-02-15 09:20:44</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">계정/인증</td><td data-label="제목">비밀번호를 분실했을 때 어떻게 하나요?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-02-10 11:08:30</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시스템 일반</td><td data-label="제목">시스템 권장 브라우저와 해상도는?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-02-01 15:50:22</td></tr>
+          <tr><td data-label="선택"><input type="checkbox"></td><td data-label="구분">시스템 일반</td><td data-label="제목">시스템 이용 가능 시간은 어떻게 되나요?</td><td data-label="등록자">관리자</td><td data-label="등록 일시">2026-01-20 10:15:38</td></tr>
+        </tbody>
+      </table>
+      <div class="tbl-pagination">
+        <div class="pg-btns">
+          <button class="pg-btn">처음</button>
+          <button class="pg-btn">이전</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">다음</button>
+          <button class="pg-btn">마지막</button>
+          <select class="adm-sel" style="margin-left:12px;padding:5px 30px 5px 12px;font-size:12px;width:75px;">
+            <option>10</option><option>20</option><option>50</option>
+          </select>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">페이지 크기</span>
+        </div>
+        <span class="tbl-pagination-info" style="display:block;">총 10건 중 1-10행</span>
+      </div>
+    </div>
+
+    </div><!-- /faq-list-view -->
+
+    <!-- ===== 상세/등록 뷰 ===== -->
+    <div id="faq-detail-view" style="display:none;">
+      <h2 class="adm-page-title" id="faq-page-title">자주 묻는 질문 등록</h2>
+      <div class="table-card">
+        <div class="notice-detail-form">
+
+          <!-- 구분 + 제목 -->
+          <div class="nf-row nf-row-title">
+            <div class="nf-field" style="flex:0 0 180px;">
+              <label class="nf-label">구분<span class="nf-required">*</span></label>
+              <select class="adm-sel nf-select" id="faq-category">
+                <option value="시설물 조회">시설물 조회</option>
+                <option value="지도/레이어">지도/레이어</option>
+                <option value="계정/인증">계정/인증</option>
+                <option value="시스템 일반">시스템 일반</option>
+              </select>
+            </div>
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">제목<span class="nf-required">*</span></label>
+              <div class="nf-title-wrap">
+                <input type="text" class="nf-input" id="faq-title" maxlength="200" placeholder="질문을 입력하세요">
+                <span class="nf-char-count">(<span id="faq-title-count">0</span>자/200자)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 내용 (답변) -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">내용<span class="nf-required">*</span></label>
+              <div class="nf-editor-wrap">
+                <div class="nf-editor-toolbar">
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="글꼴">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                      <svg viewBox="0 0 10 6" style="width:8px;height:8px;margin-left:2px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="굵게"><b>B</b></button>
+                    <button class="nf-tb-btn" title="밑줄"><u>U</u></button>
+                    <button class="nf-tb-btn" title="기울임"><span style="font-style:italic;font-family:serif;">I</span></button>
+                    <button class="nf-tb-btn" title="취소선"><s>S</s></button>
+                    <button class="nf-tb-btn" title="위 첨자">X<sup style="font-size:9px;">2</sup></button>
+                    <button class="nf-tb-btn" title="아래 첨자">X<sub style="font-size:9px;">2</sub></button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn nf-tb-color" title="글자 색">
+                      <span style="font-weight:700;">A</span>
+                      <span class="nf-color-bar" style="background:#ff0000;"></span>
+                      <svg viewBox="0 0 10 6" style="width:8px;height:8px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="순서 있는 목록"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><text x="4" y="8" font-size="8" fill="currentColor" stroke="none" font-weight="bold">1</text><text x="4" y="14" font-size="8" fill="currentColor" stroke="none" font-weight="bold">2</text><text x="4" y="20" font-size="8" fill="currentColor" stroke="none" font-weight="bold">3</text></svg></button>
+                    <button class="nf-tb-btn" title="순서 없는 목록"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg></button>
+                    <button class="nf-tb-btn" title="들여쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="4" x2="21" y2="4"/><line x1="3" y1="20" x2="21" y2="20"/><line x1="11" y1="9" x2="21" y2="9"/><line x1="11" y1="15" x2="21" y2="15"/><polyline points="3 8 7 12 3 16"/></svg></button>
+                    <button class="nf-tb-btn" title="내어쓰기"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="4" x2="21" y2="4"/><line x1="3" y1="20" x2="21" y2="20"/><line x1="11" y1="9" x2="21" y2="9"/><line x1="11" y1="15" x2="21" y2="15"/><polyline points="7 8 3 12 7 16"/></svg></button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="표"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg><svg viewBox="0 0 10 6" style="width:8px;height:8px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg></button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="링크"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg></button>
+                    <button class="nf-tb-btn" title="이미지"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg></button>
+                    <button class="nf-tb-btn" title="서식 제거"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                  </div>
+                </div>
+                <div class="nf-editor-body" contenteditable="true" id="faq-content"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 첨부 파일 -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">첨부 파일</label>
+              <div class="nf-attach-area">
+                <div class="nf-attach-top">
+                  <button class="nf-attach-btn" id="faq-attach-btn">파일 추가</button>
+                  <span class="nf-attach-info">허용 확장자: .jpg, .jpeg, .png, .gif, .bmp, .pdf, .xlsx, .xls, .doc, .docx, .ppt, .pptx, .hwp, .txt · 파일당 최대 10.0 MB · 최대 3개</span>
+                  <input type="file" id="faq-file-input" multiple accept=".jpg,.jpeg,.png,.gif,.bmp,.pdf,.xlsx,.xls,.doc,.docx,.ppt,.pptx,.hwp,.txt" style="display:none;">
+                </div>
+                <div class="nf-attach-list" id="faq-attach-list">
+                  <p class="nf-attach-empty">첨부된 파일이 없습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 등록 정보 -->
+          <div class="nf-row nf-meta-row" id="faq-meta-row" style="display:none;">
+            <div class="nf-meta-grid">
+              <div class="nf-meta-item"><span class="nf-meta-label">등록자</span><span class="nf-meta-value" id="faq-author">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">등록일시</span><span class="nf-meta-value" id="faq-created">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">수정자</span><span class="nf-meta-value" id="faq-modifier">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">수정일시</span><span class="nf-meta-value" id="faq-modified">-</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 하단 버튼 -->
+      <div class="nf-bottom-actions">
+        <button class="nf-btn nf-btn-list" id="faq-btn-list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          목록
+        </button>
+        <div class="nf-btn-right">
+          <button class="nf-btn nf-btn-delete" id="faq-btn-delete" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            삭제
+          </button>
+          <button class="nf-btn nf-btn-save" id="faq-btn-save">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            저장
+          </button>
+        </div>
+      </div>
+    </div><!-- /faq-detail-view -->
+
+  </section>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+
+      // 기간 버튼 클릭
+      document.querySelectorAll('#faq-list-view .adm-period-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const months = parseInt(btn.dataset.months);
+          const startInput = document.getElementById('faq-date-start');
+          const endInput = document.getElementById('faq-date-end');
+          if (months === 0) { startInput.value = ''; endInput.value = ''; }
+          else {
+            const today = new Date(); const start = new Date();
+            start.setMonth(today.getMonth() - months);
+            startInput.value = start.toISOString().split('T')[0];
+            endInput.value = today.toISOString().split('T')[0];
+          }
+        });
+      });
+
+      // 전체 선택 체크박스
+      const faqChkAll = document.getElementById('faq-chk-all');
+      if (faqChkAll) {
+        faqChkAll.addEventListener('change', () => {
+          document.querySelectorAll('#faq-table tbody input[type="checkbox"]').forEach(cb => cb.checked = faqChkAll.checked);
+        });
+        document.querySelector('#faq-table tbody').addEventListener('change', () => {
+          const cbs = document.querySelectorAll('#faq-table tbody input[type="checkbox"]');
+          faqChkAll.checked = [...cbs].every(cb => cb.checked);
+        });
+      }
+
+      // ── 목록 ↔ 상세 전환 ──
+      const faqListView = document.getElementById('faq-list-view');
+      const faqDetailView = document.getElementById('faq-detail-view');
+
+      function showFaqDetail(isEdit) {
+        faqListView.style.display = 'none';
+        faqDetailView.style.display = 'block';
+        const metaRow = document.getElementById('faq-meta-row');
+        const deleteBtn = document.getElementById('faq-btn-delete');
+        const pageTitle = document.getElementById('faq-page-title');
+        if (isEdit) {
+          metaRow.style.display = 'flex';
+          deleteBtn.style.display = 'inline-flex';
+          pageTitle.textContent = '자주 묻는 질문 수정';
+        } else {
+          metaRow.style.display = 'none';
+          deleteBtn.style.display = 'none';
+          pageTitle.textContent = '자주 묻는 질문 등록';
+        }
+      }
+
+      function showFaqList() {
+        faqDetailView.style.display = 'none';
+        faqListView.style.display = 'block';
+      }
+
+      // 등록 버튼
+      document.getElementById('faq-btn-create').addEventListener('click', () => {
+        document.getElementById('faq-category').value = '데이터 업로드';
+        document.getElementById('faq-title').value = '';
+        document.getElementById('faq-title-count').textContent = '0';
+        document.getElementById('faq-content').innerHTML = '';
+        document.getElementById('faq-attach-list').innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+        showFaqDetail(false);
+        window.scrollTo(0, 0);
+      });
+
+      // 목록 버튼
+      document.getElementById('faq-btn-list').addEventListener('click', showFaqList);
+
+      // 가상 FAQ 상세 데이터
+      const faqData = [
+        { category: '시설물 조회', title: '불법 시설물의 \'걸침\'과 \'구역내\'는 무슨 뜻인가요?',
+          content: `<p><b>'걸침'</b>과 <b>'구역내'</b>는 불법 시설물의 위치 유형을 구분하는 용어입니다.</p><p><b>걸침(걸쳐있음):</b></p><ul><li>하천 구역 경계선을 걸쳐서 위치한 시설물</li><li>시설물의 일부가 하천 구역 안에, 일부가 밖에 있는 경우</li><li>정비 시 관할 구역 간 협의가 필요할 수 있습니다.</li></ul><p><b>구역내:</b></p><ul><li>하천·계곡 구역 내부에 완전히 위치한 시설물</li><li>하천법에 따라 허가 없이 설치된 불법 구조물에 해당</li></ul><p>대시보드 좌측 패널에서 시·도별 걸침/구역내 건수를 확인할 수 있으며, 클릭하면 해당 지역의 상세 시설물 목록으로 이동합니다.</p>`,
+          author: '관리자', created: '2026-03-20 09:30:15', modifier: '관리자', modified: '2026-03-20 09:30:15' },
+        { category: '시설물 조회', title: '특정 지역의 불법 시설물 목록은 어떻게 확인하나요?',
+          content: `<p>특정 지역의 불법 시설물을 확인하는 방법은 다음과 같습니다.</p><p><b>방법 1. 지도에서 직접 조회:</b></p><ol><li>대시보드 지도에서 원하는 지역을 클릭합니다.</li><li>해당 지역의 시설물 마커가 표시됩니다.</li><li>마커를 클릭하면 시설물 상세 정보를 확인할 수 있습니다.</li></ol><p><b>방법 2. 좌측 패널에서 조회:</b></p><ol><li>좌측 시·도별 현황 패널에서 원하는 지역을 선택합니다.</li><li>걸침 또는 구역내 건수를 클릭하면 해당 목록이 표시됩니다.</li><li>정렬 기준(걸침순, 구역내순, 지역명순)을 변경할 수 있습니다.</li></ol>`,
+          author: '관리자', created: '2026-03-15 14:22:40', modifier: '관리자', modified: '2026-03-15 14:22:40' },
+        { category: '지도/레이어', title: '지도에서 하천 구역 경계를 표시하려면 어떻게 하나요?',
+          content: `<p>지도에서 하천 구역 경계선을 표시하는 방법입니다.</p><ol><li>지도 우측의 <b>[레이어 설정]</b> 버튼을 클릭합니다.</li><li>레이어 목록에서 <b>'하천 구역 경계'</b>를 활성화합니다.</li><li>필요에 따라 <b>'계곡 구역'</b>, <b>'불법 시설물'</b> 등 추가 레이어도 켤 수 있습니다.</li></ol><p><b>레이어 색상 구분:</b></p><ul><li><span style="color:#5b8def;">파란색 영역</span>: 하천 구역</li><li><span style="color:#ab7ae0;">보라색 영역</span>: 허가 구역</li><li><span style="color:#ff6b6b;">빨간색 마커</span>: 불법 시설물 위치</li></ul><p>레이어는 중복 표시가 가능하며, 투명도를 조절하여 배경 지도와 함께 볼 수 있습니다.</p>`,
+          author: '신상미', created: '2026-03-10 11:05:33', modifier: '신상미', modified: '2026-03-10 11:05:33' },
+        { category: '시설물 조회', title: '시설물 상세 정보에서 확인할 수 있는 항목은?',
+          content: `<p>불법 시설물의 상세 정보에서 확인할 수 있는 항목은 다음과 같습니다.</p><p><b>기본 정보:</b></p><ul><li>시설물 유형 (건축물, 비닐하우스, 축사, 창고 등)</li><li>소재지 (시·도 / 시·군·구 / 읍·면·동)</li><li>GPS 좌표 (위도, 경도)</li></ul><p><b>하천 관련 정보:</b></p><ul><li>해당 하천명 및 하천 등급</li><li>위치 유형 (걸침 / 구역내)</li><li>하천 구역 경계로부터의 거리</li></ul><p><b>정비 현황:</b></p><ul><li>현재 상태 (미정비 / 정비 중 / 정비 완료)</li><li>담당 기관 및 담당자</li><li>정비 예정일 / 완료일</li></ul>`,
+          author: '관리자', created: '2026-03-05 16:18:27', modifier: '관리자', modified: '2026-03-05 16:18:27' },
+        { category: '지도/레이어', title: '지도 위성 영상과 일반 지도를 전환하는 방법은?',
+          content: `<p>지도 배경을 위성 영상과 일반 지도 사이에서 전환할 수 있습니다.</p><p><b>전환 방법:</b></p><ol><li>지도 우측 상단의 <b>[지도 유형]</b> 버튼을 클릭합니다.</li><li>원하는 배경을 선택합니다:</li></ol><ul><li><b>일반 지도:</b> 도로, 건물, 지명이 표시되는 기본 지도</li><li><b>위성 영상:</b> 실제 항공/위성 사진 기반 지도</li><li><b>하이브리드:</b> 위성 영상 위에 도로/지명 오버레이</li></ul><p>불법 시설물 현장 확인 시에는 <b>위성 영상</b> 또는 <b>하이브리드</b> 모드를 권장합니다. 실제 건축물과 지형을 함께 확인할 수 있습니다.</p>`,
+          author: '신상미', created: '2026-02-28 10:42:55', modifier: '신상미', modified: '2026-02-28 10:42:55' },
+        { category: '시설물 조회', title: '시·도별 불법 시설물 현황을 한눈에 보려면?',
+          content: `<p>대시보드에서 전국 시·도별 불법 시설물 현황을 한눈에 확인할 수 있습니다.</p><p><b>확인 방법:</b></p><ol><li>메인 대시보드에 접속합니다.</li><li>좌측 패널에 전국 시·도별 현황이 자동으로 표시됩니다.</li><li>각 시·도별로 <b>걸침</b> 건수와 <b>구역내</b> 건수를 확인할 수 있습니다.</li></ol><p><b>정렬 옵션:</b></p><ul><li>걸침순: 걸침 건수가 많은 순서</li><li>구역내순: 구역내 건수가 많은 순서</li><li>지역명순: 가나다 순 정렬</li></ul><p>지도에서도 각 시·도 영역을 클릭하면 해당 지역으로 확대되며, 하위 시·군·구 단위 현황을 확인할 수 있습니다.</p>`,
+          author: '관리자', created: '2026-02-20 13:35:10', modifier: '관리자', modified: '2026-02-20 13:35:10' },
+        { category: '계정/인증', title: '회원가입 승인은 얼마나 걸리나요?',
+          content: `<p>회원가입 후 승인까지의 절차와 소요 시간 안내입니다.</p><p><b>승인 절차:</b></p><ol><li>회원가입 신청서 작성 및 제출</li><li>시스템 관리자 검토 (소속 기관, 업무 관련성 확인)</li><li>승인 완료 후 이메일 통보</li></ol><p><b>소요 시간:</b></p><ul><li>일반적으로 <b>1~2 영업일</b> 이내 처리</li><li>공휴일 및 주말에는 처리되지 않습니다.</li><li>추가 확인이 필요한 경우 별도 연락드릴 수 있습니다.</li></ul><p>승인 현황은 로그인 화면에서 확인할 수 있으며, 승인 완료 시 가입 시 등록한 이메일로 안내가 발송됩니다.</p>`,
+          author: '관리자', created: '2026-02-15 09:20:44', modifier: '관리자', modified: '2026-02-15 09:20:44' },
+        { category: '계정/인증', title: '비밀번호를 분실했을 때 어떻게 하나요?',
+          content: `<p>비밀번호 분실 시 다음 절차로 재설정할 수 있습니다.</p><ol><li>로그인 화면에서 <b>[비밀번호 찾기]</b>를 클릭합니다.</li><li>가입 시 등록한 <b>이름</b>과 <b>이메일 주소</b>를 입력합니다.</li><li>이메일로 발송된 <b>인증번호 6자리</b>를 입력합니다.</li><li>새 비밀번호를 설정합니다.</li></ol><p><b>비밀번호 규칙:</b></p><ul><li>8자 이상, 영문+숫자+특수문자 조합</li><li>최근 3회 사용한 비밀번호 재사용 불가</li></ul><p>이메일 수신이 불가한 경우 시스템 관리자에게 문의해 주세요.</p>`,
+          author: '관리자', created: '2026-02-10 11:08:30', modifier: '관리자', modified: '2026-02-10 11:08:30' },
+        { category: '시스템 일반', title: '시스템 권장 브라우저와 해상도는?',
+          content: `<p>본 시스템의 권장 사용 환경은 다음과 같습니다.</p><p><b>권장 브라우저:</b></p><ul><li><b>Google Chrome</b> 90 이상 (최우선 권장)</li><li><b>Microsoft Edge</b> 90 이상</li><li><b>Mozilla Firefox</b> 88 이상</li></ul><p><b>지원되지 않는 브라우저:</b></p><ul><li>Internet Explorer 전 버전</li></ul><p><b>권장 해상도:</b></p><ul><li>데스크탑: <b>1920×1080</b> 이상</li><li>모바일: 반응형 레이아웃 지원 (375px 이상)</li></ul><p>지도 서비스의 원활한 사용을 위해 <b>Chrome 최신 버전</b>과 안정적인 인터넷 연결을 권장합니다.</p>`,
+          author: '관리자', created: '2026-02-01 15:50:22', modifier: '관리자', modified: '2026-02-01 15:50:22' },
+        { category: '시스템 일반', title: '시스템 이용 가능 시간은 어떻게 되나요?',
+          content: `<p>시스템 이용 시간 안내입니다.</p><p><b>운영 시간:</b></p><ul><li>365일 24시간 상시 운영</li><li>단, 정기점검 시간에는 일시 중단될 수 있습니다.</li></ul><p><b>정기점검:</b></p><ul><li>매월 첫째 주 일요일 02:00 ~ 06:00 (4시간)</li><li>점검 일정은 공지사항을 통해 사전 안내됩니다.</li></ul><p><b>긴급 점검:</b></p><ul><li>보안 패치 등 긴급한 경우 별도 공지 후 진행</li><li>가능한 업무 시간 외에 진행합니다.</li></ul><p>점검 시간 중에는 시스템 접속이 불가하오니 양해 부탁드립니다.</p>`,
+          author: '관리자', created: '2026-01-20 10:15:38', modifier: '관리자', modified: '2026-01-20 10:15:38' }
+      ];
+
+      // 테이블 행 클릭 → 상세 보기 (수정 모드)
+      document.querySelectorAll('#faq-table tbody tr').forEach((row, idx) => {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', (e) => {
+          if (e.target.type === 'checkbox') return;
+          const data = faqData[idx];
+          if (!data) return;
+          document.getElementById('faq-category').value = data.category;
+          document.getElementById('faq-title').value = data.title;
+          document.getElementById('faq-title-count').textContent = data.title.length;
+          document.getElementById('faq-content').innerHTML = data.content;
+          document.getElementById('faq-attach-list').innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+          document.getElementById('faq-author').textContent = data.author;
+          document.getElementById('faq-created').textContent = data.created;
+          document.getElementById('faq-modifier').textContent = data.modifier;
+          document.getElementById('faq-modified').textContent = data.modified;
+          showFaqDetail(true);
+          window.scrollTo(0, 0);
+        });
+      });
+
+      // 제목 글자 수 카운트
+      document.getElementById('faq-title').addEventListener('input', function() {
+        document.getElementById('faq-title-count').textContent = this.value.length;
+      });
+
+      // 에디터 툴바 기능
+      (function initFaqEditor() {
+        const editor = document.getElementById('faq-content');
+        const toolbar = document.querySelector('#faq-detail-view .nf-editor-toolbar');
+        if (!toolbar || !editor) return;
+        toolbar.addEventListener('mousedown', (e) => e.preventDefault());
+        const btnMap = {
+          '굵게': () => document.execCommand('bold'),
+          '밑줄': () => document.execCommand('underline'),
+          '기울임': () => document.execCommand('italic'),
+          '취소선': () => document.execCommand('strikeThrough'),
+          '위 첨자': () => document.execCommand('superscript'),
+          '아래 첨자': () => document.execCommand('subscript'),
+          '순서 있는 목록': () => document.execCommand('insertOrderedList'),
+          '순서 없는 목록': () => document.execCommand('insertUnorderedList'),
+          '들여쓰기': () => document.execCommand('indent'),
+          '내어쓰기': () => document.execCommand('outdent'),
+          '링크': () => { const url = prompt('URL을 입력하세요:', 'https://'); if (url) document.execCommand('createLink', false, url); },
+          '이미지': () => { const url = prompt('이미지 URL을 입력하세요:', 'https://'); if (url) document.execCommand('insertImage', false, url); },
+          '서식 제거': () => document.execCommand('removeFormat'),
+        };
+        toolbar.querySelectorAll('.nf-tb-btn').forEach(btn => {
+          const title = btn.getAttribute('title');
+          if (btnMap[title]) {
+            btn.addEventListener('click', (e) => { e.preventDefault(); editor.focus(); btnMap[title](); });
+          }
+        });
+      })();
+
+      // 파일 첨부
+      document.getElementById('faq-attach-btn').addEventListener('click', () => {
+        document.getElementById('faq-file-input').click();
+      });
+      document.getElementById('faq-file-input').addEventListener('change', function() {
+        const list = document.getElementById('faq-attach-list');
+        const empty = list.querySelector('.nf-attach-empty');
+        if (empty) empty.remove();
+        const maxFiles = 3;
+        const currentFiles = list.querySelectorAll('.nf-attach-file').length;
+        Array.from(this.files).slice(0, maxFiles - currentFiles).forEach(file => {
+          const div = document.createElement('div');
+          div.className = 'nf-attach-file';
+          const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+          div.innerHTML = `<span class="nf-attach-name">${file.name}</span><span class="nf-attach-size">${sizeMB} MB</span><button class="nf-attach-remove" title="삭제">&times;</button>`;
+          div.querySelector('.nf-attach-remove').addEventListener('click', () => {
+            div.remove();
+            if (!list.querySelector('.nf-attach-file')) list.innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+          });
+          list.appendChild(div);
+        });
+        this.value = '';
+      });
+
+    });
+  </script>
+</body>
+
+</html>

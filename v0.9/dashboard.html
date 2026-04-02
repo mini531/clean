@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>대시보드 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css">
+</head>
+
+<body>
+  <div class="db-wrapper">
+
+    <!-- ══ 헤더 ══ -->
+    <header class="gvt-header" role="banner">
+      <!-- Desktop Header -->
+      <div class="gvt-header-desktop">
+        <div class="gvt-logo-wrap">
+          <img src="assets/img/main_logo_white.png" alt="행정안전부" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+          <span class="logo-fallback">
+            <svg width="18" height="18" viewBox="0 0 20 20">
+              <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white" font-size="9" font-weight="bold">정</text>
+            </svg>
+            행정안전부
+          </span>
+        </div>
+        <a href="dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</a>
+      </div>
+
+      <!-- Mobile Header -->
+      <div class="gvt-header-mobile">
+        <div class="gvt-title-info">
+          <small class="gvt-org-name">행정안전부</small>
+          <h1 class="gvt-service-name">하천·계곡 정비 지원</h1>
+        </div>
+      </div>
+
+      <div class="gvt-spacer"></div>
+      <nav class="gvt-header-nav" aria-label="주요 메뉴">
+        <div class="gvt-nav-dropdown">
+          <button class="gvt-nav-btn" title="서비스 지원">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+            <span class="nav-label">서비스 지원</span>
+          </button>
+          <div class="gvt-nav-submenu">
+            <a href="notice.html" class="gvt-nav-sub-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+              공지사항
+            </a>
+            <a href="faq.html" class="gvt-nav-sub-item">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+              자주 묻는 질문
+            </a>
+          </div>
+        </div>
+        <a href="admin_dashboard.html" class="gvt-nav-btn" id="btn-nav-admin" title="관리">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="3" />
+            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+          </svg>
+          <span class="nav-label">관리</span>
+        </a>
+        <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span id="header-user-name" class="nav-label">홍길동님</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+            style="width:11px;height:11px;">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+      </nav>
+    </header>
+
+    <!-- ══ 본문 ══ -->
+    <div class="db-body">
+      <!-- 모바일 전용 상단 리본 -->
+      <div class="mobile-ribbon" id="mobile-ribbon">
+        <button class="m-ribbon-btn btn-m-region" id="btn-m-sidebar-toggle">
+          <span id="m-curr-region">전국</span>
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+        
+        <div class="m-ribbon-kpi" id="m-ribbon-kpi">
+          <span class="m-kpi-item crossing">걸침 <strong id="m-kpi-cross">0</strong></span>
+          <span class="m-kpi-sep">|</span>
+          <span class="m-kpi-item inside">구역내 <strong id="m-kpi-inside">0</strong></span>
+        </div>
+
+        <button class="m-ribbon-btn btn-m-tools" id="btn-m-tools-toggle">
+          도구
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+            <path d="M6 9l6 6 6-6" />
+          </svg>
+        </button>
+      </div>
+
+      <!-- 지도 -->
+      <div id="map" aria-label="전국 하천·계곡 불법시설 지도"></div>
+
+      <!-- 모바일 플로팅 [목록 보기] 버튼 -->
+      <button class="m-list-open-btn" id="btn-m-list-open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"/>
+        </svg>
+        목록 보기
+      </button>
+
+      <div class="sidebar-backdrop" id="sidebar-backdrop"></div>
+
+      <!-- ── 좌측 패널 (항상 열림) ── -->
+      <aside class="db-left" id="db-left-panel" aria-label="지역별 현황">
+
+        <!-- 메인 뷰: 전체/지역 목록 -->
+        <div class="db-sidebar-view active" id="sidebar-main-view">
+          <!-- 패널 타이틀 -->
+          <div class="db-left-header">
+            <div class="db-left-title">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <rect x="3" y="3" width="7" height="7" rx="1" />
+                <rect x="14" y="3" width="7" height="7" rx="1" />
+                <rect x="3" y="14" width="7" height="7" rx="1" />
+                <rect x="14" y="14" width="7" height="7" rx="1" />
+              </svg>
+              지역별 현황
+            </div>
+            <!-- 모바일 닫기 버튼 -->
+            <button class="btn-m-sidebar-close" id="btn-m-sidebar-close" aria-label="사이드바 닫기">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <!-- 막대 범례 라벨 및 정렬 -->
+          <div class="db-bar-legend">
+            <div class="rbl"><span class="rbl-dot crossing"></span>걸침</div>
+            <div class="rbl"><span class="rbl-dot inside"></span>구역내</div>
+            <div class="flex-1"></div>
+            <div class="db-sort-wrap">
+              <button class="db-sort-btn" id="btn-sort-toggle">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 6h18M6 12h12M10 18h4" />
+                </svg>
+                <span id="sort-label">걸침 많은 순</span>
+              </button>
+              <div class="db-sort-dropdown" id="sort-dropdown">
+                <button class="dsd-item active" data-sort="cross-desc">걸침 많은 순</button>
+                <button class="dsd-item" data-sort="inside-desc">구역내 많은 순</button>
+                <button class="dsd-item" data-sort="cross-asc">걸침 적은 순</button>
+                <button class="dsd-item" data-sort="inside-asc">구역내 적은 순</button>
+                <button class="dsd-item" data-sort="name-asc">지역 이름 순</button>
+                <button class="dsd-item" data-sort="name-desc">지역 이름 역순</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 지역 목록 -->
+          <div class="db-region-list" id="region-list" role="list"></div>
+        </div>
+
+        <!-- LX 로고 -->
+        <div class="db-left-footer">
+          <img src="assets/img/lx_logo.svg" alt="LX 한국국토정보공사" onerror="this.classList.add('hidden')">
+        </div>
+      </aside>
+
+      <!-- 상세 뷰: 시설물 목록 (모바일 바텀 시트로도 활용됨) -->
+      <div class="db-sidebar-view" id="sidebar-detail-view">
+        <div class="db-detail-header">
+          <!-- 모바일 드래그 핸들 (바텀 시트 느낌) -->
+          <div class="m-sheet-handle"></div>
+
+          <button class="btn-back" id="btn-sidebar-back">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M15 18l-6-6 6-6" />
+            </svg>
+            전체 목록
+          </button>
+
+          <div class="detail-hd-main">
+            <h2 class="detail-title" id="side-detail-title">세부 시설물 목록</h2>
+            <button class="btn-m-close" id="btn-sidebar-m-close" aria-label="닫기">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- 상세 뷰 범례 및 정렬 -->
+        <div class="db-bar-legend detail-mode">
+          <div class="rbl clickable" id="fac-filter-crossing"><span class="rbl-dot crossing"></span>걸침</div>
+          <div class="rbl clickable" id="fac-filter-inside"><span class="rbl-dot inside"></span>구역내</div>
+          <div class="flex-1"></div>
+          <div class="db-sort-wrap">
+            <button class="db-sort-btn" id="btn-fac-sort">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 6h18M6 12h12M10 18h4" />
+              </svg>
+              <span id="fac-sort-label">걸침 많은 순</span>
+            </button>
+            <div class="db-sort-dropdown" id="fac-sort-dropdown">
+              <button class="dsd-item active" data-sort="cross-desc">걸침 많은 순</button>
+              <button class="dsd-item" data-sort="inside-desc">구역내 많은 순</button>
+              <button class="dsd-item" data-sort="cross-asc">걸침 적은 순</button>
+              <button class="dsd-item" data-sort="inside-asc">구역내 적은 순</button>
+              <button class="dsd-item" data-sort="name-asc">지역 이름 순</button>
+              <button class="dsd-item" data-sort="name-desc">지역 이름 역순</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- 부가 검색 -->
+        <div class="db-detail-search">
+          <div class="search-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
+            </svg>
+            <input type="text" id="facility-search-input" placeholder="시설물 주소 검색">
+          </div>
+        </div>
+
+        <div class="db-facility-list" id="facility-list" role="list"></div>
+      </div>
+
+      <!-- ── 중앙 하단 HUD 그룹 (Summary + Layers) ── -->
+      <div class="db-hud-center" id="db-hud-center">
+        <!-- ── 지도 요약 카드 (Consolidated KPI & Legend) ── -->
+        <div class="db-map-summary" id="db-map-summary" aria-label="현황 요약">
+          <div class="db-summary-hd">
+            <span class="db-summary-title" id="summary-title">전국 현황</span>
+          </div>
+          <div class="db-summary-content">
+            <div class="db-summary-item">
+              <span class="dot-sm crossing"></span>
+              <span class="lbl">걸침</span>
+              <span class="val" id="sum-crossing">0</span>
+            </div>
+            <div class="db-summary-item">
+              <span class="dot-sm inside"></span>
+              <span class="lbl">구역내</span>
+              <span class="val" id="sum-inside">0</span>
+            </div>
+            <div class="db-summary-visual">
+              <div class="db-summary-bar-track">
+                <div class="bar-seg crossing" id="sum-bar-crossing" style="width: 50%"></div>
+                <div class="bar-seg inside" id="sum-bar-inside" style="width: 50%"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 레이어 설정 (상세 모드 전용) ── -->
+        <div class="db-layer-settings hidden" id="db-layer-settings" aria-label="레이어 설정">
+          <div class="layer-hd" id="btn-layer-minimize">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+              stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z" />
+              <path d="M2 17l10 5 10-5" />
+              <path d="M2 12l10 5 10-5" />
+            </svg>
+            <span class="layer-title">레이어 설정</span>
+            <button class="layer-min-btn">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+            <button class="layer-close-btn" id="btn-layer-m-close" title="닫기">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <path d="M18 6L6 18M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+          <div class="layer-body">
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">국가하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">지방하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot sub"></span><span class="l-name">소하천</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot permit"></span><span class="l-name">인허가 정보</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot crossing"></span><span class="l-name">걸친 시설물(50%+)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-row">
+              <span class="l-dot inside"></span><span class="l-name">구역 내(100%)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+            <div class="layer-divider"></div>
+            <div class="layer-row">
+              <span class="l-dot cadastral"></span><span class="l-name">LX맵(LX 지적도)</span>
+              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── 우측 하단 툴바 ── -->
+      <aside class="db-right-tools" id="db-right-tools" aria-label="지도 도구">
+        <div class="rt-group">
+          <button class="rt-btn" id="btn-search-toggle" title="검색" aria-label="검색">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </button>
+          <div class="rt-sep"></div>
+          
+          <!-- 배경지도 선택 그룹 -->
+          <div class="rt-group-wrap basemap-selector">
+            <button class="rt-btn" title="배경지도 변경" id="btn-basemap">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2v20M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" />
+                <circle cx="12" cy="12" r="10" />
+              </svg>
+            </button>
+            <div class="basemap-menu" id="basemap-menu">
+              <div class="bm-item" data-type="basic"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6zM9 3v15M15 6v15"/></svg></div><div class="bm-label">기본</div></div>
+              <div class="bm-item" data-type="gray"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="opacity:0.6"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6z"/></svg></div><div class="bm-label">흑백</div></div>
+              <div class="bm-item" data-type="night"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3a6 6 0 000 12 6 6 0 000-12zM12 21v-2M12 5V3M21 12h-2M5 12H3"/><circle cx="12" cy="12" r="3"/></svg></div><div class="bm-label">야간</div></div>
+              <div class="bm-item active" data-type="satellite"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="6" height="6" rx="1"/><path d="M12 2v2M12 20v2M20 12h2M2 12h2M19.07 4.93l-1.41 1.41M6.34 17.66l-1.41 1.41M19.07 19.07l-1.41-1.41M6.34 6.34l-1.41 1.41"/></svg></div><div class="bm-label">위성</div></div>
+              <div class="bm-item" data-type="none"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24L1 1l22 22"/></svg></div><div class="bm-label">빈화면</div></div>
+            </div>
+          </div>
+          <div class="rt-sep"></div>
+          
+          <!-- 측정 도구 그룹 -->
+          <div class="rt-group-wrap measure-selector">
+            <button class="rt-btn" title="측정 및 분석" id="btn-measure">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21.3 15.3l-9.3-9.3a2 2 0 0 0-2.8 0L2.3 12.9a2 2 0 0 0 0 2.8l9.3 9.3a2 2 0 0 0 2.8 0l6.9-6.9a2 2 0 0 0 0-2.8z" />
+                <line x1="8.5" y1="11.5" x2="10" y2="10" />
+                <line x1="11.5" y1="14.5" x2="13" y2="13" />
+                <line x1="14.5" y1="17.5" x2="16" y2="16" />
+              </svg>
+            </button>
+            <div class="measure-menu" id="measure-menu">
+              <div class="bm-item" data-type="clear"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20H7L3 16C2 15 2 13 3 12L13 2C14 1 16 1 17 2L21 6C22 7 22 9 21 10L10 21"/><path d="M17 17l5 5M3 13h10"/></svg></div><div class="bm-label">측정 취소</div></div>
+              <div class="bm-item" data-type="distance"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5"/></svg></div><div class="bm-label">거리측정</div></div>
+              <div class="bm-item" data-type="area"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="1"/><circle cx="5" cy="5" r="1.5" fill="currentColor"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/><circle cx="5" cy="19" r="1.5" fill="currentColor"/><circle cx="19" cy="19" r="1.5" fill="currentColor"/></svg></div><div class="bm-label">면적측정</div></div>
+              <div class="bm-item" data-type="radius"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12h9"/></svg></div><div class="bm-label">반경측정</div></div>
+            </div>
+          </div>
+          <div class="rt-sep"></div>
+
+          <!-- 그리기 도구 그룹 -->
+          <div class="rt-group-wrap draw-selector">
+            <button class="rt-btn" title="그리기 도구" id="btn-draw">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="m12 19 7-7 3 3-7 7-3-3z" />
+                <path d="m18 13-1.5-7.5L2 2l3.5 14.5L13 18l5-5z" />
+              </svg>
+            </button>
+            <div class="draw-menu" id="draw-menu">
+              <div class="bm-item" data-type="clear"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 20H7L3 16C2 15 2 13 3 12L13 2C14 1 16 1 17 2L21 6C22 7 22 9 21 10L10 21"/></svg></div><div class="bm-label">그리기취소</div></div>
+              <div class="bm-item" data-type="point"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3" fill="currentColor"/><circle cx="12" cy="12" r="6"/></svg></div><div class="bm-label">점 그리기</div></div>
+              <div class="bm-item" data-type="line"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 19L19 5"/></svg></div><div class="bm-label">선 그리기</div></div>
+              <div class="bm-item" data-type="area"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="5" y="5" width="14" height="14" rx="1"/><circle cx="5" cy="5" r="1.5" fill="currentColor"/><circle cx="19" cy="5" r="1.5" fill="currentColor"/><circle cx="5" cy="19" r="1.5" fill="currentColor"/><circle cx="19" cy="19" r="1.5" fill="currentColor"/></svg></div><div class="bm-label">면 그리기</div></div>
+              <div class="bm-item" data-type="circle"><div class="bm-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 12h9"/></svg></div><div class="bm-label">원 그리기</div></div>
+            </div>
+          </div>
+          <div class="rt-sep"></div>
+
+          <button class="rt-btn" title="내보내기" id="btn-export-tool">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4" />
+              <polyline points="7 10 12 15 17 10" />
+              <line x1="12" y1="15" x2="12" y2="3" />
+            </svg>
+          </button>
+        </div>
+        <div class="rt-spacer"></div>
+        <div class="rt-group">
+          <button class="zoom-btn" id="btn-zoom-in" title="확대">＋</button>
+          <div class="zoom-sep"></div>
+          <button class="zoom-btn" id="btn-zoom-out" title="축소">－</button>
+        </div>
+      </aside>
+
+      <!-- ── 검색 오버레이 (버튼 클릭 시 열림) ── -->
+      <div class="db-search-overlay" id="db-search-overlay" role="search">
+        <input type="text" id="db-search-input" placeholder="명칭 또는 지도 검색" aria-label="시설 검색">
+        <button class="db-search-reset" id="btn-search-reset" title="검색 초기화">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M23 4v6h-6M1 20v-6h6" />
+            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+          </svg>
+        </button>
+        <button class="db-search-exec" id="btn-search-exec" title="검색 실행">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="M21 21l-4.35-4.35" />
+          </svg>
+        </button>
+        <button class="db-search-m-close" id="btn-search-m-close" title="검색 닫기">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <path d="M18 6L6 18M6 6l12 12" />
+          </svg>
+        </button>
+
+        <!-- ── 검색 결과 패널 (실시간) ── -->
+        <div class="db-search-results" id="db-search-results">
+          <div class="res-tabs-wrap">
+            <div class="res-tabs">
+              <button class="res-tab active" data-tab="all">전체</button>
+              <button class="res-tab" data-tab="name">명칭</button>
+              <button class="res-tab" data-tab="road">도로명</button>
+              <button class="res-tab" data-tab="lot">지번</button>
+            </div>
+            <button class="res-close" id="btn-res-close" title="결과 닫기">&times;</button>
+          </div>
+          
+          <div class="res-scroll-area">
+            <div class="res-summary">
+              <span class="res-query" id="res-query-val">전남 남원</span> 검색결과 | 총 <span class="res-total" id="res-total-val">0</span> 건
+            </div>
+            
+            <div class="res-content" id="res-content-list">
+              <!-- JS로 주입 예정 -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /db-body -->
+
+    <!-- ── 모바일 전용 플로팅 버튼들 ── -->
+    <div class="m-floating-btn-group">
+      <button class="m-list-open-btn" id="btn-m-list-open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01" />
+        </svg>
+        <span>목록 보기</span>
+      </button>
+
+      <button class="m-list-open-btn" id="btn-m-layer-open">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7l10 5 10-5-10-5z" />
+          <path d="M2 17l10 5 10-5" />
+          <path d="M2 12l10 5 10-5" />
+        </svg>
+        <span>레이어 설정</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- ── 보안 서약서 모달 ── -->
+  <div class="modal-overlay" id="modal-pledge">
+    <div class="modal-pledge-box">
+      <button class="modal-close-icon" id="btn-pledge-close">&times;</button>
+      
+      <header class="pledge-header">
+        <h1>보안 서약서</h1>
+        <p class="pledge-sub">다운로드를 받기 위해서는 해당 내용에 대한 동의가 필요합니다.</p>
+      </header>
+
+      <div class="pledge-content">
+        <div class="pledge-text-box">
+          본인은 <strong>Geovision Platform 서비스</strong>의 공간정보 다운로드 환경을 사용함에 있어 해당 자료를 외부로 유출하지 않을 것이며, 업무(과제)를 위한 자료 활용에 한해 사용하고 이를 임의로 가공·편집·유출하지 않고 신청했던 사용자 본인 외, 제3자 또는 기관 내 타 사용자에게 공유하지 않으며, 자료의 사용 및 활용, 목적 외 사용금지, 자료보호조치, 자료오용방지 등에 대해 책임이 있음을 서약하고 이에 본 서약서를 제출합니다.
+        </div>
+        
+        <div class="pledge-applicant">신청자 : 김기동 님</div>
+
+        <div class="p-form-group pledge-agree-group">
+          <label class="pledge-agree-check">
+            <input type="checkbox" id="pledge-agree">
+            <span class="check-txt"><span class="req">[필수]</span> 동의합니다.</span>
+          </label>
+          <div class="p-error-msg">보안 서약 내용에 동의해 주셔야 합니다.</div>
+        </div>
+
+        <div class="pledge-form">
+          <div class="p-form-group">
+            <label>요청명<span class="req">*</span></label>
+            <input type="text" id="p-req-name" placeholder="요청명을 입력해 주세요.">
+            <div class="p-error-msg">필수 입력 항목입니다.</div>
+          </div>
+          <div class="p-form-group">
+            <label>활용 기간<span class="req">*</span></label>
+            <div class="p-date-row">
+              <input type="date" id="p-start-date">
+              <span class="p-sep">~</span>
+              <input type="date" id="p-end-date">
+            </div>
+            <div class="p-error-msg">필수 입력 항목입니다.</div>
+          </div>
+          <div class="p-form-group">
+            <label>사용 목적<span class="req">*</span></label>
+            <input type="text" id="p-purpose" placeholder="사용 목적을 입력해 주세요.">
+            <div class="p-error-msg">필수 입력 항목입니다.</div>
+          </div>
+        </div>
+      </div>
+
+      <footer class="pledge-footer">
+        <button class="btn-p btn-p-cancel" id="btn-pledge-cancel">취소</button>
+        <button class="btn-p btn-p-exec" id="btn-pledge-exec">다운로드 실행</button>
+      </footer>
+    </div>
+
+    <!-- ── 지도 저장 모달 (2단계) ── -->
+    <div class="modal-save-map-box" id="modal-save-map" style="display: none;">
+      <button class="modal-close-icon" id="btn-save-map-close">&times;</button>
+      
+      <header class="pledge-header">
+        <h1>지도 저장</h1>
+      </header>
+
+      <div class="save-map-content">
+        <div class="save-map-notice">
+          주의: 본 자료는 실제 현황과 차이가 있을 수 있으므로 충분히 유의하여 참고용으로만 사용하시고 타 용도로의 사용을 금합니다.
+        </div>
+
+        <div class="map-preview-wrap">
+          <img src="https://placehold.co/800x400?text=Map+Preview+Snapshot" id="img-map-preview" alt="지도 미리보기">
+        </div>
+
+        <div class="memo-form">
+          <div class="memo-head">
+            <label>메모</label>
+            <span class="memo-count"><span id="curr-memo-len">0</span>자/4,000자)</span>
+          </div>
+          <textarea id="memo-input" placeholder="인쇄할 때 표시할 메모를 입력해 주세요." maxlength="4000"></textarea>
+        </div>
+      </div>
+
+      <footer class="pledge-footer">
+        <button class="btn-p btn-p-cancel" id="btn-save-map-cancel">취소</button>
+        <button class="btn-p btn-p-exec" id="btn-map-print">출력</button>
+      </footer>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script src="js/ui.js"></script>
+  <script src="js/map.js"></script>
+  <script src="js/dashboard.js"></script>
+</body>
+
+</html>

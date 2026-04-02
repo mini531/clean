@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/mypage.css">
+</head>
+
+<body class="user-page-body">
+
+  <!-- ── Header (동일) ── -->
+  <header class="gvt-header" role="banner">
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="../assets/img/main_logo_white.png" alt="행정안전부" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white" font-size="9" font-weight="bold">정</text></svg>
+          행정안전부
+        </span>
+      </div>
+      <a href="dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</a>
+    </div>
+    <div class="gvt-header-mobile">
+      <div class="gvt-title-info">
+        <small class="gvt-org-name">행정안전부</small>
+        <h1 class="gvt-service-name">하천·계곡 정비 지원</h1>
+      </div>
+    </div>
+    <div class="gvt-spacer"></div>
+    <nav class="gvt-header-nav" aria-label="주요 메뉴">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" /></svg>
+        <span class="nav-label">지도</span>
+      </a>
+      <div class="gvt-nav-dropdown">
+        <button class="gvt-nav-btn" title="서비스 지원">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+          <span class="nav-label">서비스 지원</span>
+        </button>
+        <div class="gvt-nav-submenu">
+          <a href="notice.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항</a>
+          <a href="faq.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문</a>
+        </div>
+      </div>
+      <a href="admin_dashboard.html" class="gvt-nav-btn" id="btn-nav-admin" title="관리" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+        <span class="nav-label">관리</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50" style="width:11px;height:11px;"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+    </nav>
+  </header>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="mypage.html" class="ud-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg><span>마이페이지</span></a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg><span>로그아웃</span></button>
+    </div>
+  </div>
+
+  <div class="user-page">
+
+    <!-- ===== 목록 뷰 ===== -->
+    <div id="notice-list-view">
+      <h2 class="page-title">공지사항</h2>
+      <div class="u-card">
+        <table class="u-table" id="notice-table">
+          <thead>
+            <tr>
+              <th>구분</th>
+              <th>제목</th>
+              <th>등록일</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>일반</td><td>시스템 정기점검 안내 (4월 5일)</td><td>2026-04-01</td></tr>
+            <tr><td>일반</td><td>2026년 상반기 시스템 업데이트 안내</td><td>2026-03-15</td></tr>
+            <tr><td>일반</td><td>불법 시설물 신고 절차 변경 안내</td><td>2026-03-01</td></tr>
+            <tr><td>일반</td><td>개인정보 처리방침 개정 안내</td><td>2026-02-20</td></tr>
+          </tbody>
+        </table>
+        <div class="u-pagination">
+          <div class="pg-btns">
+            <button class="pg-btn">처음</button>
+            <button class="pg-btn">이전</button>
+            <button class="pg-btn active">1</button>
+            <button class="pg-btn">다음</button>
+            <button class="pg-btn">마지막</button>
+          </div>
+          <span class="u-pagination-info">총 4건</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== 상세 조회 뷰 ===== -->
+    <div id="notice-detail-view" style="display:none;">
+      <h2 class="page-title">공지사항</h2>
+      <div class="view-card">
+        <div class="view-header">
+          <span class="view-category" id="v-category">일반</span>
+          <h2 class="view-title" id="v-title">제목</h2>
+          <div class="view-meta">
+            <span>등록일: <b id="v-date">-</b></span>
+          </div>
+        </div>
+        <div class="view-body" id="v-content"></div>
+        <div class="view-attach" id="v-attach" style="display:none;">
+          <div class="view-attach-title">첨부 파일</div>
+          <div id="v-attach-list"></div>
+        </div>
+      </div>
+      <div class="view-bottom">
+        <button class="btn-back" id="v-btn-list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          목록
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    // 가상 공지사항 데이터
+    const notices = [
+      { category: '일반', title: '시스템 정기점검 안내 (4월 5일)', author: '관리자', date: '2026-04-01',
+        files: [],
+        content: `<p>안녕하세요, 관리자입니다.</p><p>시스템 정기점검이 아래 일정으로 진행될 예정이오니, 이용에 참고 부탁드립니다.</p><p><b>점검 일시:</b> 2026년 4월 5일 (토) 02:00 ~ 06:00 (4시간)</p><p><b>점검 내용:</b></p><ul><li>서버 보안 패치 및 성능 최적화</li><li>데이터베이스 마이그레이션 작업</li><li>네트워크 장비 펌웨어 업데이트</li></ul><p>점검 시간 동안 서비스 이용이 일시 중단됩니다. 불편을 드려 죄송합니다.</p>` },
+      { category: '일반', title: '2026년 상반기 시스템 업데이트 안내', author: '관리자', date: '2026-03-15',
+        files: [
+          { name: '2026_상반기_업데이트_안내서.pdf', size: '2.4 MB' },
+          { name: '신규기능_사용가이드_v2.1.pdf', size: '1.8 MB' }
+        ],
+        content: `<p>2026년 상반기 주요 시스템 업데이트 내용을 안내드립니다.</p><p><b>1. 대시보드 UI 개편</b></p><p>관리자 대시보드가 새롭게 개편되어 접속 현황, 지역별 통계를 한눈에 확인할 수 있습니다.</p><p><b>2. 시설물 조회 기능 강화</b></p><p>걸침/구역내 시설물 필터링 및 정렬 기능이 추가되었습니다.</p><p><b>3. 모바일 최적화</b></p><p>모바일 환경에서의 지도 조작 및 시설물 조회 사용성이 크게 개선되었습니다.</p><p>자세한 내용은 첨부된 안내서를 참고해 주세요.</p>` },
+      { category: '일반', title: '불법 시설물 신고 절차 변경 안내', author: '관리자', date: '2026-03-01',
+        files: [
+          { name: '불법시설물_온라인신고_매뉴얼.pdf', size: '3.1 MB' }
+        ],
+        content: `<p>불법 시설물 신고 절차가 다음과 같이 변경되었습니다.</p><p><b>변경 전:</b> 현장 확인 → 사진 촬영 → 관할 기관 전화 신고</p><p><b>변경 후:</b> 시스템 내 [신고 접수] 메뉴를 통한 온라인 신고</p><p>변경 사항:</p><ul><li>GPS 좌표 자동 입력 기능 추가</li><li>사진 첨부 시 자동 분류 지원</li><li>신고 접수 후 실시간 처리 현황 확인 가능</li></ul><p>자세한 내용은 첨부된 매뉴얼을 참고해 주시기 바랍니다.</p>` },
+      { category: '일반', title: '개인정보 처리방침 개정 안내', author: '관리자', date: '2026-02-20',
+        files: [],
+        content: `<p>개인정보 처리방침이 아래와 같이 개정되었음을 안내드립니다.</p><p><b>시행일:</b> 2026년 3월 1일</p><p><b>주요 개정 내용:</b></p><ul><li>개인정보 수집 항목 변경 (위치정보 추가)</li><li>개인정보 보유 기간 조정 (3년 → 2년)</li><li>제3자 제공 범위 명확화</li><li>개인정보 파기 절차 구체화</li></ul><p>개정된 처리방침 전문은 시스템 하단 [개인정보 처리방침] 링크에서 확인하실 수 있습니다.</p>` }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        document.getElementById('header-user-name').textContent = user.name + '님';
+        document.getElementById('dd-user-name').textContent = user.name;
+        document.getElementById('dd-user-org').textContent = user.org;
+        document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+        const btn = document.getElementById('btn-logout');
+        const dropdown = document.getElementById('user-dropdown');
+        btn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.toggle('active'); });
+        document.addEventListener('click', () => dropdown.classList.remove('active'));
+
+        // 관리 버튼 표시 (관리자인 경우)
+        if (user.role === 'admin') {
+          const adminBtn = document.getElementById('btn-nav-admin');
+          if (adminBtn) adminBtn.style.display = 'flex';
+        }
+      }
+
+      const listView = document.getElementById('notice-list-view');
+      const detailView = document.getElementById('notice-detail-view');
+
+      function showDetail(idx) {
+        const data = notices[idx];
+        if (!data) return;
+        document.getElementById('v-category').textContent = data.category;
+        document.getElementById('v-title').textContent = data.title;
+        document.getElementById('v-date').textContent = data.date;
+        document.getElementById('v-content').innerHTML = data.content;
+
+        // 첨부파일 처리
+        const attachArea = document.getElementById('v-attach');
+        const attachList = document.getElementById('v-attach-list');
+        if (data.files && data.files.length > 0) {
+          attachArea.style.display = 'block';
+          attachList.innerHTML = data.files.map(f =>
+            `<div class="view-attach-file"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg><span>${f.name}</span><span class="view-attach-size">${f.size}</span></div>`
+          ).join('');
+        } else {
+          attachArea.style.display = 'none';
+          attachList.innerHTML = '';
+        }
+
+        listView.style.display = 'none';
+        detailView.style.display = 'block';
+        window.scrollTo(0, 0);
+      }
+
+      function showList() {
+        detailView.style.display = 'none';
+        listView.style.display = 'block';
+      }
+
+      document.getElementById('v-btn-list').addEventListener('click', showList);
+
+      document.querySelectorAll('#notice-table tbody tr').forEach((row, idx) => {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', () => showDetail(idx));
+      });
+    });
+  </script>
+</body>
+
+</html>

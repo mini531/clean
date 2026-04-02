@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>공지사항 관리 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item active" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link active" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-board">
+
+    <!-- ===== 목록 뷰 ===== -->
+    <div id="notice-list-view">
+
+    <h2 class="adm-page-title">공지사항 관리</h2>
+
+    <!-- 검색 필터 영역 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">검색어</label>
+          <div class="adm-filter-input-group">
+            <select class="adm-sel">
+              <option>전체</option>
+              <option>제목</option>
+              <option>내용</option>
+              <option>등록자</option>
+            </select>
+            <input type="text" class="adm-filter-input" placeholder="검색어를 입력하세요">
+          </div>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">구분</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>긴급</option>
+            <option>일반</option>
+            <option>업무</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">게시 기간</label>
+          <div class="adm-filter-input-group">
+            <input type="date" class="adm-filter-input" id="date-start" style="max-width:150px;">
+            <span style="color:var(--text-muted);">~</span>
+            <input type="date" class="adm-filter-input" id="date-end" style="max-width:150px;">
+            <div class="adm-period-btns">
+              <button class="adm-period-btn" data-months="0">전체</button>
+              <button class="adm-period-btn" data-months="1">1개월</button>
+              <button class="adm-period-btn" data-months="3">3개월</button>
+              <button class="adm-period-btn" data-months="6">6개월</button>
+              <button class="adm-period-btn" data-months="12">12개월</button>
+            </div>
+          </div>
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost">초기화</button>
+          <button class="btn-sm-primary">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 공지사항 목록 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3>공지사항 목록</h3>
+        <div class="tc-actions">
+          <button class="btn-sm-ghost">선택 삭제</button>
+          <button class="btn-sm-primary">등록</button>
+        </div>
+      </div>
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th style="width:40px;"><input type="checkbox" id="chk-all"></th>
+            <th>구분</th>
+            <th>제목</th>
+            <th>게시 시작</th>
+            <th>게시 종료</th>
+            <th>등록자</th>
+            <th>등록 일시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="선택"><input type="checkbox"></td>
+            <td data-label="구분">일반</td>
+            <td data-label="제목">시스템 정기점검 안내 (4월 5일)</td>
+            <td data-label="게시 시작">2026-04-01 09:00</td>
+            <td data-label="게시 종료">9999-12-31 23:59</td>
+            <td data-label="등록자">관리자</td>
+            <td data-label="등록 일시">2026-04-01 08:45:12</td>
+          </tr>
+          <tr>
+            <td data-label="선택"><input type="checkbox"></td>
+            <td data-label="구분">일반</td>
+            <td data-label="제목">2026년 상반기 시스템 업데이트 안내</td>
+            <td data-label="게시 시작">2026-03-15 10:00</td>
+            <td data-label="게시 종료">9999-12-31 23:59</td>
+            <td data-label="등록자">관리자</td>
+            <td data-label="등록 일시">2026-03-15 09:32:48</td>
+          </tr>
+          <tr>
+            <td data-label="선택"><input type="checkbox"></td>
+            <td data-label="구분">일반</td>
+            <td data-label="제목">불법 시설물 신고 절차 변경 안내</td>
+            <td data-label="게시 시작">2026-03-01 08:30</td>
+            <td data-label="게시 종료">9999-12-31 23:59</td>
+            <td data-label="등록자">관리자</td>
+            <td data-label="등록 일시">2026-03-01 08:22:05</td>
+          </tr>
+          <tr>
+            <td data-label="선택"><input type="checkbox"></td>
+            <td data-label="구분">일반</td>
+            <td data-label="제목">개인정보 처리방침 개정 안내</td>
+            <td data-label="게시 시작">2026-02-20 14:00</td>
+            <td data-label="게시 종료">2026-06-30 23:59</td>
+            <td data-label="등록자">관리자</td>
+            <td data-label="등록 일시">2026-02-20 13:51:33</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tbl-pagination">
+        <div class="pg-btns">
+          <button class="pg-btn">처음</button>
+          <button class="pg-btn">이전</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">다음</button>
+          <button class="pg-btn">마지막</button>
+          <select class="adm-sel" style="margin-left:12px;padding:5px 30px 5px 12px;font-size:12px;width:75px;">
+            <option>10</option>
+            <option>20</option>
+            <option>50</option>
+          </select>
+          <span style="font-size:11px;color:var(--text-muted);margin-left:4px;">페이지 크기</span>
+        </div>
+        <span class="tbl-pagination-info" style="display:block;">총 4건 중 1-4행</span>
+      </div>
+    </div>
+
+    </div><!-- /notice-list-view -->
+
+    <!-- ===== 상세/등록 뷰 ===== -->
+    <div id="notice-detail-view" style="display:none;">
+      <h2 class="adm-page-title" id="nf-page-title">공지사항 등록</h2>
+      <div class="table-card">
+        <div class="notice-detail-form">
+
+          <!-- 구분 + 제목 -->
+          <div class="nf-row nf-row-title">
+            <div class="nf-field" style="flex:0 0 180px;">
+              <label class="nf-label">구분<span class="nf-required">*</span></label>
+              <select class="adm-sel nf-select" id="nf-category">
+                <option value="일반">일반</option>
+                <option value="긴급">긴급</option>
+                <option value="업무">업무</option>
+              </select>
+            </div>
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">제목<span class="nf-required">*</span></label>
+              <div class="nf-title-wrap">
+                <input type="text" class="nf-input" id="nf-title" maxlength="200" placeholder="제목을 입력하세요">
+                <span class="nf-char-count">(<span id="nf-title-count">0</span>자/200자)</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 게시 기간 -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">게시 기간<span class="nf-required">*</span></label>
+              <div class="nf-date-group">
+                <input type="date" class="nf-input nf-date" id="nf-pub-start-date">
+                <input type="time" class="nf-input nf-time" id="nf-pub-start-time" value="09:00">
+                <span class="nf-separator">~</span>
+                <input type="date" class="nf-input nf-date" id="nf-pub-end-date" value="9999-12-31">
+                <input type="time" class="nf-input nf-time" id="nf-pub-end-time" value="23:59">
+                <label class="nf-checkbox-label">
+                  <input type="checkbox" id="nf-forever" checked>
+                  <svg class="nf-check-icon" viewBox="0 0 16 16"><rect x="0.5" y="0.5" width="15" height="15" rx="3" /><polyline points="4 8 7 11 12 5" /></svg>
+                  무한 게시
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- 팝업 설정 -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">팝업 설정<span class="nf-required">*</span></label>
+              <div class="nf-popup-group">
+                <label class="nf-checkbox-label">
+                  <input type="checkbox" id="nf-popup-check">
+                  <svg class="nf-check-icon" viewBox="0 0 16 16"><rect x="0.5" y="0.5" width="15" height="15" rx="3" /><polyline points="4 8 7 11 12 5" /></svg>
+                  메인화면 팝업 표시
+                </label>
+                <div class="nf-popup-dates" id="nf-popup-dates">
+                  <input type="date" class="nf-input nf-date" id="nf-popup-start-date" disabled>
+                  <input type="time" class="nf-input nf-time" id="nf-popup-start-time" disabled>
+                  <span class="nf-separator">~</span>
+                  <input type="date" class="nf-input nf-date" id="nf-popup-end-date" disabled>
+                  <input type="time" class="nf-input nf-time" id="nf-popup-end-time" disabled>
+                  <div class="nf-period-btns">
+                    <button class="adm-period-btn" data-weeks="1" disabled>1주일</button>
+                    <button class="adm-period-btn" data-weeks="2" disabled>2주일</button>
+                    <button class="adm-period-btn" data-weeks="3" disabled>3주일</button>
+                    <button class="adm-period-btn" data-weeks="4" disabled>4주일</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 내용 -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">내용<span class="nf-required">*</span></label>
+              <div class="nf-editor-wrap">
+                <div class="nf-editor-toolbar">
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="글꼴">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+                      <svg viewBox="0 0 10 6" style="width:8px;height:8px;margin-left:2px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="굵게"><b>B</b></button>
+                    <button class="nf-tb-btn" title="밑줄"><u>U</u></button>
+                    <button class="nf-tb-btn" title="기울임"><span style="font-style:italic;font-family:serif;">I</span></button>
+                    <button class="nf-tb-btn" title="취소선"><s>S</s></button>
+                    <button class="nf-tb-btn" title="위 첨자">X<sup style="font-size:9px;">2</sup></button>
+                    <button class="nf-tb-btn" title="아래 첨자">X<sub style="font-size:9px;">2</sub></button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn nf-tb-color" title="글자 색">
+                      <span style="font-weight:700;">A</span>
+                      <span class="nf-color-bar" style="background:#ff0000;"></span>
+                      <svg viewBox="0 0 10 6" style="width:8px;height:8px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="순서 있는 목록">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><text x="4" y="8" font-size="8" fill="currentColor" stroke="none" font-weight="bold">1</text><text x="4" y="14" font-size="8" fill="currentColor" stroke="none" font-weight="bold">2</text><text x="4" y="20" font-size="8" fill="currentColor" stroke="none" font-weight="bold">3</text></svg>
+                    </button>
+                    <button class="nf-tb-btn" title="순서 없는 목록">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="10" y1="6" x2="21" y2="6"/><line x1="10" y1="12" x2="21" y2="12"/><line x1="10" y1="18" x2="21" y2="18"/><circle cx="4" cy="6" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="12" r="1.5" fill="currentColor" stroke="none"/><circle cx="4" cy="18" r="1.5" fill="currentColor" stroke="none"/></svg>
+                    </button>
+                    <button class="nf-tb-btn" title="들여쓰기">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="4" x2="21" y2="4"/><line x1="3" y1="20" x2="21" y2="20"/><line x1="11" y1="9" x2="21" y2="9"/><line x1="11" y1="15" x2="21" y2="15"/><polyline points="3 8 7 12 3 16"/></svg>
+                    </button>
+                    <button class="nf-tb-btn" title="내어쓰기">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="4" x2="21" y2="4"/><line x1="3" y1="20" x2="21" y2="20"/><line x1="11" y1="9" x2="21" y2="9"/><line x1="11" y1="15" x2="21" y2="15"/><polyline points="7 8 3 12 7 16"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="표">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="3" y1="15" x2="21" y2="15"/><line x1="9" y1="3" x2="9" y2="21"/></svg>
+                      <svg viewBox="0 0 10 6" style="width:8px;height:8px;"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.5" fill="none"/></svg>
+                    </button>
+                  </div>
+                  <div class="nf-toolbar-group">
+                    <button class="nf-tb-btn" title="링크">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                    </button>
+                    <button class="nf-tb-btn" title="이미지">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+                    </button>
+                    <button class="nf-tb-btn" title="서식 제거">
+                      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                    </button>
+                  </div>
+                </div>
+                <div class="nf-editor-body" contenteditable="true" id="nf-content">
+                  <p>공지사항 내용을 입력하세요.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 첨부 파일 -->
+          <div class="nf-row">
+            <div class="nf-field" style="flex:1;">
+              <label class="nf-label">첨부 파일</label>
+              <div class="nf-attach-area">
+                <div class="nf-attach-top">
+                  <button class="nf-attach-btn" id="nf-attach-btn">파일 추가</button>
+                  <span class="nf-attach-info">허용 확장자: .jpg, .jpeg, .png, .gif, .bmp, .pdf, .xlsx, .xls, .doc, .docx, .ppt, .pptx, .hwp, .txt · 파일당 최대 10.0 MB · 최대 3개</span>
+                  <input type="file" id="nf-file-input" multiple accept=".jpg,.jpeg,.png,.gif,.bmp,.pdf,.xlsx,.xls,.doc,.docx,.ppt,.pptx,.hwp,.txt" style="display:none;">
+                </div>
+                <div class="nf-attach-list" id="nf-attach-list">
+                  <p class="nf-attach-empty">첨부된 파일이 없습니다.</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 등록 정보 -->
+          <div class="nf-row nf-meta-row" id="nf-meta-row" style="display:none;">
+            <div class="nf-meta-grid">
+              <div class="nf-meta-item"><span class="nf-meta-label">등록자</span><span class="nf-meta-value" id="nf-author">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">등록일시</span><span class="nf-meta-value" id="nf-created">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">수정자</span><span class="nf-meta-value" id="nf-modifier">-</span></div>
+              <div class="nf-meta-item"><span class="nf-meta-label">수정일시</span><span class="nf-meta-value" id="nf-modified">-</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 하단 버튼 -->
+      <div class="nf-bottom-actions">
+        <button class="nf-btn nf-btn-list" id="nf-btn-list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          목록
+        </button>
+        <div class="nf-btn-right">
+          <button class="nf-btn nf-btn-delete" id="nf-btn-delete" style="display:none;">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            삭제
+          </button>
+          <button class="nf-btn nf-btn-save" id="nf-btn-save">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            저장
+          </button>
+        </div>
+      </div>
+    </div><!-- /notice-detail-view -->
+
+  </section>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+
+      // 기간 버튼 클릭 → 날짜만 설정, active 없음
+      document.querySelectorAll('#notice-list-view .adm-period-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const months = parseInt(btn.dataset.months);
+          const startInput = document.getElementById('date-start');
+          const endInput = document.getElementById('date-end');
+          if (months === 0) {
+            startInput.value = '';
+            endInput.value = '';
+          } else {
+            const today = new Date();
+            const start = new Date();
+            start.setMonth(today.getMonth() - months);
+            startInput.value = start.toISOString().split('T')[0];
+            endInput.value = today.toISOString().split('T')[0];
+          }
+        });
+      });
+
+      // ── 목록 ↔ 상세 전환 ──
+      const listView = document.getElementById('notice-list-view');
+      const detailView = document.getElementById('notice-detail-view');
+
+      function showDetail(isEdit) {
+        listView.style.display = 'none';
+        detailView.style.display = 'block';
+        const metaRow = document.getElementById('nf-meta-row');
+        const deleteBtn = document.getElementById('nf-btn-delete');
+        const pageTitle = document.getElementById('nf-page-title');
+        if (isEdit) {
+          metaRow.style.display = 'flex';
+          deleteBtn.style.display = 'inline-flex';
+          pageTitle.textContent = '공지사항 수정';
+        } else {
+          metaRow.style.display = 'none';
+          deleteBtn.style.display = 'none';
+          pageTitle.textContent = '공지사항 등록';
+        }
+      }
+
+      function showList() {
+        detailView.style.display = 'none';
+        listView.style.display = 'block';
+      }
+
+      // 등록 버튼 → 새 글 작성
+      document.querySelector('.tc-actions .btn-sm-primary').addEventListener('click', () => {
+        document.getElementById('nf-category').value = '일반';
+        document.getElementById('nf-title').value = '';
+        document.getElementById('nf-title-count').textContent = '0';
+        const today = new Date().toISOString().split('T')[0];
+        document.getElementById('nf-pub-start-date').value = today;
+        document.getElementById('nf-pub-start-time').value = '09:00';
+        document.getElementById('nf-pub-end-date').value = '9999-12-31';
+        document.getElementById('nf-pub-end-time').value = '23:59';
+        document.getElementById('nf-forever').checked = true;
+        document.getElementById('nf-pub-end-date').disabled = true;
+        document.getElementById('nf-pub-end-time').disabled = true;
+        document.getElementById('nf-popup-check').checked = false;
+        document.querySelectorAll('#nf-popup-dates input, #nf-popup-dates button').forEach(f => f.disabled = true);
+        document.getElementById('nf-popup-start-date').value = '';
+        document.getElementById('nf-popup-start-time').value = '';
+        document.getElementById('nf-popup-end-date').value = '';
+        document.getElementById('nf-popup-end-time').value = '';
+        document.getElementById('nf-content').innerHTML = '';
+        document.getElementById('nf-attach-list').innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+        showDetail(false);
+        window.scrollTo(0, 0);
+      });
+
+      // 목록 버튼
+      document.getElementById('nf-btn-list').addEventListener('click', showList);
+
+      // 가상 공지사항 상세 데이터
+      const noticeData = [
+        {
+          category: '일반', title: '시스템 정기점검 안내 (4월 5일)',
+          pubStartDate: '2026-04-01', pubStartTime: '09:00',
+          pubEndDate: '9999-12-31', pubEndTime: '23:59', forever: true,
+          popup: false,
+          content: `<p>안녕하세요, 관리자입니다.</p>
+<p>시스템 정기점검이 아래 일정으로 진행될 예정이오니, 이용에 참고 부탁드립니다.</p>
+<p><b>점검 일시:</b> 2026년 4월 5일 (토) 02:00 ~ 06:00 (4시간)</p>
+<p><b>점검 내용:</b></p>
+<ul><li>서버 보안 패치 및 성능 최적화</li><li>데이터베이스 마이그레이션 작업</li><li>네트워크 장비 펌웨어 업데이트</li></ul>
+<p>점검 시간 동안 서비스 이용이 일시 중단됩니다. 불편을 드려 죄송합니다.</p>`,
+          author: '관리자', created: '2026-04-01 08:45:12', modifier: '관리자', modified: '2026-04-01 08:45:12'
+        },
+        {
+          category: '일반', title: '2026년 상반기 시스템 업데이트 안내',
+          pubStartDate: '2026-03-15', pubStartTime: '10:00',
+          pubEndDate: '9999-12-31', pubEndTime: '23:59', forever: true,
+          popup: true, popupStartDate: '2026-03-15', popupStartTime: '10:00', popupEndDate: '2026-03-22', popupEndTime: '23:59',
+          content: `<p>2026년 상반기 주요 시스템 업데이트 내용을 안내드립니다.</p>
+<p><b>1. 드론 영상 분석 기능 개선</b></p>
+<p>AI 모델 정확도가 기존 대비 15% 향상되었으며, 비닐하우스 탐지 속도가 2배 빨라졌습니다.</p>
+<p><b>2. 대시보드 UI 개편</b></p>
+<p>관리자 대시보드가 새롭게 개편되어 접속 현황, 지역별 통계를 한눈에 확인할 수 있습니다.</p>
+<p><b>3. 모바일 최적화</b></p>
+<p>모바일 환경에서의 사용성이 크게 개선되었습니다.</p>`,
+          author: '관리자', created: '2026-03-15 09:32:48', modifier: '관리자', modified: '2026-03-15 10:15:22'
+        },
+        {
+          category: '일반', title: '불법 시설물 신고 절차 변경 안내',
+          pubStartDate: '2026-03-01', pubStartTime: '08:30',
+          pubEndDate: '9999-12-31', pubEndTime: '23:59', forever: true,
+          popup: false,
+          content: `<p>불법 시설물 신고 절차가 다음과 같이 변경되었습니다.</p>
+<p><b>변경 전:</b> 현장 확인 → 사진 촬영 → 관할 기관 전화 신고</p>
+<p><b>변경 후:</b> 시스템 내 [신고 접수] 메뉴를 통한 온라인 신고</p>
+<p>변경 사항:</p>
+<ul><li>GPS 좌표 자동 입력 기능 추가</li><li>사진 첨부 시 AI 자동 분류 지원</li><li>신고 접수 후 실시간 처리 현황 확인 가능</li></ul>
+<p>자세한 내용은 매뉴얼을 참고해 주시기 바랍니다.</p>`,
+          author: '관리자', created: '2026-03-01 08:22:05', modifier: '신상미', modified: '2026-03-05 14:10:33'
+        },
+        {
+          category: '일반', title: '개인정보 처리방침 개정 안내',
+          pubStartDate: '2026-02-20', pubStartTime: '14:00',
+          pubEndDate: '2026-06-30', pubEndTime: '23:59', forever: false,
+          popup: true, popupStartDate: '2026-02-20', popupStartTime: '14:00', popupEndDate: '2026-03-06', popupEndTime: '23:59',
+          content: `<p>개인정보 처리방침이 아래와 같이 개정되었음을 안내드립니다.</p>
+<p><b>시행일:</b> 2026년 3월 1일</p>
+<p><b>주요 개정 내용:</b></p>
+<ul><li>개인정보 수집 항목 변경 (위치정보 추가)</li><li>개인정보 보유 기간 조정 (3년 → 2년)</li><li>제3자 제공 범위 명확화</li><li>개인정보 파기 절차 구체화</li></ul>
+<p>개정된 처리방침 전문은 시스템 하단 [개인정보 처리방침] 링크에서 확인하실 수 있습니다.</p>`,
+          author: '관리자', created: '2026-02-20 13:51:33', modifier: '관리자', modified: '2026-02-20 13:51:33'
+        }
+      ];
+
+      // 테이블 행 클릭 → 상세 보기 (수정 모드)
+      document.querySelectorAll('.adm-table tbody tr').forEach((row, idx) => {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', (e) => {
+          if (e.target.type === 'checkbox') return;
+          const data = noticeData[idx];
+          if (!data) return;
+
+          // 기본 정보
+          document.getElementById('nf-category').value = data.category;
+          document.getElementById('nf-title').value = data.title;
+          document.getElementById('nf-title-count').textContent = data.title.length;
+
+          // 게시 기간
+          document.getElementById('nf-pub-start-date').value = data.pubStartDate;
+          document.getElementById('nf-pub-start-time').value = data.pubStartTime;
+          document.getElementById('nf-pub-end-date').value = data.pubEndDate;
+          document.getElementById('nf-pub-end-time').value = data.pubEndTime;
+          const foreverChk = document.getElementById('nf-forever');
+          foreverChk.checked = data.forever;
+          document.getElementById('nf-pub-end-date').disabled = data.forever;
+          document.getElementById('nf-pub-end-time').disabled = data.forever;
+
+          // 팝업 설정
+          const popupChk = document.getElementById('nf-popup-check');
+          popupChk.checked = data.popup;
+          const popupFields = document.querySelectorAll('#nf-popup-dates input, #nf-popup-dates button');
+          popupFields.forEach(f => f.disabled = !data.popup);
+          if (data.popup) {
+            document.getElementById('nf-popup-start-date').value = data.popupStartDate || '';
+            document.getElementById('nf-popup-start-time').value = data.popupStartTime || '';
+            document.getElementById('nf-popup-end-date').value = data.popupEndDate || '';
+            document.getElementById('nf-popup-end-time').value = data.popupEndTime || '';
+          } else {
+            document.getElementById('nf-popup-start-date').value = '';
+            document.getElementById('nf-popup-start-time').value = '';
+            document.getElementById('nf-popup-end-date').value = '';
+            document.getElementById('nf-popup-end-time').value = '';
+          }
+
+          // 내용
+          document.getElementById('nf-content').innerHTML = data.content;
+
+          // 첨부 파일 초기화
+          const attachList = document.getElementById('nf-attach-list');
+          attachList.innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+
+          // 메타 정보
+          document.getElementById('nf-author').textContent = data.author;
+          document.getElementById('nf-created').textContent = data.created;
+          document.getElementById('nf-modifier').textContent = data.modifier;
+          document.getElementById('nf-modified').textContent = data.modified;
+
+          showDetail(true);
+          window.scrollTo(0, 0);
+        });
+      });
+
+      // ── 에디터 툴바 기능 ──
+      (function initEditor() {
+        const editor = document.getElementById('nf-content');
+        const toolbar = document.querySelector('.nf-editor-toolbar');
+        if (!toolbar || !editor) return;
+
+        // 툴바 버튼 클릭 시 에디터 포커스 유지
+        toolbar.addEventListener('mousedown', (e) => e.preventDefault());
+
+        const btnMap = {
+          '굵게': () => document.execCommand('bold'),
+          '밑줄': () => document.execCommand('underline'),
+          '기울임': () => document.execCommand('italic'),
+          '취소선': () => document.execCommand('strikeThrough'),
+          '위 첨자': () => document.execCommand('superscript'),
+          '아래 첨자': () => document.execCommand('subscript'),
+          '순서 있는 목록': () => document.execCommand('insertOrderedList'),
+          '순서 없는 목록': () => document.execCommand('insertUnorderedList'),
+          '들여쓰기': () => document.execCommand('indent'),
+          '내어쓰기': () => document.execCommand('outdent'),
+          '링크': () => {
+            const url = prompt('URL을 입력하세요:', 'https://');
+            if (url) document.execCommand('createLink', false, url);
+          },
+          '이미지': () => {
+            const url = prompt('이미지 URL을 입력하세요:', 'https://');
+            if (url) document.execCommand('insertImage', false, url);
+          },
+          '서식 제거': () => document.execCommand('removeFormat'),
+        };
+
+        toolbar.querySelectorAll('.nf-tb-btn').forEach(btn => {
+          const title = btn.getAttribute('title');
+          if (btnMap[title]) {
+            btn.addEventListener('click', (e) => {
+              e.preventDefault();
+              editor.focus();
+              btnMap[title]();
+            });
+          }
+        });
+      })();
+
+      // 제목 글자 수 카운트
+      document.getElementById('nf-title').addEventListener('input', function() {
+        document.getElementById('nf-title-count').textContent = this.value.length;
+      });
+
+      // 무한 게시 체크박스
+      document.getElementById('nf-forever').addEventListener('change', function() {
+        const endDate = document.getElementById('nf-pub-end-date');
+        const endTime = document.getElementById('nf-pub-end-time');
+        if (this.checked) {
+          endDate.value = '9999-12-31';
+          endTime.value = '23:59';
+          endDate.disabled = true;
+          endTime.disabled = true;
+        } else {
+          endDate.disabled = false;
+          endTime.disabled = false;
+        }
+      });
+      // 초기 상태
+      document.getElementById('nf-pub-end-date').disabled = true;
+      document.getElementById('nf-pub-end-time').disabled = true;
+
+      // 팝업 체크박스 → 날짜 필드 활성/비활성
+      document.getElementById('nf-popup-check').addEventListener('change', function() {
+        const fields = document.querySelectorAll('#nf-popup-dates input, #nf-popup-dates button');
+        fields.forEach(f => f.disabled = !this.checked);
+      });
+
+      // 팝업 기간 버튼
+      document.querySelectorAll('#nf-popup-dates .adm-period-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.preventDefault();
+          const weeks = parseInt(btn.dataset.weeks);
+          const startDate = document.getElementById('nf-popup-start-date');
+          const endDate = document.getElementById('nf-popup-end-date');
+          const today = new Date();
+          startDate.value = today.toISOString().split('T')[0];
+          const end = new Date(today);
+          end.setDate(today.getDate() + weeks * 7);
+          endDate.value = end.toISOString().split('T')[0];
+        });
+      });
+
+      // 파일 첨부
+      document.getElementById('nf-attach-btn').addEventListener('click', () => {
+        document.getElementById('nf-file-input').click();
+      });
+
+      document.getElementById('nf-file-input').addEventListener('change', function() {
+        const list = document.getElementById('nf-attach-list');
+        const empty = list.querySelector('.nf-attach-empty');
+        if (empty) empty.remove();
+
+        const maxFiles = 3;
+        const currentFiles = list.querySelectorAll('.nf-attach-file').length;
+
+        Array.from(this.files).slice(0, maxFiles - currentFiles).forEach(file => {
+          const div = document.createElement('div');
+          div.className = 'nf-attach-file';
+          const sizeMB = (file.size / 1024 / 1024).toFixed(2);
+          div.innerHTML = `<span class="nf-attach-name">${file.name}</span><span class="nf-attach-size">${sizeMB} MB</span><button class="nf-attach-remove" title="삭제">&times;</button>`;
+          div.querySelector('.nf-attach-remove').addEventListener('click', () => {
+            div.remove();
+            if (!list.querySelector('.nf-attach-file')) {
+              list.innerHTML = '<p class="nf-attach-empty">첨부된 파일이 없습니다.</p>';
+            }
+          });
+          list.appendChild(div);
+        });
+        this.value = '';
+      });
+
+      // 전체 선택 체크박스
+      const chkAll = document.getElementById('chk-all');
+      if (chkAll) {
+        chkAll.addEventListener('change', () => {
+          const checkboxes = document.querySelectorAll('.adm-table tbody input[type="checkbox"]');
+          checkboxes.forEach(cb => cb.checked = chkAll.checked);
+        });
+        document.querySelector('.adm-table tbody').addEventListener('change', () => {
+          const checkboxes = document.querySelectorAll('.adm-table tbody input[type="checkbox"]');
+          const allChecked = [...checkboxes].every(cb => cb.checked);
+          chkAll.checked = allChecked;
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>

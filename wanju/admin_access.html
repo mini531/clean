@@ -1,0 +1,479 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>접속 현황 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="../assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item active" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link active" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-access">
+
+    <h2 class="adm-page-title">접속 현황</h2>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">현재 접속자</div>
+        <div class="kpi-value blue">38</div>
+        <div class="kpi-sub">실시간 기준</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">오늘 총 접속</div>
+        <div class="kpi-value blue">142</div>
+        <div class="kpi-sub">09:00 ~ 현재</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">이번 주 접속</div>
+        <div class="kpi-value blue">874</div>
+        <div class="kpi-sub">전주 대비 +8%</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">이번 달 접속</div>
+        <div class="kpi-value blue">3,241</div>
+        <div class="kpi-sub">전월 대비 +14%</div>
+      </div>
+    </div>
+
+    <!-- 검색 필터 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">조회 유형</label>
+          <div class="adm-period-btns">
+            <button class="adm-period-btn active" id="btn-mode-daily" data-mode="daily">일간</button>
+            <button class="adm-period-btn" id="btn-mode-weekly" data-mode="weekly">주간</button>
+            <button class="adm-period-btn" id="btn-mode-monthly" data-mode="monthly">월간</button>
+          </div>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">기준일</label>
+          <input type="date" class="adm-filter-input" id="access-date" style="max-width:160px;">
+          <input type="month" class="adm-filter-input" id="access-month" style="max-width:160px; display:none;">
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost" id="btn-access-reset">초기화</button>
+          <button class="btn-sm-primary" id="btn-access-search">조회</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 차트 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3 id="access-chart-title">접속 현황 — 일간 (2026-04-01)</h3>
+        <span style="font-size:13px; color:rgba(255,255,255,0.6); font-weight:600;" id="access-chart-total">총 0건</span>
+      </div>
+      <div id="access-chart-area" style="padding:0;">
+      </div>
+    </div>
+
+  </section>
+
+  <!-- ══════════════════════════════════
+     Page: 지역 이용 현황
+════════════════════════════════════ -->
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // ── 접속 현황 차트 ──
+    (function() {
+      const chartArea = document.getElementById('access-chart-area');
+      const chartTitle = document.getElementById('access-chart-title');
+      const dateInput = document.getElementById('access-date');
+      const btnSearch = document.getElementById('btn-access-search');
+      const modeBtns = document.querySelectorAll('[data-mode]');
+      let currentMode = 'daily';
+
+      // 오늘 날짜 기본값
+      const today = new Date();
+      dateInput.value = today.toISOString().split('T')[0];
+
+      // 가상 데이터 생성
+      function genData(labels) {
+        return labels.map(() => Math.floor(Math.random() * 35) + 5);
+      }
+
+      function getMonday(d) {
+        const day = d.getDay(); const diff = d.getDate() - day + (day === 0 ? -6 : 1);
+        return new Date(d.setDate(diff));
+      }
+
+      function formatDate(d) {
+        return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0');
+      }
+
+      function getDaysInMonth(y, m) { return new Date(y, m+1, 0).getDate(); }
+
+      function mergeHourly(labels, values, tooltipLabels, step) {
+        const ml = [], mv = [], mt = [];
+        for (let i = 0; i < labels.length; i += step) {
+          const chunk = values.slice(i, i + step);
+          const sum = chunk.reduce((a, b) => a + b, 0);
+          const startL = labels[i];
+          const endL = labels[Math.min(i + step - 1, labels.length - 1)];
+          ml.push(startL + '~' + endL);
+          mv.push(sum);
+          mt.push(tooltipLabels ? tooltipLabels[i]?.split('~')[0] + ' ~ ' + (tooltipLabels[Math.min(i+step-1, tooltipLabels.length-1)]?.split('~').pop() || '') : ml[ml.length-1]);
+        }
+        return { labels: ml, values: mv, tooltipLabels: mt };
+      }
+
+      function renderChart(labels, values, unit, tooltipLabels) {
+        // 모바일에서 시간대 데이터(24개)를 3시간 단위로 병합
+        if (window.innerWidth <= 768 && labels.length >= 24) {
+          const merged = mergeHourly(labels, values, tooltipLabels, 3);
+          labels = merged.labels;
+          values = merged.values;
+          tooltipLabels = merged.tooltipLabels;
+        }
+        const max = Math.max(...values, 1);
+        const barH = 200;
+        const minW = labels.length > 15 ? '24px' : '36px';
+        const fontSize = labels.length > 15 ? '9px' : '11px';
+        chartArea.innerHTML =
+          `<div id="chart-tooltip" style="display:none; position:fixed; padding:8px 14px; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15); border-radius:8px; font-size:12px; color:#fff; pointer-events:none; z-index:9999; white-space:nowrap; line-height:1.6;"></div>
+          <div style="display:flex; align-items:flex-end; gap:2px; min-height:${barH + 40}px; padding:20px 22px 0; overflow-x:auto;">` +
+          values.map((v, i) => {
+            const h = v > 0 ? Math.round((v / max) * barH) : 0;
+            const tip = tooltipLabels ? tooltipLabels[i] : labels[i];
+            return `<div style="flex:1; min-width:${minW}; display:flex; flex-direction:column; align-items:center; gap:4px; justify-content:flex-end;">
+              <span style="font-size:10px; color:rgba(255,255,255,0.6); font-weight:600;">${v > 0 ? v : ''}</span>
+              <div class="chart-bar" data-tip="${tip}" data-val="${v}${unit || ''}" style="width:100%; max-width:32px; height:${h}px; background:linear-gradient(180deg, #64b5f6, rgba(100,181,246,0.4)); border-radius:4px 4px 0 0; cursor:pointer; transition:opacity 0.15s;${v === 0 ? 'visibility:hidden;' : ''}"></div>
+            </div>`;
+          }).join('') +
+          `</div>
+          <div style="display:flex; gap:2px; padding:6px 22px 16px; overflow-x:auto; border-top:1px solid rgba(255,255,255,0.06);">` +
+          labels.map(label =>
+            `<div style="flex:1; min-width:${minW}; text-align:center; font-size:${fontSize}; color:rgba(255,255,255,0.4); white-space:nowrap;">${label}</div>`
+          ).join('') + `</div>`;
+
+        // 총 건수 업데이트
+        const total = values.reduce((a, b) => a + b, 0);
+        document.getElementById('access-chart-total').textContent = `총 ${total.toLocaleString()}건`;
+
+        // 툴팁 이벤트
+        const tooltip = document.getElementById('chart-tooltip');
+        chartArea.querySelectorAll('.chart-bar').forEach(bar => {
+          bar.addEventListener('mouseenter', (e) => {
+            tooltip.innerHTML = `<div style="font-weight:700;">${bar.dataset.tip}</div><div>접속: <b style="color:#64b5f6;">${bar.dataset.val}</b></div>`;
+            tooltip.style.display = 'block';
+            bar.style.opacity = '0.75';
+          });
+          bar.addEventListener('mousemove', (e) => {
+            tooltip.style.left = (e.clientX + 12) + 'px';
+            tooltip.style.top = (e.clientY - 10) + 'px';
+          });
+          bar.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+            bar.style.opacity = '1';
+          });
+        });
+      }
+
+      function updateChart() {
+        const d = currentMode === 'monthly'
+          ? new Date(monthInput.value + '-01')
+          : new Date(dateInput.value || today.toISOString().split('T')[0]);
+
+        if (currentMode === 'daily') {
+          const labels = [];
+          const tips = [];
+          for (let h = 0; h <= 23; h++) {
+            labels.push(String(h).padStart(2,'0') + '시');
+            tips.push(`${formatDate(d)} ${String(h).padStart(2,'0')}:00 ~ ${String(h).padStart(2,'0')}:59`);
+          }
+          const now = new Date();
+          const isToday = d.toDateString() === now.toDateString();
+          const maxHour = isToday ? now.getHours() : 23;
+          const values = labels.map((_, i) => i <= maxHour ? Math.floor(Math.random() * 30) + 3 : 0);
+          chartTitle.textContent = `접속 현황 — 일간 (${formatDate(d)})`;
+          renderChart(labels, values, '명', tips);
+
+        } else if (currentMode === 'weekly') {
+          const mon = getMonday(new Date(d));
+          const dayNames = ['월','화','수','목','금','토','일'];
+          const dayLabels = [];
+          const tips = [];
+          dayNames.forEach((name, i) => {
+            const dd = new Date(mon);
+            dd.setDate(mon.getDate() + i);
+            dayLabels.push(`${name} (${dd.getDate()}일)`);
+            tips.push(`${formatDate(dd)} (${name})`);
+          });
+          const values = genData(dayLabels);
+          chartTitle.textContent = `접속 현황 — 주간 (${formatDate(mon)} ~ ${formatDate(new Date(mon.getTime() + 6*86400000))})`;
+          renderChart(dayLabels, values, '명', tips);
+
+        } else if (currentMode === 'monthly') {
+          const y = d.getFullYear(), m = d.getMonth();
+          const days = getDaysInMonth(y, m);
+          const now = new Date();
+          const isThisMonth = y === now.getFullYear() && m === now.getMonth();
+          const maxDay = isThisMonth ? now.getDate() : days;
+          const labels = [];
+          const tips = [];
+          for (let i = 1; i <= days; i++) {
+            labels.push(i + '일');
+            tips.push(`${y}년 ${m+1}월 ${i}일`);
+          }
+          const values = labels.map((_, i) => i < maxDay ? Math.floor(Math.random() * 45) + 10 : 0);
+          chartTitle.textContent = `접속 현황 — 월간 (${y}년 ${m+1}월)`;
+          renderChart(labels, values, '명', tips);
+        }
+      }
+
+      const monthInput = document.getElementById('access-month');
+      const resetBtn = document.getElementById('btn-access-reset');
+
+      // 월 기본값
+      monthInput.value = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0');
+
+      // 모드 전환 버튼 (차트는 조회 버튼으로만 갱신)
+      modeBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          modeBtns.forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          currentMode = btn.dataset.mode;
+          if (currentMode === 'monthly') {
+            dateInput.style.display = 'none';
+            monthInput.style.display = '';
+          } else {
+            dateInput.style.display = '';
+            monthInput.style.display = 'none';
+          }
+        });
+      });
+
+      // 조회 버튼
+      btnSearch.addEventListener('click', updateChart);
+
+      // 초기화 버튼
+      resetBtn.addEventListener('click', () => {
+        currentMode = 'daily';
+        modeBtns.forEach(b => b.classList.remove('active'));
+        document.getElementById('btn-mode-daily').classList.add('active');
+        dateInput.value = today.toISOString().split('T')[0];
+        monthInput.value = today.getFullYear() + '-' + String(today.getMonth()+1).padStart(2,'0');
+        dateInput.style.display = '';
+        monthInput.style.display = 'none';
+        updateChart();
+      });
+
+      // 초기 렌더링
+      updateChart();
+    })();
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+    });
+  </script>
+</body>
+
+</html>

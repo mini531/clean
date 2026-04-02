@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>자주 묻는 질문 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/mypage.css">
+</head>
+
+<body class="user-page-body">
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="../assets/img/main_logo_white.png" alt="행정안전부" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20"><circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white" font-size="9" font-weight="bold">정</text></svg>
+          행정안전부
+        </span>
+      </div>
+      <a href="dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</a>
+    </div>
+    <div class="gvt-header-mobile">
+      <div class="gvt-title-info">
+        <small class="gvt-org-name">행정안전부</small>
+        <h1 class="gvt-service-name">하천·계곡 정비 지원</h1>
+      </div>
+    </div>
+    <div class="gvt-spacer"></div>
+    <nav class="gvt-header-nav" aria-label="주요 메뉴">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" /></svg>
+        <span class="nav-label">지도</span>
+      </a>
+      <div class="gvt-nav-dropdown">
+        <button class="gvt-nav-btn" title="서비스 지원">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10" /><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" /><line x1="12" y1="17" x2="12.01" y2="17" /></svg>
+          <span class="nav-label">서비스 지원</span>
+        </button>
+        <div class="gvt-nav-submenu">
+          <a href="notice.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항</a>
+          <a href="faq.html" class="gvt-nav-sub-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문</a>
+        </div>
+      </div>
+      <a href="admin_dashboard.html" class="gvt-nav-btn" id="btn-nav-admin" title="관리" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+        <span class="nav-label">관리</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50" style="width:11px;height:11px;"><path d="M6 9l6 6 6-6" /></svg>
+      </button>
+    </nav>
+  </header>
+
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="mypage.html" class="ud-item"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></svg><span>마이페이지</span></a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" /><polyline points="16 17 21 12 16 7" /><line x1="21" y1="12" x2="9" y2="12" /></svg><span>로그아웃</span></button>
+    </div>
+  </div>
+
+  <div class="user-page">
+    <h2 class="page-title">자주 묻는 질문</h2>
+    <div class="u-card">
+      <div class="faq-list" id="faq-list"></div>
+    </div>
+  </div>
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    const faqs = [
+      { category: '시설물 조회', q: '불법 시설물의 \'걸침\'과 \'구역내\'는 무슨 뜻인가요?', a: `<p><b>'걸침'</b>은 하천 구역 경계선을 걸쳐서 위치한 시설물, <b>'구역내'</b>는 하천·계곡 구역 내부에 완전히 위치한 시설물을 말합니다.</p><ul><li><b>걸침:</b> 시설물의 일부가 하천 구역 안에, 일부가 밖에 위치</li><li><b>구역내:</b> 하천법에 따라 허가 없이 설치된 불법 구조물</li></ul><p>대시보드 좌측 패널에서 시·도별 건수를 확인할 수 있습니다.</p>`, author: '관리자', date: '2026-03-20' },
+      { category: '시설물 조회', q: '특정 지역의 불법 시설물 목록은 어떻게 확인하나요?', a: `<p>두 가지 방법으로 확인 가능합니다.</p><ol><li><b>지도에서 직접:</b> 지도에서 원하는 지역을 클릭하면 시설물 마커가 표시됩니다.</li><li><b>좌측 패널:</b> 시·도별 현황에서 지역을 선택하면 걸침/구역내 목록을 확인할 수 있습니다.</li></ol>`, author: '관리자', date: '2026-03-15' },
+      { category: '지도/레이어', q: '지도에서 하천 구역 경계를 표시하려면 어떻게 하나요?', a: `<p>지도 우측의 <b>[레이어 설정]</b> 버튼에서 '하천 구역 경계'를 활성화하세요.</p><ul><li><span style="color:#5b8def;">파란색 영역</span>: 하천 구역</li><li><span style="color:#ab7ae0;">보라색 영역</span>: 허가 구역</li><li><span style="color:#ff6b6b;">빨간색 마커</span>: 불법 시설물 위치</li></ul><p>레이어는 중복 표시 및 투명도 조절이 가능합니다.</p>`, author: '신상미', date: '2026-03-10' },
+      { category: '시설물 조회', q: '시설물 상세 정보에서 확인할 수 있는 항목은?', a: `<p>기본 정보(시설물 유형, 소재지, GPS 좌표), 하천 관련 정보(하천명, 위치 유형, 경계 거리), 정비 현황(상태, 담당 기관, 일정)을 확인할 수 있습니다.</p>`, author: '관리자', date: '2026-03-05' },
+      { category: '지도/레이어', q: '지도 위성 영상과 일반 지도를 전환하는 방법은?', a: `<p>지도 우측 상단의 <b>[지도 유형]</b> 버튼에서 일반 지도, 위성 영상, 하이브리드 중 선택할 수 있습니다. 불법 시설물 현장 확인 시에는 위성 영상 또는 하이브리드 모드를 권장합니다.</p>`, author: '신상미', date: '2026-02-28' },
+      { category: '시설물 조회', q: '시·도별 불법 시설물 현황을 한눈에 보려면?', a: `<p>메인 대시보드 좌측 패널에 전국 시·도별 현황이 자동 표시됩니다. 걸침순, 구역내순, 지역명순으로 정렬할 수 있으며, 지도에서 시·도 영역을 클릭하면 하위 시·군·구 단위 현황도 확인 가능합니다.</p>`, author: '관리자', date: '2026-02-20' },
+      { category: '계정/인증', q: '회원가입 승인은 얼마나 걸리나요?', a: `<p>일반적으로 <b>1~2 영업일</b> 이내 처리됩니다. 승인 완료 시 가입 시 등록한 이메일로 안내가 발송됩니다. 공휴일 및 주말에는 처리되지 않습니다.</p>`, author: '관리자', date: '2026-02-15' },
+      { category: '계정/인증', q: '비밀번호를 분실했을 때 어떻게 하나요?', a: `<p>로그인 화면에서 <b>[비밀번호 찾기]</b>를 클릭 → 이름과 이메일 입력 → 인증번호 확인 → 새 비밀번호 설정 순서로 재설정할 수 있습니다.</p><p>비밀번호는 8자 이상, 영문+숫자+특수문자 조합이어야 합니다.</p>`, author: '관리자', date: '2026-02-10' },
+      { category: '시스템 일반', q: '시스템 권장 브라우저와 해상도는?', a: `<p><b>Chrome 90+</b> (최우선 권장), Edge 90+, Firefox 88+ 을 지원합니다. IE는 지원되지 않습니다. 데스크탑 해상도 <b>1920×1080 이상</b>, 모바일은 반응형 지원됩니다.</p>`, author: '관리자', date: '2026-02-01' },
+      { category: '시스템 일반', q: '시스템 이용 가능 시간은 어떻게 되나요?', a: `<p><b>365일 24시간</b> 상시 운영됩니다. 매월 첫째 주 일요일 02:00~06:00 정기점검 시 일시 중단되며, 점검 일정은 공지사항을 통해 사전 안내됩니다.</p>`, author: '관리자', date: '2026-01-20' }
+    ];
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        document.getElementById('header-user-name').textContent = user.name + '님';
+        document.getElementById('dd-user-name').textContent = user.name;
+        document.getElementById('dd-user-org').textContent = user.org;
+        document.getElementById('dd-user-role').textContent = user.roleLabel;
+        const btn = document.getElementById('btn-logout');
+        const dropdown = document.getElementById('user-dropdown');
+        btn.addEventListener('click', e => { e.stopPropagation(); dropdown.classList.toggle('active'); });
+        document.addEventListener('click', () => dropdown.classList.remove('active'));
+
+        // 관리 버튼 표시 (관리자인 경우)
+        if (user.role === 'admin') {
+          const adminBtn = document.getElementById('btn-nav-admin');
+          if (adminBtn) adminBtn.style.display = 'flex';
+        }
+      }
+
+      // FAQ 아코디언 렌더링
+      const list = document.getElementById('faq-list');
+      faqs.forEach((faq, i) => {
+        const item = document.createElement('div');
+        item.className = 'faq-item';
+        item.innerHTML = `
+          <button class="faq-question">
+            <span class="faq-q-category">${faq.category}</span>
+            <span class="faq-q-text">${faq.q}</span>
+            <svg class="faq-q-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg>
+          </button>
+          <div class="faq-answer">
+            <div class="faq-answer-inner">
+              ${faq.a}
+              <div class="faq-meta">${faq.date}</div>
+            </div>
+          </div>`;
+        item.querySelector('.faq-question').addEventListener('click', () => {
+          const wasOpen = item.classList.contains('open');
+          // 다른 항목 닫기 (선택적 — 하나만 열리게)
+          list.querySelectorAll('.faq-item.open').forEach(el => el.classList.remove('open'));
+          if (!wasOpen) item.classList.add('open');
+        });
+        list.appendChild(item);
+      });
+    });
+  </script>
+</body>
+
+</html>

@@ -88,10 +88,6 @@
     <main class="auth-box landing-box" role="main">
       <!-- 헤더 -->
       <header class="auth-header">
-        <div class="logo-icon">
-          <img src="assets/img/main_logo_white.png" alt="시스템 로고"
-            onerror="this.src='https://placehold.co/200x60?text=LOGO'">
-        </div>
         <h1 class="service-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</h1>
         <p class="service-sub">River &amp; Valley Illegal Facility Management System</p>
       </header>
@@ -99,9 +95,23 @@
       <!-- 카드 -->
       <section class="landing-body">
         <div class="landing-cards">
-          <!-- 화면 설계서 카드 -->
-          <a href="storyboard.html" target="_blank" class="landing-card">
+          <!-- 요구사항 정의서 카드 -->
+          <a href="requirements.html" target="_blank" class="landing-card">
             <div class="landing-card-icon">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M9 11l3 3L22 4"/>
+                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
+              </svg>
+            </div>
+            <div class="landing-card-text">
+              <span class="landing-card-title">요구사항 정의서</span>
+              <span class="landing-card-desc">시스템 요구사항을 정의하고 관리합니다</span>
+            </div>
+          </a>
+
+          <!-- 화면 설계서 카드 (준비중) -->
+          <div class="landing-card" style="opacity:0.45;cursor:not-allowed;pointer-events:none">
+            <div class="landing-card-icon" style="background:linear-gradient(135deg,#6b7280,#9ca3af)">
               <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                 <polyline points="14 2 14 8 20 8"/>
@@ -112,22 +122,36 @@
             </div>
             <div class="landing-card-text">
               <span class="landing-card-title">화면 설계서</span>
-              <span class="landing-card-desc">각 화면의 구성과 기능을 상세히 확인합니다</span>
+              <span class="landing-card-desc" style="color:#aaa">프로토타입 완료 후 재작성 예정</span>
             </div>
-          </a>
+          </div>
 
-          <!-- 프로토타입 카드 -->
-          <a href="login.html" target="_blank" class="landing-card">
-            <div class="landing-card-icon">
+          <!-- 프로토타입 - 전국 -->
+          <a href="national/login.html" target="_blank" class="landing-card">
+            <div class="landing-card-icon" style="background:linear-gradient(135deg,#0d3a6e,#1a73e8)">
               <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/>
-                <line x1="8" y1="21" x2="16" y2="21"/>
-                <line x1="12" y1="17" x2="12" y2="21"/>
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="2" y1="12" x2="22" y2="12"/>
+                <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
               </svg>
             </div>
             <div class="landing-card-text">
-              <span class="landing-card-title">프로토타입</span>
-              <span class="landing-card-desc">동작하는 화면 프로토타입을 직접 확인합니다</span>
+              <span class="landing-card-title">프로토타입 — 전국</span>
+              <span class="landing-card-desc">전국 서비스 화면 프로토타입</span>
+            </div>
+          </a>
+
+          <!-- 프로토타입 - 완주군 -->
+          <a href="wanju/login.html" target="_blank" class="landing-card">
+            <div class="landing-card-icon" style="background:linear-gradient(135deg,#1b5e20,#43a047)">
+              <svg viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/>
+                <circle cx="12" cy="10" r="3"/>
+              </svg>
+            </div>
+            <div class="landing-card-text">
+              <span class="landing-card-title">프로토타입 — 완주군</span>
+              <span class="landing-card-desc">완주군 지역 서비스 화면 프로토타입</span>
             </div>
           </a>
         </div>

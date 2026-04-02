@@ -327,16 +327,25 @@ function switchSidebarView(viewId) {
       });
     }
 
-    // 레이어 설정창 토글
-    const layerBox = document.getElementById('db-layer-settings');
-    if (layerBox) {
-      if (viewId === 'sidebar-detail-view') {
-        layerBox.classList.remove('hidden');
-        document.body.classList.add('detail-mode-active');
-      } else {
-        layerBox.classList.add('hidden');
-        document.body.classList.remove('detail-mode-active');
-      }
+    // 레이어 설정창은 항상 표시 (detail-mode 클래스만 토글)
+    if (viewId === 'sidebar-detail-view') {
+      document.body.classList.add('detail-mode-active');
+    } else {
+      document.body.classList.remove('detail-mode-active');
+    }
+
+    // 지역별 현황 카드 내부 바디 A/B 전환
+    var regionBody = document.getElementById('region-body');
+    var detailBody = document.getElementById('sidebar-detail-view');
+    var titleEl = document.getElementById('panel-region-title');
+    if (viewId === 'sidebar-detail-view') {
+      if (regionBody) regionBody.style.display = 'none';
+      if (detailBody) detailBody.classList.add('active');
+      if (titleEl) titleEl.textContent = '시설물 목록';
+    } else {
+      if (regionBody) regionBody.style.display = '';
+      if (detailBody) detailBody.classList.remove('active');
+      if (titleEl) titleEl.textContent = '지역별 현황';
     }
   }
 }
@@ -1311,13 +1320,12 @@ function initLayerControls() {
     });
   }
 
-  // 레이어 설정 최소화 (데스크탑) / 클릭 시 숨김 (모바일)
+  // 레이어 설정 최소화 (데스크탑) / 닫기 (모바일)
   if (btnMin && layerBox) {
     btnMin.addEventListener('click', (e) => {
       e.stopPropagation();
       if (window.innerWidth <= 768) {
-        // 모바일에서는 접지 않고 완전히 숨김
-        layerBox.classList.add('hidden');
+        layerBox.classList.remove('m-open');
       } else {
         layerBox.classList.toggle('minimized');
       }
@@ -1381,24 +1389,22 @@ function initLayerControls() {
       return;
     }
 
-    // 2. 레이어 설정 버튼 클릭 (플로팅 버튼)
+    // 2. 레이어 설정 버튼 클릭 (모바일 플로팅 버튼 → 표시/숨김)
     const layerBtn = e.target.closest('#btn-m-layer-open');
     if (layerBtn) {
       e.stopPropagation();
-      console.log('Mobile: "Layer Settings" button clicked.');
       if (layerBox) {
-        layerBox.classList.toggle('hidden');
+        layerBox.classList.toggle('m-open');
       }
       return;
     }
 
-    // 3. 레이어 설정 헤더 닫기 버튼 클릭 (헤더 내 X 버튼)
+    // 3. 레이어 설정 헤더 닫기 버튼 클릭 (모바일 X 버튼 → 완전 숨김)
     const layerCloseBtn = e.target.closest('#btn-layer-m-close');
     if (layerCloseBtn) {
       e.stopPropagation();
-      console.log('Mobile: "Layer Header X" button clicked.');
       if (layerBox) {
-        layerBox.classList.add('hidden');
+        layerBox.classList.remove('m-open');
       }
       return;
     }
@@ -1420,43 +1426,7 @@ function initLayerControls() {
 }
 
 /** 사이드바 뷰 전환 (지역목록 <-> 시설물 목록) — 데스크탑 용/공통 */
-function switchSidebarView(viewId) {
-  const allViews = document.querySelectorAll('.db-sidebar-view');
-  const mainPanel = document.getElementById('db-left-panel');
-  const detailView = document.getElementById('sidebar-detail-view');
-  const layerSettings = document.getElementById('db-layer-settings');
-
-  // 1. 모든 뷰의 active 클래스 제거
-  allViews.forEach(v => v.classList.remove('active'));
-
-  // 2. 타겟 뷰에 active 클래스 추가
-  const target = document.getElementById(viewId);
-  if (target) {
-    target.classList.add('active');
-  }
-
-  // 3. 레이어 설정 패널 노출 제어 (상세 모드 전용)
-  if (layerSettings) {
-    if (viewId === 'sidebar-detail-view') {
-      layerSettings.classList.remove('hidden');
-      document.body.classList.add('detail-mode-active');
-    } else {
-      layerSettings.classList.add('hidden');
-      document.body.classList.remove('detail-mode-active');
-    }
-  }
-
-  // 4. 지점 상세 뷰가 독립 요소이므로, 해당 전환 시 메인 패널 가독성 제어 (데스크탑)
-  if (window.innerWidth > 768) {
-    if (viewId === 'sidebar-detail-view') {
-      if (mainPanel) mainPanel.style.display = 'none';
-      if (detailView) detailView.style.display = 'flex';
-    } else {
-      if (mainPanel) mainPanel.style.display = 'flex';
-      if (detailView) detailView.style.display = 'none';
-    }
-  }
-}
+/* 중복 switchSidebarView 제거 — 307줄의 함수가 메인 */
 
 /** 모바일 플로팅 버튼들 제어 (목록보기/레이어설정 쌍으로 동작) */
 function toggleMobileFloatingButtons(show) {
@@ -1471,7 +1441,82 @@ function toggleMobileFloatingButtons(show) {
     if (btnGroup) btnGroup.classList.remove('visible');
     
     // 버튼이 숨겨질 때 레이어 패널을 강제로 닫지는 않음
-    // (사이드바가 화면을 덮으면 CSS z-index로 자연스럽게 가려지며, 
+    // (사이드바가 화면을 덮으면 CSS z-index로 자연스럽게 가려지며,
     // 사이드바를 닫았을 때 레이어 패널이 이전 상태를 유지하게 함)
   }
 }
+
+/* ══════════════════════════════════════════════
+   사이드바 섹션 접기/펴기 + 분석 설정 모달
+   ══════════════════════════════════════════════ */
+
+// 카드 패널 접기/펴기
+document.querySelectorAll('.sb-section-header[data-panel]').forEach(function(header) {
+  header.addEventListener('click', function(e) {
+    // 설정 버튼 클릭은 제외
+    if (e.target.closest('.sb-section-setting')) return;
+    var panel = document.getElementById(header.getAttribute('data-panel'));
+    if (panel) panel.classList.toggle('collapsed');
+  });
+});
+
+// 분석 설정 모달
+(function() {
+  var modal = document.getElementById('modal-analysis-setting');
+  var btnOpen = document.getElementById('btn-analysis-setting');
+  var btnClose = document.getElementById('btn-analysis-modal-close');
+  var btnCancel = document.getElementById('btn-analysis-modal-cancel');
+  var btnApply = document.getElementById('btn-analysis-modal-apply');
+
+  if (!modal || !btnOpen) return;
+
+  function openModal(e) {
+    e.stopPropagation();
+    modal.classList.add('active');
+  }
+
+  function closeModal() {
+    modal.classList.remove('active');
+  }
+
+  btnOpen.addEventListener('click', openModal);
+  btnClose.addEventListener('click', closeModal);
+  btnCancel.addEventListener('click', closeModal);
+  modal.addEventListener('click', function(e) {
+    if (e.target === modal) closeModal();
+  });
+
+  // 분석 데이터
+  var ANALYSIS_DATA = {
+    '2026-10-all':      { year: '2026.10', region: '전국', count: '461,234' },
+    '2025-08-all':      { year: '2025.08', region: '전국', count: '423,891' },
+    '2025-08-seoul':    { year: '2025.08', region: '서울', count: '118,163' },
+    '2025-06-gyeonggi': { year: '2025.06', region: '경기', count: '100,566' },
+    '2025-05-busan':    { year: '2025.05', region: '부산', count: '10,632' },
+    '2024-12-all':      { year: '2024.12', region: '전국', count: '398,210' },
+    '2024-10-seoul':    { year: '2024.10', region: '서울', count: '105,420' },
+    '2024-09-gyeonggi': { year: '2024.09', region: '경기', count: '94,831' },
+    '2023-11-all':      { year: '2023.11', region: '전국', count: '372,105' },
+    '2023-09-seoul':    { year: '2023.09', region: '서울', count: '98,712' }
+  };
+
+  btnApply.addEventListener('click', function() {
+    var checked = modal.querySelectorAll('input[type="checkbox"]:checked');
+    var list = document.getElementById('analysis-list');
+    if (!list) return;
+
+    var html = '';
+    checked.forEach(function(cb) {
+      var d = ANALYSIS_DATA[cb.value];
+      if (!d) return;
+      html += '<div class="analysis-card" data-id="' + cb.value + '">'
+        + '<span class="analysis-year">' + d.year + '</span>'
+        + '<span class="analysis-region">' + d.region + '</span>'
+        + '</div>';
+    });
+
+    list.innerHTML = html;
+    closeModal();
+  });
+
+})();

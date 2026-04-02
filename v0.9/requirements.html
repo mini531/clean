@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>요구사항 정의서 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Segoe UI','Malgun Gothic','맑은 고딕',sans-serif;
+    background:#f5f7fa;
+    color:#333;
+    font-size:14px;
+    line-height:1.65;
+    min-height:100vh;
+  }
+  .sb-wrap{max-width:1600px;margin:0 auto;position:relative;}
+  @media(min-width:1601px){
+    .sidebar{left:calc((100vw - 1600px)/2);}
+  }
+
+  /* ---------- SIDEBAR ---------- */
+  .sidebar{
+    position:fixed;top:0;left:0;bottom:0;width:280px;
+    background:#fff;
+    border-right:1px solid #e0e4ea;
+    overflow-y:auto;z-index:100;
+    padding:24px 0 40px;
+    transition:transform .3s ease;
+  }
+  .sidebar-header{padding:0 20px 20px;border-bottom:1px solid rgba(255,255,255,.1)}
+  .sidebar-header h2{font-size:14px;font-weight:700;color:#1a2a4a;line-height:1.5}
+  .sidebar-header p{font-size:11px;color:#8896a8;margin-top:4px}
+  .toc{list-style:none;padding:12px 0}
+  .toc a{
+    display:block;padding:7px 20px 7px 24px;
+    color:#5a6a7e;text-decoration:none;font-size:13px;
+    border-left:3px solid transparent;transition:all .2s;
+  }
+  .toc a:hover,.toc a.active{
+    color:#0d3a6e;background:rgba(13,58,110,.06);border-left-color:#0d3a6e;font-weight:600;
+  }
+  .toc .toc-group{
+    font-size:11px;text-transform:uppercase;letter-spacing:.8px;
+    color:#a0aab8;padding:16px 20px 6px 24px;font-weight:700;
+  }
+  .toc .toc-sub{padding-left:38px;font-size:12px}
+
+  /* hamburger */
+  .hamburger{
+    display:none;position:fixed;top:12px;left:12px;z-index:200;
+    width:40px;height:40px;border-radius:10px;border:none;cursor:pointer;
+    background:#0d3a6e;color:#fff;font-size:20px;
+    backdrop-filter:blur(6px);
+  }
+  .overlay{
+    display:none;position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:90;
+  }
+
+  /* ---------- MAIN ---------- */
+  .main{margin-left:280px;padding:40px 48px 80px;max-width:1200px}
+
+  .page-header{text-align:center;padding:32px 0 48px}
+  .page-header h1{font-size:26px;font-weight:800;color:#1a2a4a;line-height:1.4}
+  .page-header .sub{font-size:13px;color:#8896a8;margin-top:8px}
+
+  /* cards */
+  .card{
+    background:#fff;
+    border:1px solid #e0e4ea;
+    border-radius:14px;padding:28px 32px;margin-bottom:32px;
+    box-shadow:0 2px 8px rgba(0,0,0,0.04);
+  }
+  .card h3{font-size:18px;font-weight:700;color:#1a2a4a;margin-bottom:14px}
+  .card h4{font-size:15px;font-weight:600;color:#2d3e52;margin:18px 0 10px}
+  .card p{margin:6px 0;font-size:13px;color:#444;line-height:1.7}
+
+  /* section title */
+  .section-title{
+    font-size:22px;font-weight:800;color:#1a2a4a;margin:48px 0 24px;
+    padding-bottom:12px;border-bottom:1px solid #e0e4ea;
+  }
+  .section-title:first-child{margin-top:0}
+
+  /* tables */
+  .glass-table{width:100%;border-collapse:collapse;margin:12px 0 4px}
+  .glass-table th{
+    background:#f0f3f7;color:#1a2a4a;font-weight:600;
+    text-align:left;padding:10px 14px;font-size:13px;
+    border-bottom:2px solid #d0d7e2;
+  }
+  .glass-table td{
+    padding:9px 14px;font-size:13px;color:#444;
+    border-bottom:1px solid #eef1f5;
+    vertical-align:top;
+  }
+  .glass-table tbody tr:hover{background:#f8fafc}
+  .glass-table .center{text-align:center}
+
+  /* badges */
+  .badge{
+    display:inline-block;padding:2px 10px;border-radius:20px;
+    font-size:11px;font-weight:600;margin:0 3px;white-space:nowrap;
+  }
+  .badge-func{background:rgba(59,130,246,.12);color:#2563eb;border:1px solid rgba(59,130,246,.25)}
+  .badge-nonfunc{background:rgba(139,92,246,.12);color:#7c3aed;border:1px solid rgba(139,92,246,.25)}
+  .badge-high{background:rgba(239,68,68,.12);color:#dc2626;border:1px solid rgba(239,68,68,.2)}
+  .badge-mid{background:rgba(249,115,22,.12);color:#ea580c;border:1px solid rgba(249,115,22,.2)}
+  .badge-low{background:rgba(34,197,94,.12);color:#16a34a;border:1px solid rgba(34,197,94,.2)}
+  .badge-national{background:rgba(59,130,246,.12);color:#2563eb;border:1px solid rgba(59,130,246,.25)}
+  .badge-region{background:rgba(34,197,94,.12);color:#16a34a;border:1px solid rgba(34,197,94,.2)}
+  .badge-viewer{background:rgba(107,114,128,.1);color:#6b7280;border:1px solid rgba(107,114,128,.2)}
+  .badge-org-admin{background:rgba(249,115,22,.12);color:#ea580c;border:1px solid rgba(249,115,22,.2)}
+  .badge-sys-admin{background:rgba(239,68,68,.12);color:#dc2626;border:1px solid rgba(239,68,68,.2)}
+  .badge-tbd{background:rgba(139,92,246,.12);color:#7c3aed;border:1px solid rgba(139,92,246,.25)}
+
+  /* info grid */
+  .info-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin:12px 0}
+  .info-item{
+    background:#f8fafc;border-radius:8px;padding:12px 16px;
+    border:1px solid rgba(0,0,0,.04);
+  }
+  .info-item .label{font-size:11px;color:#8896a8;margin-bottom:2px}
+  .info-item .value{font-size:13px;color:#1a2a4a;font-weight:600}
+
+  /* note box */
+  .note-box{
+    background:rgba(91,184,255,.08);border-left:3px solid #5bb8ff;
+    padding:14px 18px;border-radius:0 8px 8px 0;margin:16px 0;
+    font-size:13px;color:#2d3e52;
+  }
+  .note-box strong{color:#0d3a6e}
+  .note-box.warn{background:rgba(249,115,22,.08);border-left-color:#f97316}
+  .note-box.warn strong{color:#ea580c}
+
+  /* feature list */
+  .feat-list{list-style:none;padding:0;margin:8px 0}
+  .feat-list li{
+    position:relative;padding:5px 0 5px 18px;font-size:13px;
+  }
+  .feat-list li::before{
+    content:'';position:absolute;left:0;top:12px;
+    width:7px;height:7px;border-radius:50%;background:#5bb8ff;
+  }
+  .feat-list li strong{color:#1a2a4a}
+
+  /* flow diagram */
+  .flow-wrap{overflow-x:auto;margin:16px 0}
+  .flow-step{
+    background:#eef6ff;border:1px solid #93c5fd;border-radius:8px;
+    padding:10px 14px;margin:6px 0;font-size:12px;
+  }
+  .flow-step.error{background:#fef2f2;border-color:#fca5a5}
+  .flow-step.success{background:#f0fdf4;border-color:#86efac}
+  .flow-step .step-title{font-weight:700;color:#1a2a4a;margin-bottom:4px}
+  .flow-step .step-desc{color:#6b7a8d;font-size:11px;line-height:1.5}
+  .flow-arrow{text-align:center;color:#93c5fd;font-size:16px;margin:2px 0}
+
+  /* sub title */
+  .sub-title{font-size:15px;font-weight:600;color:#2d3e52;margin:20px 0 8px}
+
+  /* responsive */
+  @media(max-width:1024px){
+    .sidebar{transform:translateX(-100%)}
+    .sidebar.open{transform:translateX(0)}
+    .hamburger{display:flex;align-items:center;justify-content:center}
+    .overlay.open{display:block}
+    .main{margin-left:0;padding:40px 24px 60px}
+  }
+  @media(max-width:768px){
+    .main{padding:32px 14px 48px}
+    .page-header h1{font-size:20px}
+    .glass-table{font-size:12px}
+    .glass-table th,.glass-table td{padding:7px 8px}
+    .info-grid{grid-template-columns:1fr}
+    .card{padding:20px 18px}
+    .section-title{font-size:18px}
+  }
+</style>
+</head>
+
+<body>
+
+<!-- Hamburger -->
+<button class="hamburger" onclick="toggleSidebar()" aria-label="메뉴 열기">&#9776;</button>
+<div class="overlay" id="overlay" onclick="toggleSidebar()"></div>
+
+<div class="sb-wrap">
+<!-- ========== SIDEBAR ========== -->
+<nav class="sidebar" id="sidebar">
+  <div class="sidebar-header">
+    <h2>요구사항 정의서</h2>
+    <p>하천·계곡 불법 시설 정비 지원시스템</p>
+  </div>
+  <ul class="toc">
+    <li class="toc-group">개요</li>
+    <li><a href="#overview">1. 문서 개요</a></li>
+    <li><a href="#background">2. 사업 목적</a></li>
+    <li><a href="#system-overview">3. 시스템 구성 개요</a></li>
+
+    <li class="toc-group">사용자 및 권한</li>
+    <li><a href="#users">4. 사용자 분류</a></li>
+    <li><a href="#auth">5. 권한 체계</a></li>
+    <li><a href="#login">6. 접속 및 인증</a></li>
+
+    <li class="toc-group">기능 요구사항</li>
+    <li><a href="#ui">7. 화면 구성</a></li>
+    <li><a href="#func-common">8. 공통 기능</a></li>
+    <li><a href="#func-national">9. 전국 서비스</a></li>
+    <li><a href="#func-region">10. 지역 서비스</a></li>
+    <li><a href="#admin-portal">11. 시스템 관리자 포털</a></li>
+
+    <li class="toc-group">개발</li>
+    <li><a href="#scope">12. 개발 범위</a></li>
+    <li><a href="#pipeline">13. AI 추론 파이프라인</a></li>
+  </ul>
+</nav>
+
+<!-- ========== MAIN ========== -->
+<div class="main">
+
+  <div class="page-header">
+    <h1>하천·계곡 및 주변 지역 불법 시설 정비 지원시스템<br>요구사항 정의서</h1>
+    <p class="sub">Requirements Definition Document &mdash; v1.0</p>
+  </div>
+
+  <!-- ===================== 1. 문서 개요 ===================== -->
+  <h2 class="section-title" id="overview">1. 문서 개요</h2>
+  <div class="card">
+    <div class="info-grid">
+      <div class="info-item">
+        <div class="label">시스템명</div>
+        <div class="value">하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</div>
+      </div>
+      <div class="info-item">
+        <div class="label">제공 플랫폼</div>
+        <div class="value">한국국토정보공사 (LX)</div>
+      </div>
+      <div class="info-item">
+        <div class="label">문서 버전</div>
+        <div class="value">v1.0</div>
+      </div>
+      <div class="info-item">
+        <div class="label">작성일</div>
+        <div class="value">2026-04-02</div>
+      </div>
+    </div>
+    <div class="note-box" style="margin-top:18px">
+      <strong>문서 목적 &mdash;</strong> 본 문서는 한국국토정보공사 플랫폼 기반의 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템 구축을 위한 요구사항을 정의하고, 개발 범위를 협의하기 위한 문서입니다.
+    </div>
+  </div>
+
+  <!-- ===================== 2. 사업 목적 ===================== -->
+  <h2 class="section-title" id="background">2. 사업 목적</h2>
+  <div class="card">
+    <p>하천·계곡 및 주변 지역의 불법 시설물을 체계적으로 탐지·관리하기 위한 <strong>지도 기반 지원시스템</strong>을 한국국토정보공사(LX) 플랫폼 위에 구축합니다.</p>
+
+    <h4>주요 목표</h4>
+    <ul class="feat-list">
+      <li><strong>지도 기반 시각화:</strong> 하천·계곡 데이터를 지도 위에 직관적으로 표출하여 불법 시설 현황 파악</li>
+      <li><strong>사용자 맞춤 서비스:</strong> 전국 이용자와 특정 지역 이용자에게 각각 최적화된 접속 환경 제공</li>
+      <li><strong>AI 기반 탐지:</strong> 위성/항공 영상을 활용한 불법 시설 자동 탐지 파이프라인 구축</li>
+      <li><strong>관리 체계 연동:</strong> 기 구축된 시스템 관리자 포털의 데이터를 활용하여 효율적 운영</li>
+    </ul>
+  </div>
+
+  <!-- ===================== 3. 시스템 구성 개요 ===================== -->
+  <h2 class="section-title" id="system-overview">3. 시스템 구성 개요</h2>
+  <div class="card">
+    <p>본 시스템은 크게 세 가지 서비스 영역으로 구성됩니다.</p>
+    <table class="glass-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th style="width:60px" class="center">No.</th>
+          <th style="width:180px">서비스 영역</th>
+          <th>설명</th>
+          <th style="width:120px" class="center">비고</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">1</td>
+          <td><strong>전국 서비스</strong></td>
+          <td>전국 단위 하천·계곡 데이터를 조회하는 서비스 (전용 로그인·헤더·디자인)</td>
+          <td class="center">신규 구축</td>
+        </tr>
+        <tr>
+          <td class="center">2</td>
+          <td><strong>지역 서비스</strong></td>
+          <td>특정 지자체·지역 데이터를 조회하는 서비스 (지역 전용 로그인·헤더·디자인)</td>
+          <td class="center">신규 구축</td>
+        </tr>
+        <tr>
+          <td class="center">3</td>
+          <td><strong>시스템 관리자 포털</strong></td>
+          <td>시스템 전체 데이터 및 사용자를 관리하는 관리 포털</td>
+          <td class="center">기 구축</td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="note-box" style="margin-top:16px">
+      <strong>핵심 &mdash;</strong> 전국 서비스와 지역 서비스는 <strong>각각 별도의 로그인 페이지</strong>를 통해 접속하며, 접속 경로에 따라 헤더와 디자인이 다르게 구성됩니다. 단, 핵심인 <strong>지도 기반 서비스는 동일</strong>합니다.
+    </div>
+  </div>
+
+  <!-- ===================== 4. 사용자 분류 ===================== -->
+  <h2 class="section-title" id="users">4. 사용자 분류</h2>
+  <div class="card">
+    <p>사용자는 접속 범위에 따라 두 가지 유형으로 구분되며, 각각 별도의 로그인 페이지를 통해 접속합니다.</p>
+    <table class="glass-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th style="width:180px">사용자 유형</th>
+          <th>설명</th>
+          <th style="width:200px">접속 방식</th>
+          <th style="width:160px">디자인</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-national">전국 이용자</span></td>
+          <td>전국 단위 하천·계곡 데이터를 열람하는 사용자</td>
+          <td>전국 전용 로그인 페이지</td>
+          <td>전국 서비스 테마</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-region">특정 지역 이용자</span></td>
+          <td>특정 지자체·지역의 데이터를 열람하는 사용자</td>
+          <td>지역 전용 로그인 페이지</td>
+          <td>지역 서비스 테마</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 5. 권한 체계 ===================== -->
+  <h2 class="section-title" id="auth">5. 권한 체계</h2>
+  <div class="card">
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th style="width:160px">권한</th>
+          <th>설명</th>
+          <th style="width:280px">주요 기능</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-viewer">열람자</span></td>
+          <td>지도 데이터를 조회·열람하는 일반 사용자</td>
+          <td>지도 조회, 검색, 데이터 열람</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-org-admin">기관 관리자</span></td>
+          <td>소속 기관의 데이터를 관리하는 관리자</td>
+          <td>데이터 관리, 사용자 관리, 통계 열람</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-sys-admin">시스템 관리자</span></td>
+          <td>시스템 전체를 관리하는 최고 관리자<br><em style="font-size:11px;color:#8896a8">(기 구축된 관리자 포털에서 운영)</em></td>
+          <td>전체 시스템 설정, 데이터 관리, 모니터링</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 6. 접속 및 인증 ===================== -->
+  <h2 class="section-title" id="login">6. 접속 및 인증</h2>
+  <div class="card">
+    <h4>6.1 접속 흐름</h4>
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th class="center" style="width:50px">단계</th>
+          <th>전국 이용자</th>
+          <th>특정 지역 이용자</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">1</td>
+          <td>전국 서비스 로그인 페이지 접속</td>
+          <td>지역 서비스 로그인 페이지 접속</td>
+        </tr>
+        <tr>
+          <td class="center">2</td>
+          <td>로그인 / 회원가입</td>
+          <td>로그인 / 회원가입</td>
+        </tr>
+        <tr>
+          <td class="center">3</td>
+          <td>전국 서비스 테마 헤더 노출</td>
+          <td>해당 지역 테마 헤더 노출</td>
+        </tr>
+        <tr>
+          <td class="center">4</td>
+          <td colspan="2" style="text-align:center;font-weight:600;color:#16a34a">동일한 지도 기반 서비스 이용</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>6.2 인증 요구사항</h4>
+    <ul class="feat-list">
+      <li>전국 이용자와 특정 지역 이용자는 <strong>분리된 로그인 URL</strong>을 통해 접속</li>
+      <li>접속 경로에 따라 서비스 <strong>헤더, 로고, 색상 테마</strong>가 다르게 적용</li>
+      <li>로그인 후 권한(열람자/기관 관리자)에 따른 메뉴 접근 제어</li>
+    </ul>
+  </div>
+
+  <!-- ===================== 7. 화면 구성 ===================== -->
+  <h2 class="section-title" id="ui">7. 화면 구성 요구사항</h2>
+  <div class="card">
+    <h4>7.1 접속 경로별 화면 구성</h4>
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th style="width:160px">구성 요소</th>
+          <th>전국 서비스</th>
+          <th>지역 서비스</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>헤더</strong></td>
+          <td>전국 서비스 전용 헤더 (LX 로고 + 전국 타이틀)</td>
+          <td>해당 지역 전용 헤더 (지역 로고 + 지역명)</td>
+        </tr>
+        <tr>
+          <td><strong>디자인 테마</strong></td>
+          <td>전국 서비스 색상·스타일</td>
+          <td>지역별 커스텀 색상·스타일</td>
+        </tr>
+        <tr>
+          <td><strong>로그인 페이지</strong></td>
+          <td>전국 전용 디자인</td>
+          <td>지역 전용 디자인</td>
+        </tr>
+        <tr>
+          <td><strong>지도 서비스</strong></td>
+          <td colspan="2" style="text-align:center;font-weight:600;color:#16a34a">동일한 지도 기반 서비스</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>7.2 공통 화면 구성</h4>
+    <ul class="feat-list">
+      <li><strong>헤더:</strong> 로고, 서비스명, 사용자 정보, 로그아웃</li>
+      <li><strong>지도 영역:</strong> 메인 지도 뷰 (전체 화면 기반)</li>
+      <li><strong>사이드 패널:</strong> 검색, 필터, 상세 정보 등</li>
+      <li><strong>하단 정보:</strong> 범례, 좌표 정보 등</li>
+    </ul>
+  </div>
+
+  <!-- ===================== 8. 공통 기능 ===================== -->
+  <h2 class="section-title" id="func-common">8. 공통 기능 요구사항</h2>
+  <div class="card">
+    <p>접속 경로(전국/지역)에 관계없이 동일하게 제공되는 핵심 기능입니다.</p>
+    <table class="glass-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th style="width:60px" class="center">No.</th>
+          <th style="width:160px">기능</th>
+          <th>요구사항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">C-01</td>
+          <td>지도 표시</td>
+          <td>하천·계곡 및 주변 지역 데이터를 지도 위에 시각화</td>
+        </tr>
+        <tr>
+          <td class="center">C-02</td>
+          <td>검색</td>
+          <td>지역명, 하천명 등으로 지도 데이터를 검색</td>
+        </tr>
+        <tr>
+          <td class="center">C-03</td>
+          <td>필터링</td>
+          <td>불법 시설 유형, 상태 등 조건별 필터링</td>
+        </tr>
+        <tr>
+          <td class="center">C-04</td>
+          <td>상세 조회</td>
+          <td>개별 시설의 상세 정보 확인</td>
+        </tr>
+        <tr>
+          <td class="center">C-05</td>
+          <td>데이터 연동</td>
+          <td>시스템 관리자 포털에서 관리되는 데이터 조회·활용</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 9. 전국 서비스 ===================== -->
+  <h2 class="section-title" id="func-national">9. 전국 서비스 요구사항</h2>
+  <div class="card">
+    <p><span class="badge badge-national">전국 이용자</span> 전용 로그인 페이지를 통해 접속하는 사용자에게 제공되는 기능입니다.</p>
+    <table class="glass-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th style="width:60px" class="center">No.</th>
+          <th style="width:160px">기능</th>
+          <th>요구사항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">N-01</td>
+          <td>전국 로그인</td>
+          <td>전국 서비스 전용 로그인/회원가입 페이지 (전국 테마 디자인)</td>
+        </tr>
+        <tr>
+          <td class="center">N-02</td>
+          <td>전국 헤더</td>
+          <td>LX 로고, 전국 서비스 타이틀이 표시되는 전용 헤더</td>
+        </tr>
+        <tr>
+          <td class="center">N-03</td>
+          <td>전국 지도 조회</td>
+          <td>전국 범위의 하천·계곡 데이터를 지도에서 조회</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 10. 지역 서비스 ===================== -->
+  <h2 class="section-title" id="func-region">10. 지역 서비스 요구사항</h2>
+  <div class="card">
+    <p><span class="badge badge-region">특정 지역 이용자</span> 전용 로그인 페이지를 통해 접속하는 사용자에게 제공되는 기능입니다.</p>
+    <table class="glass-table" style="margin-top:16px">
+      <thead>
+        <tr>
+          <th style="width:60px" class="center">No.</th>
+          <th style="width:160px">기능</th>
+          <th>요구사항</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">R-01</td>
+          <td>지역 로그인</td>
+          <td>특정 지역 전용 로그인/회원가입 페이지 (지역 테마 디자인)</td>
+        </tr>
+        <tr>
+          <td class="center">R-02</td>
+          <td>지역 헤더</td>
+          <td>해당 지역 로고, 지역명이 표시되는 커스텀 헤더</td>
+        </tr>
+        <tr>
+          <td class="center">R-03</td>
+          <td>지역 지도 조회</td>
+          <td>해당 지역 범위의 하천·계곡 데이터를 지도에서 조회</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 11. 시스템 관리자 포털 ===================== -->
+  <h2 class="section-title" id="admin-portal">11. 시스템 관리자 포털</h2>
+  <div class="card">
+    <div class="note-box warn">
+      <strong>기 구축 완료 &mdash;</strong> 시스템 관리자 포털은 이미 구축되어 운영 중이며, 해당 포털에서 관리되는 데이터를 본 시스템(전국/지역 서비스)에서 활용합니다.
+    </div>
+    <h4>11.1 현황</h4>
+    <ul class="feat-list">
+      <li>시스템 관리자 포털은 <strong>별도 구축 완료</strong> 상태</li>
+      <li>본 서비스는 관리자 포털의 데이터를 <strong>조회·활용</strong>하는 구조</li>
+    </ul>
+    <h4>11.2 추가 개발 사항</h4>
+    <div class="note-box">
+      <strong>추후 협의 &mdash;</strong> 시스템 관리자 포털의 기능 변경 사항은 별도로 전달 예정이며, 해당 내역은 개발 범위에 포함됩니다. <span class="badge badge-tbd">TBD</span>
+    </div>
+  </div>
+
+  <!-- ===================== 12. 개발 범위 ===================== -->
+  <h2 class="section-title" id="scope">12. 개발 범위</h2>
+  <div class="card">
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th style="width:60px" class="center">No.</th>
+          <th style="width:200px">개발 항목</th>
+          <th>상세 내용</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="center">D-01</td>
+          <td>전국 이용자 로그인</td>
+          <td>전국 서비스 전용 로그인/회원가입 페이지 개발</td>
+        </tr>
+        <tr>
+          <td class="center">D-02</td>
+          <td>특정 지역 이용자 로그인</td>
+          <td>지역별 전용 로그인/회원가입 페이지 개발</td>
+        </tr>
+        <tr>
+          <td class="center">D-03</td>
+          <td>접속 경로별 테마 적용</td>
+          <td>로그인 경로에 따라 헤더, 로고, 색상 테마 분기 처리</td>
+        </tr>
+        <tr>
+          <td class="center">D-04</td>
+          <td>지도 기반 서비스</td>
+          <td>지도 위 하천·계곡 데이터 시각화, 검색, 필터링, 상세 조회</td>
+        </tr>
+        <tr>
+          <td class="center">D-05</td>
+          <td>권한 관리</td>
+          <td>열람자/기관 관리자 권한에 따른 기능 접근 제어</td>
+        </tr>
+        <tr>
+          <td class="center">D-06</td>
+          <td>관리자 포털 데이터 연동</td>
+          <td>기 구축된 시스템 관리자 포털 데이터 활용 연동</td>
+        </tr>
+        <tr>
+          <td class="center">D-07</td>
+          <td>시스템 관리자 포털 추가 개발</td>
+          <td>관리자 포털 기능 추가/변경 사항 (추후 전달 예정) <span class="badge badge-tbd">TBD</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- ===================== 13. AI 추론 파이프라인 ===================== -->
+  <h2 class="section-title" id="pipeline">13. AI 추론 파이프라인</h2>
+  <div class="card">
+    <p>불법 시설 탐지를 위한 AI 추론 파이프라인의 실행 흐름입니다. Argo DAG 기반 3단계(prepare &rarr; inference &rarr; finalize) 구조로 동작합니다.</p>
+
+    <h4>13.1 파이프라인 개요</h4>
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th style="width:140px">단계</th>
+          <th style="width:140px">실행 환경</th>
+          <th>역할</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>요청 접수</strong></td>
+          <td>Spring Boot (LNXI)</td>
+          <td>추론 요청 수신, DB 등록 (PENDING), Argo Workflow 제출</td>
+        </tr>
+        <tr>
+          <td><strong>Step 1: prepare</strong></td>
+          <td>Worker Node</td>
+          <td>DB 조회, 필지/구역 정보 추출, config.json + job-items.json 생성 후 S3 업로드</td>
+        </tr>
+        <tr>
+          <td><strong>Step 2: inference</strong></td>
+          <td>GPU Node</td>
+          <td>YOLO 모델 로드, 래스터 데이터 읽기, 필지별 타일 분할 추론, 결과 GeoJSON 생성</td>
+        </tr>
+        <tr>
+          <td><strong>Step 3: finalize</strong></td>
+          <td>Worker Node</td>
+          <td>GeoJSON 병합, GPKG 생성, PostgreSQL 적재, GeoServer 레이어 발행</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h4>13.2 상세 실행 흐름</h4>
+    <div style="margin:16px 0">
+      <a href="assets/img/pipeline.png" target="_blank">
+        <img src="assets/img/pipeline.png" alt="Argo DAG 실행 흐름 — 3-Step 추론 파이프라인 (prepare → inference → finalize)"
+             style="width:100%;border:1px solid #e0e4ea;border-radius:10px;box-shadow:0 2px 12px rgba(0,0,0,.08);cursor:zoom-in;display:block">
+      </a>
+      <p style="text-align:center;font-size:11px;color:#8896a8;margin-top:8px">클릭하면 원본 크기로 확인할 수 있습니다</p>
+    </div>
+
+    <h4>13.3 오류 코드 정의</h4>
+    <table class="glass-table">
+      <thead>
+        <tr>
+          <th style="width:120px">오류 코드</th>
+          <th style="width:180px">발생 단계</th>
+          <th>설명</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><code>INFRA</code></td>
+          <td>요청 접수 / finalize</td>
+          <td>Argo 제출 실패, GeoServer 발행 실패 등 인프라 오류</td>
+        </tr>
+        <tr>
+          <td><code>DATA</code></td>
+          <td>Step 1: prepare</td>
+          <td>기초데이터 미비, DB 무결성 문제</td>
+        </tr>
+        <tr>
+          <td><code>MODEL</code></td>
+          <td>Step 2: inference</td>
+          <td>모델 가중치 파일 없음, 로드 실패</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="note-box" style="margin-top:16px">
+      <strong>모니터링 &mdash;</strong> 각 단계의 실패는 Argo Events &rarr; Kafka를 통해 실시간으로 알림 처리되며, 상태값(sttu_cd)으로 추적 관리됩니다.
+    </div>
+  </div>
+
+</div><!-- /.main -->
+</div><!-- /.sb-wrap -->
+
+<script>
+// Sidebar toggle
+function toggleSidebar(){
+  document.getElementById('sidebar').classList.toggle('open');
+  document.getElementById('overlay').classList.toggle('open');
+}
+
+// Active TOC highlight on scroll
+(function(){
+  const links=document.querySelectorAll('.toc a[href^="#"]');
+  const ids=Array.from(links).map(a=>a.getAttribute('href').slice(1));
+  function onScroll(){
+    let current='';
+    for(const id of ids){
+      const el=document.getElementById(id);
+      if(el&&el.getBoundingClientRect().top<=120) current=id;
+    }
+    links.forEach(a=>{
+      a.classList.toggle('active',a.getAttribute('href')==='#'+current);
+    });
+  }
+  window.addEventListener('scroll',onScroll,{passive:true});
+  onScroll();
+})();
+
+// Close sidebar on TOC click (mobile)
+document.querySelectorAll('.toc a').forEach(a=>{
+  a.addEventListener('click',()=>{
+    if(window.innerWidth<=1024){
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('open');
+    }
+  });
+});
+</script>
+
+</body>
+</html>

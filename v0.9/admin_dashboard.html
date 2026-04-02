@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>관리자 대시보드 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="css/common.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  <link rel="stylesheet" href="css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item active" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link active" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-dashboard">
+
+    <!-- 회원 승인 대기 배너 -->
+    <div class="pending-banner">
+      <div class="pending-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <div class="pending-info">
+        <h3>회원 승인 대기</h3>
+        <p>가입 신청 후 승인 대기 중인 회원이 있습니다. 확인 후 승인 처리해 주세요.</p>
+      </div>
+      <div class="pending-count-row">
+        <div class="pending-count">3<span>건</span></div>
+        <a class="btn-review" href="admin_members.html" style="text-decoration:none">승인 처리 →</a>
+      </div>
+    </div>
+
+    <!-- KPI -->
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">전체 회원</div>
+        <div class="kpi-value">33</div>
+        <div class="kpi-sub">이번 달 +3명 신규 가입</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">오늘 접속자</div>
+        <div class="kpi-value">12</div>
+        <div class="kpi-sub">어제 대비 +3명</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">현재 접속자</div>
+        <div class="kpi-value">5</div>
+        <div class="kpi-sub">실시간 기준</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-label">승인 대기</div>
+        <div class="kpi-value">3</div>
+        <div class="kpi-sub">신규 가입 승인 필요</div>
+      </div>
+    </div>
+
+    <div class="two-col">
+      <!-- 최근 가입 신청 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>최근 가입 신청</h3>
+          <a class="btn-sm-primary" href="admin_members.html" style="text-decoration:none">전체 보기</a>
+        </div>
+        <table class="adm-table">
+          <thead>
+            <tr><th>이름</th><th>소속</th><th>처리 상태</th><th>신청일</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="이름">김하영</td><td data-label="소속">경기 안양시 · 하천관리과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-04-01</td></tr>
+            <tr><td data-label="이름">정승우</td><td data-label="소속">충남 아산시 · 수자원과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-03-31</td></tr>
+            <tr><td data-label="이름">오예린</td><td data-label="소속">전남 여수시 · 재난안전과</td><td data-label="처리 상태"><span class="status-badge pending">대기</span></td><td data-label="신청일">2026-03-30</td></tr>
+            <tr><td data-label="이름">김성진</td><td data-label="소속">경기 수원시 · 하천관리과</td><td data-label="처리 상태"><span class="status-badge active">승인</span></td><td data-label="신청일">2026-03-17</td></tr>
+            <tr><td data-label="이름">박준영</td><td data-label="소속">강원 춘천시 · 수자원과</td><td data-label="처리 상태"><span class="status-badge active">승인</span></td><td data-label="신청일">2026-03-16</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 최근 접속 로그 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>최근 접속 로그</h3>
+          <a class="btn-sm-primary" href="admin_logs.html" style="text-decoration:none">전체 보기</a>
+        </div>
+        <table class="adm-table">
+          <thead>
+            <tr><th>사용자</th><th>행동</th><th>세부 내역</th><th>시간</th></tr>
+          </thead>
+          <tbody>
+            <tr><td data-label="사용자">김성진</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경기 안성시</td><td data-label="시간">14:52</td></tr>
+            <tr><td data-label="사용자">박준영</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">공지사항</td><td data-label="시간">14:48</td></tr>
+            <tr><td data-label="사용자">고유정</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">전북 전주시</td><td data-label="시간">14:41</td></tr>
+            <tr><td data-label="사용자">관리자</td><td data-label="행동">사용자 유형 변경</td><td data-label="세부 내역">김성진: 관리자 → 열람자</td><td data-label="시간">14:33</td></tr>
+            <tr><td data-label="사용자">이민혁</td><td data-label="행동">지도 조회</td><td data-label="세부 내역">경남 창원시</td><td data-label="시간">14:21</td></tr>
+            <tr><td data-label="사용자">최수연</td><td data-label="행동">화면 조회</td><td data-label="세부 내역">자주 묻는 질문</td><td data-label="시간">14:10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 접속 현황 차트 + 지도 조회 TOP 10 (2열) -->
+    <div class="two-col">
+      <!-- 오늘 시간대별 접속 현황 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>최근 24시간 접속 내역</h3>
+          <a class="btn-sm-primary" href="admin_access.html" style="text-decoration:none">더 보기</a>
+        </div>
+        <div id="dash-access-chart" style="padding:0;"></div>
+      </div>
+
+      <!-- 오늘 지도 조회 TOP 10 -->
+      <div class="table-card">
+        <div class="table-card-hd">
+          <h3>지도 조회 TOP 10 (오늘)</h3>
+          <a class="btn-sm-primary" href="admin_region.html" style="text-decoration:none">더 보기</a>
+        </div>
+        <div style="padding:20px 22px 24px;">
+          <div class="mini-bar-group">
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">1. 경기 수원시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:100%"></div></div><span class="mini-bar-val">48</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">2. 경기 안성시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:85%"></div></div><span class="mini-bar-val">41</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">3. 강원 춘천시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:73%"></div></div><span class="mini-bar-val">35</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">4. 전북 전주시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:63%"></div></div><span class="mini-bar-val">30</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">5. 경남 창원시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:54%"></div></div><span class="mini-bar-val">26</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">6. 전남 순천시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:46%"></div></div><span class="mini-bar-val">22</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">7. 충남 천안시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:40%"></div></div><span class="mini-bar-val">19</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">8. 대전 유성구</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:33%"></div></div><span class="mini-bar-val">16</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">9. 경북 포항시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:27%"></div></div><span class="mini-bar-val">13</span></div>
+            <div class="mini-bar-row"><span class="mini-bar-label" style="min-width:120px; text-align:left;">10. 충북 청주시</span><div class="mini-bar-track"><div class="mini-bar-fill" style="width:21%"></div></div><span class="mini-bar-val">10</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 최근 공지사항 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3>최근 공지사항</h3>
+        <a class="btn-sm-primary" href="admin_notice.html" style="text-decoration:none">전체 보기</a>
+      </div>
+      <div class="log-list" style="padding:4px 0;">
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">시스템 정기점검 안내 (4월 5일)</span>
+          <span class="log-time">2026-04-01</span>
+        </a>
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">2026년 상반기 시스템 업데이트 안내</span>
+          <span class="log-time">2026-03-15</span>
+        </a>
+        <a href="admin_notice.html" class="log-item" style="text-decoration:none; cursor:pointer;">
+          <span class="status-badge pending" style="font-size:11px; flex-shrink:0;">일반</span>
+          <span class="log-user" style="flex:1;">불법 시설물 신고 절차 변경 안내</span>
+          <span class="log-time">2026-03-01</span>
+        </a>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="js/common.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // 대시보드 최근 24시간 접속 차트
+    (function() {
+      const chartArea = document.getElementById('dash-access-chart');
+      if (!chartArea) return;
+      const now = new Date();
+      const curHour = now.getHours();
+      const barH = 160;
+      const labels = [];
+      const values = [];
+      // 최근 24시간: (현재시-23)시 ~ 현재시
+      for (let i = 23; i >= 0; i--) {
+        const h = (curHour - i + 24) % 24;
+        labels.push(String(h).padStart(2,'0'));
+        values.push(Math.floor(Math.random() * 25) + 2);
+      }
+      const max = Math.max(...values, 1);
+      chartArea.innerHTML =
+        `<div id="dash-chart-tooltip" style="display:none; position:fixed; padding:6px 12px; background:rgba(0,0,0,0.8); backdrop-filter:blur(8px); border:1px solid rgba(255,255,255,0.15); border-radius:6px; font-size:12px; color:#fff; pointer-events:none; z-index:9999; white-space:nowrap; line-height:1.5;"></div>
+        <div style="display:flex; align-items:flex-end; gap:2px; min-height:${barH + 30}px; padding:16px 16px 0; overflow-x:auto;">` +
+        values.map((v, i) => {
+          const h = Math.round((v / max) * barH);
+          return `<div style="flex:1; min-width:18px; display:flex; flex-direction:column; align-items:center; gap:3px; justify-content:flex-end;">
+            <span style="font-size:9px; color:rgba(255,255,255,0.5); font-weight:600;">${v}</span>
+            <div class="dash-bar" data-label="${labels[i]}시" data-val="${v}명" style="width:100%; max-width:24px; height:${h}px; background:linear-gradient(180deg, #64b5f6, rgba(100,181,246,0.4)); border-radius:3px 3px 0 0; cursor:pointer; transition:opacity 0.15s;"></div>
+          </div>`;
+        }).join('') +
+        `</div>
+        <div style="display:flex; gap:2px; padding:4px 16px 12px; border-top:1px solid rgba(255,255,255,0.06);">` +
+        labels.map(l => `<div style="flex:1; min-width:18px; text-align:center; font-size:9px; color:rgba(255,255,255,0.35);">${l}시</div>`).join('') +
+        `</div>`;
+
+      // 툴팁 이벤트
+      const tip = document.getElementById('dash-chart-tooltip');
+      chartArea.querySelectorAll('.dash-bar').forEach(bar => {
+        bar.addEventListener('mouseenter', () => {
+          tip.innerHTML = `<b>${bar.dataset.label}</b> · 접속: <b style="color:#64b5f6;">${bar.dataset.val}</b>`;
+          tip.style.display = 'block';
+          bar.style.opacity = '0.7';
+        });
+        bar.addEventListener('mousemove', (e) => {
+          tip.style.left = (e.clientX + 12) + 'px';
+          tip.style.top = (e.clientY - 10) + 'px';
+        });
+        bar.addEventListener('mouseleave', () => {
+          tip.style.display = 'none';
+          bar.style.opacity = '1';
+        });
+      });
+
+      // 차트 하단 요약 KPI
+      const total = values.reduce((a, b) => a + b, 0);
+      const maxVal = Math.max(...values);
+      const minVal = Math.min(...values);
+      const peakIdx = values.indexOf(maxVal);
+      const lowIdx = values.indexOf(minVal);
+      const peakLabel = labels[peakIdx] + '시대';
+      const lowLabel = labels[lowIdx] + '시대';
+      chartArea.innerHTML += `<div style="display:flex; gap:12px; padding:10px 16px 14px; border-top:1px solid rgba(255,255,255,0.06); flex-wrap:wrap;">
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0;">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">총 접속</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${total}<span style="font-size:11px; color:rgba(255,255,255,0.5);">명</span></div>
+        </div>
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0; border-left:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">피크 시간</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${peakLabel}<span style="font-size:11px; color:rgba(255,255,255,0.5);"> (${maxVal}명)</span></div>
+        </div>
+        <div style="flex:1; min-width:100px; text-align:center; padding:6px 0; border-left:1px solid rgba(255,255,255,0.06);">
+          <div style="font-size:10px; color:rgba(255,255,255,0.4); margin-bottom:4px;">한산 시간</div>
+          <div style="font-size:18px; font-weight:800; color:#fff; font-family:'Outfit',sans-serif;">${lowLabel}<span style="font-size:11px; color:rgba(255,255,255,0.5);"> (${minVal}명)</span></div>
+        </div>
+      </div>`;
+    })();
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+    });
+  </script>
+</body>
+
+</html>

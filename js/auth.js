@@ -218,7 +218,40 @@ function initRegisterForm() {
   // 단계 3: 가입 신청 & 모달 로직
   // =============================================
   btnSubmit.addEventListener('click', () => {
-    // 상세 validation 생략 (사용자 요청에 따라 필수 필드 체크 필요시 추가)
+    // 필수 필드 유효성 검사
+    var step3Fields = [
+      { id: 'reg-pw', err: 'err-pw' },
+      { id: 'reg-pw2', err: 'err-pw2' },
+      { id: 'reg-phone', err: 'err-phone' },
+      { id: 'reg-dept', err: 'err-dept' }
+    ];
+
+    // 에러 초기화
+    document.querySelectorAll('#step-3 .form-group').forEach(function(g) {
+      g.classList.remove('has-error');
+    });
+
+    var hasError = false;
+
+    step3Fields.forEach(function(f) {
+      var el = document.getElementById(f.id);
+      if (!el) return;
+      if (!el.value.trim()) {
+        el.closest('.form-group').classList.add('has-error');
+        hasError = true;
+      }
+    });
+
+    // 비밀번호 일치 확인
+    var pw = document.getElementById('reg-pw');
+    var pw2 = document.getElementById('reg-pw2');
+    if (pw && pw2 && pw.value && pw2.value && pw.value !== pw2.value) {
+      pw2.closest('.form-group').classList.add('has-error');
+      hasError = true;
+    }
+
+    if (hasError) return;
+
     modalConfirm.classList.add('active');
   });
 

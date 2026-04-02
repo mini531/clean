@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>회원 관리 — 하천·계곡 및 주변 지역 불법 시설 정비 지원시스템</title>
+  <link rel="stylesheet" href="../css/common.css">
+  <link rel="stylesheet" href="../css/layout.css">
+  <link rel="stylesheet" href="../css/dashboard.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <link rel="stylesheet" href="../css/admin.css">
+<body>
+
+  <!-- ── Header ── -->
+  <header class="gvt-header" role="banner">
+    <!-- Desktop Header -->
+    <div class="gvt-header-desktop">
+      <div class="gvt-logo-wrap">
+        <img src="../assets/img/main_logo_white.png" alt="행정안전부"
+          onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <span class="logo-fallback">
+          <svg width="18" height="18" viewBox="0 0 20 20">
+            <circle cx="10" cy="10" r="9" fill="#003478" /><text x="10" y="14" text-anchor="middle" fill="white"
+              font-size="9" font-weight="bold">정</text>
+          </svg>
+          행정안전부
+        </span>
+
+      </div>
+      <div class="adm-title-row"><a href="admin_dashboard.html" class="gvt-service-name-full" style="text-decoration:none;color:inherit;">관리자 포털</a><span class="adm-system-name">하천·계곡 및 주변 지역<br>불법 시설 정비 지원시스템</span></div>
+      <button class="adm-hamburger" id="adm-hamburger"><span></span><span></span><span></span></button>
+    </div>
+
+
+    <!-- Navigation (Centered in Header) -->
+    <nav class="adm-header-nav-center">
+      <a class="adm-nav-item" href="admin_dashboard.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="3" y="3" width="7" height="7" rx="1" />
+          <rect x="14" y="3" width="7" height="7" rx="1" />
+          <rect x="3" y="14" width="7" height="7" rx="1" />
+          <rect x="14" y="14" width="7" height="7" rx="1" />
+        </svg>
+        대시보드
+      </a>
+      <a class="adm-nav-item active" href="admin_members.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" />
+          <circle cx="9" cy="7" r="4" />
+          <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+        </svg>
+        회원 관리
+      </a>
+      <a class="adm-nav-item" href="admin_access.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
+        </svg>
+        접속 현황
+      </a>
+      <a class="adm-nav-item" href="admin_region.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20" />
+        </svg>
+        지역 이용 현황
+      </a>
+      <a class="adm-nav-item" href="admin_logs.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+          <polyline points="14 2 14 8 20 8" />
+          <line x1="16" y1="13" x2="8" y2="13" />
+          <line x1="16" y1="17" x2="8" y2="17" />
+          <line x1="10" y1="9" x2="8" y2="9" />
+        </svg>
+        접속 로그
+      </a>
+      <div class="adm-nav-item has-submenu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
+        </svg>
+        게시판 관리
+        <div class="adm-submenu">
+          <a class="adm-sub-item" href="admin_notice.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">공지사항 관리</span>
+              <span class="adm-sub-desc">전체 사용자 대상 주요 시스템 공지</span>
+            </div>
+          </a>
+          <a class="adm-sub-item" href="admin_faq.html">
+            <div class="adm-sub-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg>
+            </div>
+            <div class="adm-sub-text">
+              <span class="adm-sub-title">자주 묻는 질문 관리</span>
+              <span class="adm-sub-desc">주요 기능 및 오류 해결 가이드</span>
+            </div>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <nav class="gvt-header-nav">
+      <a href="dashboard.html" class="gvt-nav-btn" title="지도">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4z" /><path d="M8 2v16" /><path d="M16 6v16" />
+        </svg>
+        <span class="nav-label">지도</span><span class="nav-label-short">지도</span>
+      </a>
+      <button class="gvt-user-btn" id="btn-logout" title="로그아웃/정보">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span id="header-user-name" class="nav-label">홍길동님</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="opacity-50"
+          style="width:11px;height:11px;">
+          <path d="M6 9l6 6 6-6" />
+        </svg>
+      </a>
+    </nav>
+  </header>
+
+  <!-- Mobile Sidebar Drawer -->
+  <div class="adm-sidebar-backdrop" id="adm-sidebar-backdrop"></div>
+  <aside class="adm-sidebar" id="adm-sidebar">
+    <div class="adm-sidebar-header">
+      <span>메뉴</span>
+      <button class="adm-sidebar-close" id="adm-sidebar-close">&times;</button>
+    </div>
+    <nav class="adm-sidebar-nav">
+      <a class="adm-sidebar-link" href="admin_dashboard.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg> 대시보드</a>
+      <a class="adm-sidebar-link active" href="admin_members.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/></svg> 회원 관리</a>
+      <a class="adm-sidebar-link" href="admin_access.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg> 접속 현황</a>
+      <a class="adm-sidebar-link" href="admin_region.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 0 1 0 20M12 2a15.3 15.3 0 0 0 0 20"/></svg> 지역 이용 현황</a>
+      <a class="adm-sidebar-link" href="admin_logs.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/></svg> 접속 로그</a>
+      <div class="adm-sidebar-group-title"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> 게시판 관리</div>
+      <div class="adm-sidebar-sub">
+        <a class="adm-sidebar-link" href="admin_notice.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 공지사항 관리</a>
+        <a class="adm-sidebar-link" href="admin_faq.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12" y2="17"/></svg> 자주 묻는 질문 관리</a>
+      </div>
+    </nav>
+  </aside>
+
+  <section class="adm-page active" id="page-members">
+
+    <!-- ===== 목록 뷰 ===== -->
+    <div id="member-list-view">
+
+    <h2 class="adm-page-title">회원 관리</h2>
+
+    <!-- 승인 대기 배너 -->
+    <div class="pending-banner">
+      <div class="pending-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10" />
+          <line x1="12" y1="8" x2="12" y2="12" />
+          <line x1="12" y1="16" x2="12.01" y2="16" />
+        </svg>
+      </div>
+      <div class="pending-info">
+        <h3>회원 승인 대기</h3>
+        <p>신규 가입 신청 후 승인 대기 중</p>
+      </div>
+      <div class="pending-count-row">
+        <div class="pending-count">3<span>건</span></div>
+        <button class="btn-review">대기 목록 보기</button>
+      </div>
+    </div>
+
+    <!-- 검색 필터 영역 -->
+    <div class="table-card" style="margin-bottom:20px;">
+      <button class="adm-filter-toggle" onclick="this.classList.toggle('open');this.nextElementSibling.classList.toggle('collapsed')"><span>검색 필터</span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 9l6 6 6-6"/></svg></button><div class="adm-filter-grid">
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">아이디(이메일)</label>
+          <input type="text" class="adm-filter-input" placeholder="아이디(이메일)" style="max-width:180px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">이름</label>
+          <input type="text" class="adm-filter-input" placeholder="이름" style="max-width:120px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">전화번호</label>
+          <input type="text" class="adm-filter-input" placeholder="전화번호" style="max-width:150px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">소속 지역</label>
+          <div class="adm-filter-input-group">
+            <select class="adm-sel" id="filter-sido" style="min-width:100px;">
+              <option value="">시·도 전체</option>
+              <option>서울</option><option>부산</option><option>대구</option><option>인천</option>
+              <option>광주</option><option>대전</option><option>울산</option><option>세종</option>
+              <option>경기</option><option>강원</option><option>충북</option><option>충남</option>
+              <option>전북</option><option>전남</option><option>경북</option><option>경남</option><option>제주</option>
+            </select>
+            <select class="adm-sel" id="filter-sigungu" style="min-width:120px;" disabled>
+              <option value="">시·군·구 전체</option>
+            </select>
+          </div>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">부서</label>
+          <input type="text" class="adm-filter-input" placeholder="부서명" style="max-width:150px;">
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">계정 상태</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>정상</option>
+            <option>탈퇴</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label">처리 상태</label>
+          <select class="adm-sel" style="flex:1;">
+            <option>전체</option>
+            <option>승인</option>
+            <option>거부</option>
+            <option>대기</option>
+          </select>
+        </div>
+        <div class="adm-filter-item">
+          <label class="adm-filter-label adm-filter-label-fixed">가입일</label>
+          <div class="adm-filter-input-group">
+            <input type="date" class="adm-filter-input" id="member-date-start" style="max-width:150px;">
+            <span style="color:var(--text-muted);">~</span>
+            <input type="date" class="adm-filter-input" id="member-date-end" style="max-width:150px;">
+            <div class="adm-period-btns">
+              <button class="adm-period-btn" data-months="0">전체</button>
+              <button class="adm-period-btn" data-months="1">1개월</button>
+              <button class="adm-period-btn" data-months="3">3개월</button>
+              <button class="adm-period-btn" data-months="6">6개월</button>
+              <button class="adm-period-btn" data-months="12">12개월</button>
+            </div>
+          </div>
+        </div>
+        <div class="adm-filter-actions">
+          <button class="btn-sm-ghost">초기화</button>
+          <button class="btn-sm-primary">검색</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 사용자 목록 -->
+    <div class="table-card">
+      <div class="table-card-hd">
+        <h3>사용자 목록</h3>
+        <div class="tc-actions"></div>
+      </div>
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th>아이디(이메일)</th>
+            <th>이름</th>
+            <th>전화번호</th>
+            <th>부서</th>
+            <th>소속 지역</th>
+            <th>계정 상태</th>
+            <th>가입 일시</th>
+            <th>처리 상태</th>
+            <th>처리자</th>
+            <th>처리 일시</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td data-label="아이디(이메일)">hykim@korea.kr</td>
+            <td data-label="이름">김하영</td>
+            <td data-label="전화번호">010-4412-8837</td>
+            <td data-label="부서">하천관리과</td>
+            <td data-label="소속 지역">경기 안양시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-04-01 10:15</td>
+            <td data-label="처리 상태"><span class="status-badge pending">대기</span></td>
+            <td data-label="처리자">-</td>
+            <td data-label="처리 일시">-</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">swjung@korea.kr</td>
+            <td data-label="이름">정승우</td>
+            <td data-label="전화번호">010-8823-1456</td>
+            <td data-label="부서">수자원과</td>
+            <td data-label="소속 지역">충남 아산시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-03-31 14:22</td>
+            <td data-label="처리 상태"><span class="status-badge pending">대기</span></td>
+            <td data-label="처리자">-</td>
+            <td data-label="처리 일시">-</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">yerin.oh@korea.kr</td>
+            <td data-label="이름">오예린</td>
+            <td data-label="전화번호">010-2291-5573</td>
+            <td data-label="부서">재난안전과</td>
+            <td data-label="소속 지역">전남 여수시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-03-30 09:40</td>
+            <td data-label="처리 상태"><span class="status-badge pending">대기</span></td>
+            <td data-label="처리자">-</td>
+            <td data-label="처리 일시">-</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">sjkim@korea.kr</td>
+            <td data-label="이름">김성진</td>
+            <td data-label="전화번호">010-3182-7540</td>
+            <td data-label="부서">하천관리과</td>
+            <td data-label="소속 지역">경기 수원시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-03-17 09:39</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2026-03-17 09:41</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">jypark@korea.kr</td>
+            <td data-label="이름">박준영</td>
+            <td data-label="전화번호">010-5002-6724</td>
+            <td data-label="부서">수자원과</td>
+            <td data-label="소속 지역">강원 춘천시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-03-16 10:23</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2026-03-16 10:24</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">yujung.go@korea.kr</td>
+            <td data-label="이름">고유정</td>
+            <td data-label="전화번호">010-7227-4235</td>
+            <td data-label="부서">재난안전과</td>
+            <td data-label="소속 지역">전북 전주시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2026-01-13 16:07</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2026-01-13 16:08</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">mhlee@korea.kr</td>
+            <td data-label="이름">이민혁</td>
+            <td data-label="전화번호">010-8834-2190</td>
+            <td data-label="부서">하천관리과</td>
+            <td data-label="소속 지역">경남 창원시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-30 11:51</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-30 11:53</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">sooyeon.choi@korea.kr</td>
+            <td data-label="이름">최수연</td>
+            <td data-label="전화번호">010-4521-8837</td>
+            <td data-label="부서">도시안전과</td>
+            <td data-label="소속 지역">서울 강남구</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-30 11:50</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-30 11:53</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">dwhan@korea.kr</td>
+            <td data-label="이름">한동우</td>
+            <td data-label="전화번호">010-6273-1548</td>
+            <td data-label="부서">수자원정책과</td>
+            <td data-label="소속 지역">충남 천안시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-28 14:22</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-28 14:30</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">jihye.na@korea.kr</td>
+            <td data-label="이름">나지혜</td>
+            <td data-label="전화번호">010-9147-3265</td>
+            <td data-label="부서">하천관리팀</td>
+            <td data-label="소속 지역">전남 순천시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-20 09:15</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-20 09:22</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">taeho.yoon@korea.kr</td>
+            <td data-label="이름">윤태호</td>
+            <td data-label="전화번호">010-2756-4891</td>
+            <td data-label="부서">재난안전과</td>
+            <td data-label="소속 지역">경북 포항시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-15 10:33</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-15 10:40</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">eunjin.seo@korea.kr</td>
+            <td data-label="이름">서은진</td>
+            <td data-label="전화번호">010-3489-7612</td>
+            <td data-label="부서">환경정책과</td>
+            <td data-label="소속 지역">대전 유성구</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-10 15:48</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-10 16:02</td>
+          </tr>
+          <tr>
+            <td data-label="아이디(이메일)">wonjae.lim@korea.kr</td>
+            <td data-label="이름">임원재</td>
+            <td data-label="전화번호">010-1673-5928</td>
+            <td data-label="부서">하천관리과</td>
+            <td data-label="소속 지역">충북 청주시</td>
+            <td data-label="계정 상태"><span class="status-badge active">정상</span></td>
+            <td data-label="가입 일시">2025-12-05 11:20</td>
+            <td data-label="처리 상태"><span class="status-badge active">승인</span></td>
+            <td data-label="처리자">관리자</td>
+            <td data-label="처리 일시">2025-12-05 11:35</td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="tbl-pagination">
+        <div class="pg-btns">
+          <button class="pg-btn">처음</button>
+          <button class="pg-btn">이전</button>
+          <button class="pg-btn active">1</button>
+          <button class="pg-btn">2</button>
+          <button class="pg-btn">3</button>
+          <button class="pg-btn">4</button>
+          <button class="pg-btn">다음</button>
+          <button class="pg-btn">마지막</button>
+          <select class="adm-sel" style="margin-left:12px;padding:5px 30px 5px 12px;font-size:12px;width:75px;">
+            <option>10</option><option>20</option><option>50</option>
+          </select>
+          <span style="font-size:12px;color:var(--text-muted);margin-left:4px;">페이지 크기</span>
+        </div>
+        <span class="tbl-pagination-info" style="display:block;">총 33건 중 1-13행</span>
+      </div>
+    </div>
+
+    </div><!-- /member-list-view -->
+
+    <!-- ===== 상세 뷰 ===== -->
+    <div id="member-detail-view" style="display:none;">
+      <h2 class="adm-page-title">회원 정보</h2>
+
+      <!-- 3단 카드 -->
+      <div class="md-grid">
+        <!-- 소속 정보 -->
+        <div class="md-card">
+          <div class="md-card-title">소속 정보</div>
+          <div class="md-card-body">
+            <div class="md-field"><span class="md-field-label">이름</span><span class="md-field-value" id="md-name">-</span></div>
+            <div class="md-field"><span class="md-field-label">전화번호</span><span class="md-field-value" id="md-phone">-</span></div>
+            <div class="md-field"><span class="md-field-label">부서</span><span class="md-field-value" id="md-dept">-</span></div>
+            <div class="md-field"><span class="md-field-label">소속 지역</span><span class="md-field-value" id="md-region">-</span></div>
+          </div>
+        </div>
+
+        <!-- 계정 정보 -->
+        <div class="md-card">
+          <div class="md-card-title">계정 정보</div>
+          <div class="md-card-body">
+            <div class="md-field"><span class="md-field-label">아이디(이메일)</span><span class="md-field-value" id="md-email">-</span></div>
+            <div class="md-field">
+              <span class="md-field-label">계정 상태</span>
+              <span class="md-field-value" id="md-account-status">
+                <span id="md-account-text">정상</span>
+                <button class="md-btn-sm md-btn-danger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>탈퇴</button>
+              </span>
+            </div>
+            <div class="md-field"><span class="md-field-label">가입일시</span><span class="md-field-value" id="md-join-date">-</span></div>
+            <div class="md-field"><span class="md-field-label">탈퇴일시</span><span class="md-field-value" id="md-leave-date">-</span></div>
+            <div class="md-field">
+              <span class="md-field-label">비밀번호 실패</span>
+              <span class="md-field-value" id="md-pw-fail">
+                <span>0회</span>
+                <button class="md-btn-sm md-btn-ghost"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M1 4v6h6"/><path d="M3.51 15a9 9 0 1 0 2.13-9.36L1 10"/></svg>비밀번호 초기화</button>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 권한 정보 -->
+        <div class="md-card">
+          <div class="md-card-title">권한 정보</div>
+          <div class="md-card-body">
+            <div class="md-field">
+              <span class="md-field-label">처리 상태</span>
+              <span class="md-field-value" id="md-process-status">
+                <span id="md-process-badge">승인</span>
+                <button class="md-btn-sm md-btn-approve" id="md-btn-approve" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>가입 승인</button>
+                <button class="md-btn-sm md-btn-danger" id="md-btn-reject" style="display:none;"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>가입 거부</button>
+              </span>
+            </div>
+            <div class="md-field"><span class="md-field-label">처리자</span><span class="md-field-value" id="md-processor">-</span></div>
+            <div class="md-field"><span class="md-field-label">처리일시</span><span class="md-field-value" id="md-process-date">-</span></div>
+            <div style="padding:6px 20px 4px;"><span class="md-field-label">권한</span></div>
+            <div class="md-perm-group">
+              <label class="md-perm-item"><input type="radio" name="perm-role" value="inspector" checked> 점검자</label>
+              <label class="md-perm-item"><input type="radio" name="perm-role" value="viewer"> 열람자</label>
+              <label class="md-perm-item"><input type="radio" name="perm-role" value="admin"> 관리자</label>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 로그인 이력 -->
+      <div class="table-card">
+        <div class="md-tabs">
+          <button class="md-tab active" data-tab="login-log">로그인 이력</button>
+          <button class="md-tab" data-tab="pw-log">비밀번호 변경 이력</button>
+        </div>
+        <div class="md-tab-content active" id="tab-login-log">
+          <table class="adm-table">
+            <thead>
+              <tr>
+                <th>로그인 ID</th>
+                <th>접속 IP</th>
+                <th>성공 여부</th>
+                <th>실패 사유</th>
+                <th>접속 일시</th>
+                <th>로그아웃 일시</th>
+              </tr>
+            </thead>
+            <tbody id="md-login-log-body">
+            </tbody>
+          </table>
+          <div class="tbl-pagination">
+            <div class="pg-btns">
+              <button class="pg-btn">처음</button>
+              <button class="pg-btn">이전</button>
+              <button class="pg-btn active">1</button>
+              <button class="pg-btn">다음</button>
+              <button class="pg-btn">마지막</button>
+            </div>
+          </div>
+        </div>
+        <div class="md-tab-content" id="tab-pw-log">
+          <table class="adm-table">
+            <thead>
+              <tr>
+                <th>로그인 ID</th>
+                <th>변경 일시</th>
+                <th>변경자</th>
+                <th>변경 사유</th>
+              </tr>
+            </thead>
+            <tbody id="md-pw-log-body">
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 하단 버튼 -->
+      <div class="nf-bottom-actions">
+        <button class="nf-btn nf-btn-list" id="md-btn-list">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
+          목록
+        </button>
+        <div class="nf-btn-right">
+          <button class="nf-btn nf-btn-delete">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+            삭제
+          </button>
+          <button class="nf-btn nf-btn-save">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><polyline points="17 21 17 13 7 13 7 21"/><polyline points="7 3 7 8 15 8"/></svg>
+            저장
+          </button>
+        </div>
+      </div>
+    </div><!-- /member-detail-view -->
+
+  </section>
+
+  <!-- ══════════════════════════════════
+     Page: 접속 현황
+════════════════════════════════════ -->
+
+  <!-- 사용자 드롭다운 -->
+  <div id="user-dropdown" class="ud-dropdown">
+    <div class="ud-header">
+      <div class="ud-name" id="dd-user-name">사용자</div>
+      <div class="ud-org" id="dd-user-org"></div>
+      <div class="ud-role" id="dd-user-role"></div>
+    </div>
+    <div class="ud-menu">
+      <a href="admin_mypage.html" class="ud-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+          stroke-linejoin="round">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+        <span>마이페이지</span>
+      </a>
+      <button onclick="Auth.logout()" class="ud-item ud-logout">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
+          <polyline points="16 17 21 12 16 7" />
+          <line x1="21" y1="12" x2="9" y2="12" />
+        </svg>
+        <span>로그아웃</span>
+      </button>
+    </div>
+  </div>
+
+
+  <script src="../js/common.js"></script>
+  <script src="../js/auth.js"></script>
+  <script>
+    function initUserDropdown(user) {
+      const btn = document.getElementById('btn-logout');
+      const dropdown = document.getElementById('user-dropdown');
+      if (!btn || !dropdown) return;
+
+      document.getElementById('header-user-name').textContent = user.name + '님';
+      document.getElementById('dd-user-name').textContent = user.name;
+      document.getElementById('dd-user-org').textContent = user.org;
+      document.getElementById('dd-user-role').textContent = user.roleLabel;
+
+      btn.addEventListener('click', e => {
+        e.stopPropagation();
+        dropdown.classList.toggle('active');
+      });
+      document.addEventListener('click', () => { dropdown.classList.remove('active'); });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      const user = Auth.requireLogin ? Auth.requireLogin() : null;
+      if (user) {
+        initUserDropdown(user);
+        if (user.role !== 'admin') {
+          location.href = 'dashboard.html';
+        }
+      }
+
+    // 시·도 → 시·군·구 연동
+    const sigunguData = {
+      '서울': ['강남구','강동구','강북구','강서구','관악구','광진구','구로구','금천구','노원구','도봉구','동대문구','동작구','마포구','서대문구','서초구','성동구','성북구','송파구','양천구','영등포구','용산구','은평구','종로구','중구','중랑구'],
+      '부산': ['강서구','금정구','기장군','남구','동구','동래구','부산진구','북구','사상구','사하구','서구','수영구','연제구','영도구','중구','해운대구'],
+      '대구': ['남구','달서구','달성군','동구','북구','서구','수성구','중구'],
+      '인천': ['강화군','계양구','남동구','동구','미추홀구','부평구','서구','연수구','옹진군','중구'],
+      '광주': ['광산구','남구','동구','북구','서구'],
+      '대전': ['대덕구','동구','서구','유성구','중구'],
+      '울산': ['남구','동구','북구','울주군','중구'],
+      '세종': ['세종시'],
+      '경기': ['가평군','고양시','과천시','광명시','광주시','구리시','군포시','김포시','남양주시','동두천시','부천시','성남시','수원시','시흥시','안산시','안성시','안양시','양주시','양평군','여주시','연천군','오산시','용인시','의왕시','의정부시','이천시','파주시','평택시','포천시','하남시','화성시'],
+      '강원': ['강릉시','고성군','동해시','삼척시','속초시','양구군','양양군','영월군','원주시','인제군','정선군','철원군','춘천시','태백시','평창군','홍천군','화천군','횡성군'],
+      '충북': ['괴산군','단양군','보은군','영동군','옥천군','음성군','제천시','증평군','진천군','청주시','충주시'],
+      '충남': ['계룡시','공주시','금산군','논산시','당진시','보령시','부여군','서산시','서천군','아산시','예산군','천안시','청양군','태안군','홍성군'],
+      '전북': ['고창군','군산시','김제시','남원시','무주군','부안군','순창군','완주군','익산시','임실군','장수군','전주시','정읍시','진안군'],
+      '전남': ['강진군','고흥군','곡성군','광양시','구례군','나주시','담양군','목포시','무안군','보성군','순천시','신안군','여수시','영광군','영암군','완도군','장성군','장흥군','진도군','함평군','해남군','화순군'],
+      '경북': ['경산시','경주시','고령군','구미시','군위군','김천시','문경시','봉화군','상주시','성주군','안동시','영덕군','영양군','영주시','영천시','예천군','울릉군','울진군','의성군','청도군','청송군','칠곡군','포항시'],
+      '경남': ['거제시','거창군','고성군','김해시','남해군','밀양시','사천시','산청군','양산시','의령군','진주시','창녕군','창원시','통영시','하동군','함안군','함양군','합천군'],
+      '제주': ['제주시','서귀포시']
+    };
+    const sidoSel = document.getElementById('filter-sido');
+    const sigunguSel = document.getElementById('filter-sigungu');
+    if (sidoSel && sigunguSel) {
+      sidoSel.addEventListener('change', () => {
+        const sido = sidoSel.value;
+        sigunguSel.innerHTML = '<option value="">시·군·구 전체</option>';
+        if (sido && sigunguData[sido]) {
+          sigunguSel.disabled = false;
+          sigunguData[sido].forEach(name => {
+            const opt = document.createElement('option');
+            opt.textContent = name;
+            sigunguSel.appendChild(opt);
+          });
+        } else {
+          sigunguSel.disabled = true;
+        }
+      });
+    }
+
+    // 기간 버튼
+    document.querySelectorAll('.adm-period-btn').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        e.preventDefault();
+        const months = parseInt(btn.dataset.months);
+        const startInput = document.getElementById('member-date-start');
+        const endInput = document.getElementById('member-date-end');
+        if (months === 0) { startInput.value = ''; endInput.value = ''; }
+        else {
+          const today = new Date(); const start = new Date();
+          start.setMonth(today.getMonth() - months);
+          startInput.value = start.toISOString().split('T')[0];
+          endInput.value = today.toISOString().split('T')[0];
+        }
+      });
+    });
+
+    // Mobile sidebar toggle
+    (function() {
+      const hamburger = document.getElementById('adm-hamburger');
+      const sidebar = document.getElementById('adm-sidebar');
+      const backdrop = document.getElementById('adm-sidebar-backdrop');
+      const closeBtn = document.getElementById('adm-sidebar-close');
+      if (!hamburger || !sidebar) return;
+      function openSidebar() { sidebar.classList.add('open'); backdrop.classList.add('active'); }
+      function closeSidebar() { sidebar.classList.remove('open'); backdrop.classList.remove('active'); }
+      hamburger.addEventListener('click', openSidebar);
+      closeBtn.addEventListener('click', closeSidebar);
+      backdrop.addEventListener('click', closeSidebar);
+    })();
+
+      // ── 목록 ↔ 상세 전환 ──
+      const memberListView = document.getElementById('member-list-view');
+      const memberDetailView = document.getElementById('member-detail-view');
+
+      function showMemberDetail(data) {
+        document.getElementById('md-name').textContent = data.name;
+        document.getElementById('md-phone').textContent = data.phone;
+        document.getElementById('md-dept').textContent = data.dept;
+        document.getElementById('md-region').textContent = data.region;
+        document.getElementById('md-email').textContent = data.email;
+        document.getElementById('md-join-date').textContent = data.joinDate;
+        document.getElementById('md-leave-date').textContent = data.leaveDate || '-';
+        document.getElementById('md-processor').textContent = data.processor;
+        document.getElementById('md-process-date').textContent = data.processDate;
+
+        // 처리 상태별 버튼 표시
+        const badge = document.getElementById('md-process-badge');
+        const btnApprove = document.getElementById('md-btn-approve');
+        const btnReject = document.getElementById('md-btn-reject');
+        const processStatus = data.processStatus || '승인';
+        badge.textContent = processStatus;
+        if (processStatus === '대기') {
+          btnApprove.style.display = 'inline-flex';
+          btnReject.style.display = 'inline-flex';
+        } else {
+          btnApprove.style.display = 'none';
+          btnReject.style.display = 'none';
+        }
+
+        // 로그인 이력
+        const logBody = document.getElementById('md-login-log-body');
+        logBody.innerHTML = data.loginLogs.map(l =>
+          `<tr><td>${l.id}</td><td>${l.ip}</td><td>${l.success ? '<span class="status-badge active">성공</span>' : '<span class="status-badge danger">실패</span>'}</td><td>${l.reason || '-'}</td><td>${l.loginAt}</td><td>${l.logoutAt || '-'}</td></tr>`
+        ).join('');
+
+        // 비밀번호 변경 이력
+        const pwBody = document.getElementById('md-pw-log-body');
+        pwBody.innerHTML = data.pwLogs.map(p =>
+          `<tr><td>${p.id}</td><td>${p.date}</td><td>${p.by}</td><td>${p.reason || '-'}</td></tr>`
+        ).join('');
+
+        memberListView.style.display = 'none';
+        memberDetailView.style.display = 'block';
+        window.scrollTo(0, 0);
+      }
+
+      function showMemberList() {
+        memberDetailView.style.display = 'none';
+        memberListView.style.display = 'block';
+      }
+
+      document.getElementById('md-btn-list').addEventListener('click', showMemberList);
+
+      // 가상 회원 상세 데이터
+      const memberData = [
+        { email: 'hykim@korea.kr', name: '김하영', phone: '010-4412-8837', dept: '하천관리과', region: '경기 안양시',
+          joinDate: '2026-04-01 10:15', leaveDate: '', processStatus: '대기', processor: '-', processDate: '-',
+          loginLogs: [
+            { id: 'hykim@korea.kr', ip: '210.105.33.21', success: false, reason: '가입 승인되지 않은 계정입니다.', loginAt: '2026-04-01 10:20:15', logoutAt: '' },
+          ],
+          pwLogs: [
+            { id: 'hykim@korea.kr', date: '2026-04-01 10:15', by: '본인', reason: '회원가입 시 초기 설정' },
+          ]
+        },
+        { email: 'swjung@korea.kr', name: '정승우', phone: '010-8823-1456', dept: '수자원과', region: '충남 아산시',
+          joinDate: '2026-03-31 14:22', leaveDate: '', processStatus: '대기', processor: '-', processDate: '-',
+          loginLogs: [
+            { id: 'swjung@korea.kr', ip: '123.142.245.88', success: false, reason: '가입 승인되지 않은 계정입니다.', loginAt: '2026-03-31 14:30:05', logoutAt: '' },
+          ],
+          pwLogs: [
+            { id: 'swjung@korea.kr', date: '2026-03-31 14:22', by: '본인', reason: '회원가입 시 초기 설정' },
+          ]
+        },
+        { email: 'yerin.oh@korea.kr', name: '오예린', phone: '010-2291-5573', dept: '재난안전과', region: '전남 여수시',
+          joinDate: '2026-03-30 09:40', leaveDate: '', processStatus: '대기', processor: '-', processDate: '-',
+          loginLogs: [],
+          pwLogs: [
+            { id: 'yerin.oh@korea.kr', date: '2026-03-30 09:40', by: '본인', reason: '회원가입 시 초기 설정' },
+          ]
+        },
+        { email: 'sjkim@korea.kr', name: '김성진', phone: '010-3182-7540', dept: '하천관리과', region: '경기 수원시',
+          joinDate: '2026-03-17 09:39', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2026-03-17 09:41',
+          loginLogs: [
+            { id: 'sjkim@korea.kr', ip: '211.234.56.78', success: true, reason: '', loginAt: '2026-04-01 08:32:15', logoutAt: '2026-04-01 17:45:22' },
+            { id: 'sjkim@korea.kr', ip: '211.234.56.78', success: true, reason: '', loginAt: '2026-03-31 09:10:03', logoutAt: '2026-03-31 18:02:41' },
+            { id: 'sjkim@korea.kr', ip: '211.234.56.78', success: false, reason: '비밀번호 불일치', loginAt: '2026-03-31 09:09:45', logoutAt: '' },
+          ],
+          pwLogs: [
+            { id: 'sjkim@korea.kr', date: '2026-03-17 09:42', by: '본인', reason: '회원가입 시 초기 설정' },
+          ]
+        },
+        { email: 'jypark@korea.kr', name: '박준영', phone: '010-5002-6724', dept: '수자원과', region: '강원 춘천시',
+          joinDate: '2026-03-16 10:23', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2026-03-16 10:24',
+          loginLogs: [
+            { id: 'jypark@korea.kr', ip: '125.131.22.45', success: true, reason: '', loginAt: '2026-03-30 08:55:10', logoutAt: '2026-03-30 17:30:05' },
+          ],
+          pwLogs: [
+            { id: 'jypark@korea.kr', date: '2026-03-16 10:25', by: '본인', reason: '회원가입 시 초기 설정' },
+          ]
+        },
+        { email: 'yujung.go@korea.kr', name: '고유정', phone: '010-7227-4235', dept: '재난안전과', region: '전북 전주시',
+          joinDate: '2026-01-13 16:07', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2026-01-13 16:08',
+          loginLogs: [{ id: 'yujung.go@korea.kr', ip: '175.212.44.31', success: true, reason: '', loginAt: '2026-03-28 09:10', logoutAt: '2026-03-28 17:50' }],
+          pwLogs: [{ id: 'yujung.go@korea.kr', date: '2026-01-13 16:08', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'mhlee@korea.kr', name: '이민혁', phone: '010-8834-2190', dept: '하천관리과', region: '경남 창원시',
+          joinDate: '2025-12-30 11:51', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-30 11:53',
+          loginLogs: [{ id: 'mhlee@korea.kr', ip: '112.187.55.92', success: true, reason: '', loginAt: '2026-03-27 08:45', logoutAt: '2026-03-27 18:10' }],
+          pwLogs: [{ id: 'mhlee@korea.kr', date: '2025-12-30 11:52', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'sooyeon.choi@korea.kr', name: '최수연', phone: '010-4521-8837', dept: '도시안전과', region: '서울 강남구',
+          joinDate: '2025-12-30 11:50', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-30 11:53',
+          loginLogs: [{ id: 'sooyeon.choi@korea.kr', ip: '220.95.12.77', success: true, reason: '', loginAt: '2026-03-25 09:30', logoutAt: '2026-03-25 17:40' }],
+          pwLogs: [{ id: 'sooyeon.choi@korea.kr', date: '2025-12-30 11:51', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'dwhan@korea.kr', name: '한동우', phone: '010-6273-1548', dept: '수자원정책과', region: '충남 천안시',
+          joinDate: '2025-12-28 14:22', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-28 14:30',
+          loginLogs: [{ id: 'dwhan@korea.kr', ip: '211.44.88.163', success: true, reason: '', loginAt: '2026-03-26 10:15', logoutAt: '2026-03-26 18:30' }],
+          pwLogs: [{ id: 'dwhan@korea.kr', date: '2025-12-28 14:23', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'jihye.na@korea.kr', name: '나지혜', phone: '010-9147-3265', dept: '하천관리팀', region: '전남 순천시',
+          joinDate: '2025-12-20 09:15', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-20 09:22',
+          loginLogs: [{ id: 'jihye.na@korea.kr', ip: '118.235.77.42', success: true, reason: '', loginAt: '2026-03-24 09:00', logoutAt: '2026-03-24 17:55' }],
+          pwLogs: [{ id: 'jihye.na@korea.kr', date: '2025-12-20 09:16', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'taeho.yoon@korea.kr', name: '윤태호', phone: '010-2756-4891', dept: '재난안전과', region: '경북 포항시',
+          joinDate: '2025-12-15 10:33', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-15 10:40',
+          loginLogs: [{ id: 'taeho.yoon@korea.kr', ip: '58.120.33.89', success: true, reason: '', loginAt: '2026-03-22 08:50', logoutAt: '2026-03-22 18:05' }],
+          pwLogs: [{ id: 'taeho.yoon@korea.kr', date: '2025-12-15 10:34', by: '본인', reason: '회원가입 시 초기 설정' }]
+        },
+        { email: 'eunjin.seo@korea.kr', name: '서은진', phone: '010-3489-7612', dept: '환경정책과', region: '대전 유성구',
+          joinDate: '2025-12-10 15:48', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-10 16:02',
+          loginLogs: [{ id: 'eunjin.seo@korea.kr', ip: '203.247.51.66', success: true, reason: '', loginAt: '2026-03-20 09:20', logoutAt: '2026-03-20 17:35' }],
+          pwLogs: [{ id: 'eunjin.seo@korea.kr', date: '2026-02-15 10:30', by: '본인', reason: '비밀번호 만료에 의한 변경' }]
+        },
+        { email: 'wonjae.lim@korea.kr', name: '임원재', phone: '010-1673-5928', dept: '하천관리과', region: '충북 청주시',
+          joinDate: '2025-12-05 11:20', leaveDate: '', processStatus: '승인', processor: '관리자', processDate: '2025-12-05 11:35',
+          loginLogs: [{ id: 'wonjae.lim@korea.kr', ip: '121.165.22.48', success: true, reason: '', loginAt: '2026-03-18 08:40', logoutAt: '2026-03-18 17:50' }],
+          pwLogs: [{ id: 'wonjae.lim@korea.kr', date: '2025-12-05 11:21', by: '본인', reason: '회원가입 시 초기 설정' }]
+        }
+      ];
+
+      // 테이블 행 클릭 → 상세 보기
+      document.querySelectorAll('#page-members .adm-table tbody tr').forEach((row, idx) => {
+        row.style.cursor = 'pointer';
+        row.addEventListener('click', () => {
+          const data = memberData[idx] || memberData[0];
+          showMemberDetail(data);
+        });
+      });
+
+      // 탭 전환
+      document.querySelectorAll('.md-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.md-tab').forEach(t => t.classList.remove('active'));
+          document.querySelectorAll('.md-tab-content').forEach(c => c.classList.remove('active'));
+          tab.classList.add('active');
+          document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+        });
+      });
+
+      // 대기 목록 보기 버튼 → 처리 상태 '대기' 필터 + 테이블 필터링
+      const pendingBtn = document.querySelector('.btn-review');
+      if (pendingBtn) {
+        pendingBtn.addEventListener('click', () => {
+          // 처리 상태 셀렉트를 '대기'로 변경
+          const selects = document.querySelectorAll('.adm-filter-grid select.adm-sel');
+          selects.forEach(sel => {
+            sel.querySelectorAll('option').forEach(opt => {
+              if (opt.textContent === '대기') sel.value = opt.value || opt.textContent;
+            });
+          });
+          // 테이블 행 필터링: 처리상태 컬럼(8번째, index 7)이 '대기'인 행만 표시
+          document.querySelectorAll('#page-members .adm-table tbody tr').forEach(row => {
+            const cells = row.querySelectorAll('td');
+            const processCell = cells[7]; // 처리상태 컬럼
+            if (processCell && processCell.textContent.trim() === '대기') {
+              row.style.display = '';
+            } else {
+              row.style.display = 'none';
+            }
+          });
+        });
+      }
+
+      // 초기화 버튼 → 필터 리셋 + 모든 행 표시
+      const resetBtn = document.querySelector('.adm-filter-actions .btn-sm-ghost');
+      if (resetBtn) {
+        resetBtn.addEventListener('click', () => {
+          document.querySelectorAll('.adm-filter-grid input').forEach(inp => inp.value = '');
+          document.querySelectorAll('.adm-filter-grid select.adm-sel').forEach(sel => sel.selectedIndex = 0);
+          document.getElementById('filter-sigungu').disabled = true;
+          document.getElementById('filter-sigungu').innerHTML = '<option value="">시·군·구 전체</option>';
+          document.querySelectorAll('#page-members .adm-table tbody tr').forEach(row => row.style.display = '');
+        });
+      }
+
+    });
+  </script>
+</body>
+
+</html>
