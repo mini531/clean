@@ -296,6 +296,86 @@ const MOCK_FACILITY_DETAILS = [
   { id: 'FD010', addr: '조종면 상판리 491-3', cat: '국가하천', riverName: '조종천', riverGrade: '지방하천', area: '6㎡', areaNum: 6, occArea: 6, occRate: 100.0, type: 'inside', pct: '100%', pctVal: 100, lat: 37.887, lng: 127.349 },
 ];
 
+/* ── 점용허가 정보 Mock 데이터 (하천 주변 배치) ── */
+const MOCK_PERMIT_DATA = [
+  /* 한강 주변 (서울) */
+  { id:'PM001', lat:37.5285, lng:126.9320, type:'permitted',   name:'한강 하천점용(산책로)',  riverName:'한강', area:520 },
+  { id:'PM002', lat:37.5270, lng:126.9380, type:'unpermitted', name:'한강 무허가 시설',       riverName:'한강', area:180 },
+  { id:'PM003', lat:37.5195, lng:126.9950, type:'permitted',   name:'한강 교량 점용',         riverName:'한강', area:450 },
+  { id:'PM004', lat:37.5180, lng:127.0050, type:'unpermitted', name:'한강 불법 구조물',        riverName:'한강', area:120 },
+  { id:'PM005', lat:37.5310, lng:126.9150, type:'permitted',   name:'한강 배수시설 점용',     riverName:'한강', area:310 },
+  { id:'PM006', lat:37.5250, lng:126.9550, type:'unpermitted', name:'한강 무허가 시설(축대)', riverName:'한강', area:95  },
+  /* 중랑천 주변 */
+  { id:'PM007', lat:37.5750, lng:127.0480, type:'permitted',   name:'중랑천 수도관 매설',     riverName:'중랑천', area:210 },
+  { id:'PM008', lat:37.5820, lng:127.0500, type:'unpermitted', name:'중랑천 무허가 시설(농경지)', riverName:'중랑천', area:260 },
+  { id:'PM009', lat:37.5690, lng:127.0460, type:'permitted',   name:'중랑천 주차장 점용',     riverName:'중랑천', area:380 },
+  /* 안양천 주변 */
+  { id:'PM010', lat:37.5120, lng:126.9000, type:'permitted',   name:'안양천 산책로 점용',     riverName:'안양천', area:420 },
+  { id:'PM011', lat:37.5050, lng:126.8980, type:'unpermitted', name:'안양천 불법 점용',        riverName:'안양천', area:150 },
+  /* 탄천 주변 */
+  { id:'PM012', lat:37.4950, lng:127.0680, type:'permitted',   name:'탄천 하천점용(도로)',     riverName:'탄천', area:600 },
+  { id:'PM013', lat:37.4880, lng:127.0700, type:'unpermitted', name:'탄천 무허가 시설(건축물)', riverName:'탄천', area:200 },
+  /* 요천 주변 (남원시) */
+  { id:'PM014', lat:35.4170, lng:127.3900, type:'permitted',   name:'요천 교량 점용',          riverName:'요천', area:500 },
+  { id:'PM015', lat:35.4130, lng:127.3850, type:'unpermitted', name:'요천 불법 점용',           riverName:'요천', area:180 },
+];
+
+/* ── 남원시 데이터 (사료작물/비닐하우스/농지 과제용) ── */
+const NAMWON_REGION_STATS = [
+  { code:'namwon', label:'남원시', rivers:12, crossing:245, inside:112 }
+];
+const NAMWON_SUB_STATS = {
+  namwon: [
+    { label:'주천면', crossing:42, inside:18 },
+    { label:'수지면', crossing:38, inside:15 },
+    { label:'송동면', crossing:28, inside:12 },
+    { label:'주생면', crossing:25, inside:11 },
+    { label:'대강면', crossing:22, inside:10 },
+    { label:'산동면', crossing:20, inside:9 },
+    { label:'이백면', crossing:18, inside:8 },
+    { label:'금지면', crossing:15, inside:7 },
+    { label:'대산면', crossing:12, inside:6 },
+    { label:'보절면', crossing:10, inside:5 },
+    { label:'산내면', crossing:8, inside:5 },
+    { label:'운봉읍', crossing:7, inside:6 }
+  ]
+};
+const NAMWON_BOUNDS = [[35.30, 127.20], [35.55, 127.65]];
+
+/* ── 과제별 분석 데이터 ── */
+const TASK_ANALYSIS_DATA = {
+  river: {
+    '2025-10-all':      { year: '2025.10', region: '전국', count: '461,234' },
+    '2025-08-all':      { year: '2025.08', region: '전국', count: '423,891' },
+    '2025-08-seoul':    { year: '2025.08', region: '서울', count: '118,163' },
+    '2025-06-gyeonggi': { year: '2025.06', region: '경기', count: '100,566' },
+    '2025-05-busan':    { year: '2025.05', region: '부산', count: '10,632' },
+    '2024-12-all':      { year: '2024.12', region: '전국', count: '398,210' },
+    '2024-10-seoul':    { year: '2024.10', region: '서울', count: '105,420' },
+    '2024-09-gyeonggi': { year: '2024.09', region: '경기', count: '94,831' },
+    '2023-11-all':      { year: '2023.11', region: '전국', count: '372,105' },
+    '2023-09-seoul':    { year: '2023.09', region: '서울', count: '98,712' }
+  },
+  forage: {
+    '2025-10-namwon':   { year: '2025.10', region: '남원시', count: '1,842' },
+    '2025-09-namwon':   { year: '2025.09', region: '남원시', count: '1,567' },
+    '2025-03-namwon':   { year: '2025.03', region: '남원시', count: '1,324' }
+  },
+  greenhouse: {
+    '2025-11-namwon':   { year: '2025.11', region: '남원시', count: '3,218' },
+    '2025-08-namwon':   { year: '2025.08', region: '남원시', count: '2,945' },
+    '2025-02-namwon':   { year: '2025.02', region: '남원시', count: '2,712' }
+  },
+  farmland: {
+    '2025-12-namwon':   { year: '2025.12', region: '남원시', count: '5,632' },
+    '2025-07-namwon':   { year: '2025.07', region: '남원시', count: '4,891' },
+    '2025-01-namwon':   { year: '2025.01', region: '남원시', count: '4,205' }
+  }
+};
+
+/* ── 과제 상태 ── */
+let currentTask = 'river';
+
 /* ── 시설물 뷰 상태 ── */
 let currentFacFilter = 'all'; // all, crossing, inside
 let currentFacSort   = 'cross-desc'; // cross-desc, inside-desc, cross-asc, inside-asc, name-asc, name-desc
@@ -647,11 +727,19 @@ function initSearch() {
   const input     = document.getElementById('db-search-input');
   const resPanel  = document.getElementById('db-search-results');
 
+  function restoreRightCards() {
+    const kpi = document.getElementById('db-map-summary');
+    const layer = document.getElementById('db-layer-settings');
+    if (kpi) kpi.classList.remove('minimized');
+    if (layer) layer.classList.remove('minimized');
+  }
+
   if (toggleBtn && overlay) {
     const closeSearch = () => {
       overlay.classList.remove('open');
       toggleBtn.classList.remove('active');
       if (resPanel) resPanel.classList.remove('active');
+      restoreRightCards();
     };
 
     toggleBtn.addEventListener('click', (e) => {
@@ -822,6 +910,11 @@ function initSearch() {
     if (q.length > 0) {
       resPanel.classList.add('active');
       renderSearchResults(q, 'all');
+      /* 검색 결과 표시 시 우측 카드 접기 */
+      const kpi = document.getElementById('db-map-summary');
+      const layer = document.getElementById('db-layer-settings');
+      if (kpi) kpi.classList.add('minimized');
+      if (layer) layer.classList.add('minimized');
     }
   };
 
@@ -864,6 +957,7 @@ function initSearch() {
   if (btnResClose) {
     btnResClose.addEventListener('click', () => {
       if (resPanel) resPanel.classList.remove('active');
+      restoreRightCards();
     });
   }
 
@@ -1219,6 +1313,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initLayerControls();
+  initRiverToggle();
+  initCadastralToggle();
+  initPermitToggle();
+  initModeToggle();
   initFacilityControls(); // 시설물 상세 컨트롤 초기화
 });
 
@@ -1289,6 +1387,148 @@ function initFacilityControls() {
       });
     });
   }
+}
+
+/* ── 지적도 레이어 토글 ── */
+function initRiverToggle() {
+  var chk = document.getElementById('chk-river');
+  if (chk) {
+    chk.addEventListener('change', function() {
+      MapModule.toggleRiver(chk.checked);
+    });
+  }
+}
+
+function initCadastralToggle() {
+  const chk = document.getElementById('chk-cadastral');
+  if (chk) {
+    chk.addEventListener('change', () => {
+      MapModule.toggleCadastral(chk.checked);
+    });
+  }
+}
+
+function initPermitToggle() {
+  var chk = document.getElementById('chk-permit');
+  var legend = document.getElementById('permit-legend');
+  if (chk) {
+    chk.addEventListener('change', function() {
+      MapModule.togglePermit(chk.checked, MOCK_PERMIT_DATA);
+      if (legend) legend.style.display = chk.checked ? '' : 'none';
+    });
+  }
+}
+
+/* ── 기본/비교 모드 토글 ── */
+function initModeToggle() {
+  var bar = document.getElementById('mode-toggle-bar');
+  var btns = bar ? bar.querySelectorAll('.mode-btn') : [];
+  var leftLabel = document.getElementById('compare-left-label');
+  var rightLabel = document.getElementById('compare-right-label');
+  var btnLeft = document.getElementById('btn-compare-left');
+  var btnRight = document.getElementById('btn-compare-right');
+
+  if (!bar || !btns.length) return;
+
+  /* 기본 선택 (관리자 사전 지정 — 처음 2개씩) */
+  var leftSelected = [];
+  var rightSelected = [];
+
+  function getDefaultSelections() {
+    var data = TASK_ANALYSIS_DATA[currentTask];
+    if (!data) return [[], []];
+    var keys = Object.keys(data);
+    return [keys.slice(0, 2), keys.slice(0, 2)];
+  }
+
+  function formatLabel(selections, prefix) {
+    var data = TASK_ANALYSIS_DATA[currentTask];
+    if (!data || selections.length === 0) return prefix + ' 미선택';
+    var first = data[selections[0]];
+    if (!first) return prefix + ' 미선택';
+    var yearStr = first.year.replace('.', '년 ') + '월';
+    var regionStr = first.region;
+    if (selections.length === 1) {
+      return yearStr + ' ' + regionStr;
+    }
+    return yearStr + ' ' + regionStr + ' 외 ' + (selections.length - 1) + '건';
+  }
+
+  function updateLabels() {
+    if (leftLabel) leftLabel.textContent = formatLabel(leftSelected, '기준 결과');
+    if (rightLabel) rightLabel.textContent = formatLabel(rightSelected, '비교 결과');
+  }
+
+  function enterCompareMode() {
+    bar.classList.add('compare-mode');
+    var defaults = getDefaultSelections();
+    leftSelected = defaults[0];
+    rightSelected = defaults[1];
+    updateLabels();
+    /* 좌측 사이드바 분석 결과 / 지역별 분석 결과 카드 숨기기 */
+    var panelAnalysis = document.getElementById('panel-analysis');
+    var panelRegion = document.getElementById('panel-region');
+    if (panelAnalysis) panelAnalysis.style.display = 'none';
+    if (panelRegion) panelRegion.style.display = 'none';
+    /* 현재 배경지도를 양쪽 모두 유지 */
+    var baseUrl = MapModule.getCurrentBasemapUrl();
+    MapModule.initCompareMode(baseUrl, baseUrl);
+  }
+
+  function exitCompareMode() {
+    bar.classList.remove('compare-mode');
+    /* 좌측 사이드바 카드 복원 */
+    var panelAnalysis = document.getElementById('panel-analysis');
+    var panelRegion = document.getElementById('panel-region');
+    if (panelAnalysis) panelAnalysis.style.display = '';
+    if (panelRegion) panelRegion.style.display = '';
+    MapModule.exitCompareMode();
+  }
+
+  btns.forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      btns.forEach(function(b) { b.classList.remove('active'); });
+      btn.classList.add('active');
+      if (btn.dataset.mode === 'compare') {
+        enterCompareMode();
+      } else {
+        exitCompareMode();
+      }
+    });
+  });
+
+  /* 설정 버튼 클릭 → 분석 목록 설정 모달 열기 */
+  var _compareTarget = null; // 'left' | 'right'
+
+  function openCompareModal(side) {
+    _compareTarget = side;
+    var modal = document.getElementById('modal-analysis-setting');
+    var title = modal ? modal.querySelector('.pledge-header h1') : null;
+    if (title) {
+      title.textContent = side === 'left' ? '기준 분석 결과 설정' : '비교 분석 결과 설정';
+    }
+    /* 현재 과제의 분석 결과로 모달 체크박스 갱신 */
+    if (typeof updateAnalysisModal === 'function') updateAnalysisModal(currentTask);
+    if (modal) modal.classList.add('active');
+  }
+
+  if (btnLeft) {
+    btnLeft.addEventListener('click', function() { openCompareModal('left'); });
+  }
+  if (btnRight) {
+    btnRight.addEventListener('click', function() { openCompareModal('right'); });
+  }
+
+  /* 모달 적용 시 선택 키 배열과 라벨 업데이트 */
+  window._onCompareModalApply = function(checkedKeys) {
+    if (_compareTarget === 'left') {
+      leftSelected = checkedKeys;
+    } else if (_compareTarget === 'right') {
+      rightSelected = checkedKeys;
+    }
+    updateLabels();
+    _compareTarget = null;
+  };
 }
 
 /* ── 레이어 설정 및 모바일 인터랙션 ── */
@@ -1455,10 +1695,220 @@ document.querySelectorAll('.sb-section-header[data-panel]').forEach(function(hea
   header.addEventListener('click', function(e) {
     // 설정 버튼 클릭은 제외
     if (e.target.closest('.sb-section-setting')) return;
-    var panel = document.getElementById(header.getAttribute('data-panel'));
-    if (panel) panel.classList.toggle('collapsed');
+    var panelId = header.getAttribute('data-panel');
+    var panel = document.getElementById(panelId);
+    if (!panel) return;
+    // KPI, 레이어 설정, 범례는 minimized 클래스 사용
+    if (panelId === 'db-map-summary' || panelId === 'db-layer-settings' || panelId === 'permit-legend') {
+      panel.classList.toggle('minimized');
+    } else {
+      panel.classList.toggle('collapsed');
+    }
   });
 });
+
+/* ── 과제 선택 모달 ── */
+(function() {
+  var taskModal = document.getElementById('modal-task-select');
+  var btnTaskOpen = document.getElementById('btn-task-select');
+  var btnTaskClose = document.getElementById('btn-task-modal-close');
+  if (!taskModal || !btnTaskOpen) return;
+
+  var TASK_NAMES = {
+    river: '하천 계곡 정비',
+    forage: '사료작물 탐지',
+    greenhouse: '비닐하우스 탐지',
+    farmland: '농지 활용 분석'
+  };
+
+  var TASK_ICONS = {
+    river: '<path d="M2 6c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/><path d="M2 12c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/><path d="M2 18c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/>',
+    forage: '<path d="M12 22V8"/><path d="M8 10c0-4 4-8 4-8s4 4 4 8"/><path d="M5 14c0-3 3-5 3-5"/><path d="M19 14c0-3-3-5-3-5"/>',
+    greenhouse: '<path d="M3 20h18"/><path d="M4 20V10l8-6 8 6v10"/><path d="M4 10h16"/><path d="M8 10v10"/><path d="M12 10v10"/><path d="M16 10v10"/>',
+    farmland: '<rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/>'
+  };
+
+  function openTaskModal(e) {
+    e.stopPropagation();
+    taskModal.classList.add('active');
+  }
+  function closeTaskModal() {
+    taskModal.classList.remove('active');
+  }
+
+  btnTaskOpen.addEventListener('click', openTaskModal);
+  btnTaskClose.addEventListener('click', closeTaskModal);
+  taskModal.addEventListener('click', function(e) {
+    if (e.target === taskModal) closeTaskModal();
+  });
+
+  // 과제 항목 클릭
+  taskModal.querySelectorAll('.task-modal-item').forEach(function(item) {
+    item.addEventListener('click', function() {
+      var taskId = item.dataset.task;
+      currentTask = taskId;
+
+      // 모달 active 토글
+      taskModal.querySelectorAll('.task-modal-item').forEach(function(i) { i.classList.remove('active'); });
+      item.classList.add('active');
+
+      // 현재 과제 텍스트 업데이트
+      var nameEl = document.getElementById('task-current-name');
+      if (nameEl) nameEl.textContent = TASK_NAMES[taskId];
+
+      // 분석 결과 목록 갱신
+      updateAnalysisList(taskId);
+
+      // 레이어 설정 항목 전환
+      updateLayerGroupForTask(taskId);
+
+      // 지역 목록 갱신
+      updateRegionForTask(taskId);
+
+      closeTaskModal();
+    });
+  });
+
+  /* 분석 결과 목록을 과제에 맞게 갱신 */
+  /* 레이어 설정 항목을 과제에 맞게 전환 */
+  window.updateLayerGroupForTask = function(taskId) {
+    document.querySelectorAll('.layer-task-group').forEach(function(group) {
+      group.style.display = group.dataset.taskLayer === taskId ? '' : 'none';
+    });
+  };
+
+  window.updateAnalysisList = function(taskId) {
+    var data = TASK_ANALYSIS_DATA[taskId];
+    if (!data) return;
+    var list = document.getElementById('analysis-list');
+    if (!list) return;
+
+    var keys = Object.keys(data);
+    // 기본 체크: 처음 3개
+    var html = '';
+    keys.slice(0, 3).forEach(function(key) {
+      var d = data[key];
+      html += '<div class="analysis-card" data-id="' + key + '">'
+        + '<span class="analysis-year">' + d.year + '</span>'
+        + '<span class="analysis-region">' + d.region + '</span>'
+        + '</div>';
+    });
+    list.innerHTML = html;
+
+    // 모달 체크박스 목록도 갱신
+    updateAnalysisModal(taskId);
+  };
+
+  /* 분석 설정 모달의 체크박스 목록을 과제에 맞게 갱신 */
+  window.updateAnalysisModal = function(taskId) {
+    var data = TASK_ANALYSIS_DATA[taskId];
+    if (!data) return;
+    var modalList = document.getElementById('analysis-modal-list');
+    if (!modalList) return;
+
+    var keys = Object.keys(data);
+    var html = '';
+    keys.forEach(function(key, idx) {
+      var d = data[key];
+      var checked = idx < 3 ? ' checked' : '';
+      html += '<li class="analysis-modal-item">'
+        + '<label class="pledge-agree-check">'
+        + '<input type="checkbox" value="' + key + '"' + checked + '>'
+        + '<span class="check-txt"><span class="analysis-modal-year">' + d.year.replace('.', '년 ') + '월</span>'
+        + '<span class="analysis-modal-region">' + d.region + '</span></span>'
+        + '</label></li>';
+    });
+    modalList.innerHTML = html;
+  };
+
+  /* 지역 목록을 과제에 맞게 갱신 */
+  window.updateRegionForTask = function(taskId) {
+    var list = document.getElementById('region-list');
+    if (!list) return;
+
+    if (taskId === 'river') {
+      // 전국 표시
+      window.REGION_STATS = REGION_STATS;
+      renderRegionList();
+      updateKPI(REGION_STATS);
+      MapModule.renderRegionSummaries(REGION_STATS);
+      MapModule.map.flyTo([36.5, 127.8], 7, { duration: 0.8 });
+    } else {
+      // 남원시만 표시
+      var stats = NAMWON_REGION_STATS;
+      var maxTotal = Math.max(...stats.map(function(r) { return r.crossing + r.inside; }), 1);
+
+      list.innerHTML = stats.map(function(r) {
+        var total = r.crossing + r.inside;
+        var crossPct = (r.crossing / maxTotal * 100).toFixed(1);
+        var insidePct = (r.inside / maxTotal * 100).toFixed(1);
+        return '<div class="region-card" role="listitem" data-region="' + r.code + '" tabindex="0">'
+          + '<div class="region-card-master">'
+          + '<div class="region-row1">'
+          + '<div class="region-name-txt">' + r.label + '<span class="region-rivers">' + r.rivers + '개</span></div>'
+          + '<div class="region-nums"><span class="n-cross">' + fmtNum(r.crossing) + '</span><span class="n-in">' + fmtNum(r.inside) + '</span></div>'
+          + '</div>'
+          + '<div class="region-bar-track">'
+          + '<div class="bar-seg crossing" style="width:' + crossPct + '%"></div>'
+          + '<div class="bar-seg inside" style="width:' + insidePct + '%"></div>'
+          + '</div></div>'
+          + '<div class="sub-region-list" id="sub-list-' + r.code + '"></div>'
+          + '</div>';
+      }).join('');
+
+      // 남원시 카드 클릭 이벤트
+      list.querySelectorAll('.region-card').forEach(function(card) {
+        var master = card.querySelector('.region-card-master');
+        master.addEventListener('click', function(e) {
+          e.stopPropagation();
+          var code = card.dataset.region;
+          var isActive = card.classList.contains('active');
+          var subList = card.querySelector('.sub-region-list');
+
+          if (!isActive) {
+            card.classList.add('active');
+            // 남원시 서브리전 렌더
+            var subs = NAMWON_SUB_STATS[code];
+            if (subs && subList) {
+              var maxSub = Math.max(...subs.map(function(s) { return s.crossing + s.inside; }), 1);
+              subList.innerHTML = subs.map(function(s) {
+                var sCrossPct = (s.crossing / maxSub * 100).toFixed(1);
+                var sInsidePct = (s.inside / maxSub * 100).toFixed(1);
+                return '<div class="sub-region-item" data-sub-name="' + s.label + '">'
+                  + '<div class="sri-name">' + s.label + '</div>'
+                  + '<div class="sri-nums"><span class="n-cross">' + fmtNum(s.crossing) + '</span><span class="sep">/</span><span class="n-in">' + fmtNum(s.inside) + '</span></div>'
+                  + '<div class="sri-visual"><div class="sri-bar-track">'
+                  + '<div class="bar-seg crossing" style="width:' + sCrossPct + '%"></div>'
+                  + '<div class="bar-seg inside" style="width:' + sInsidePct + '%"></div>'
+                  + '</div></div></div>';
+              }).join('');
+            }
+          } else {
+            card.classList.remove('active');
+          }
+        });
+      });
+
+      // KPI 업데이트
+      var sumCross = stats.reduce(function(s, r) { return s + r.crossing; }, 0);
+      var sumInside = stats.reduce(function(s, r) { return s + r.inside; }, 0);
+      var sumEl = document.getElementById('sum-crossing');
+      var inEl = document.getElementById('sum-inside');
+      var titleEl = document.getElementById('summary-title');
+      if (sumEl) sumEl.textContent = fmtNum(sumCross);
+      if (inEl) inEl.textContent = fmtNum(sumInside);
+      if (titleEl) titleEl.textContent = '남원시 현황';
+
+      // 지도 남원시로 이동
+      MapModule.regionSummaryGroup.clearLayers();
+      MapModule.clearFacilityLayers();
+      if (MapModule.clusterGroup && MapModule.map.hasLayer(MapModule.clusterGroup)) {
+        MapModule.map.removeLayer(MapModule.clusterGroup);
+      }
+      MapModule.map.flyToBounds(NAMWON_BOUNDS, { padding: [40, 40], duration: 0.8 });
+    }
+  };
+})();
 
 // 분석 설정 모달
 (function() {
@@ -1472,6 +1922,8 @@ document.querySelectorAll('.sb-section-header[data-panel]').forEach(function(hea
 
   function openModal(e) {
     e.stopPropagation();
+    var title = modal.querySelector('.pledge-header h1');
+    if (title) title.textContent = '분석 목록 설정';
     modal.classList.add('active');
   }
 
@@ -1486,28 +1938,16 @@ document.querySelectorAll('.sb-section-header[data-panel]').forEach(function(hea
     if (e.target === modal) closeModal();
   });
 
-  // 분석 데이터
-  var ANALYSIS_DATA = {
-    '2026-10-all':      { year: '2026.10', region: '전국', count: '461,234' },
-    '2025-08-all':      { year: '2025.08', region: '전국', count: '423,891' },
-    '2025-08-seoul':    { year: '2025.08', region: '서울', count: '118,163' },
-    '2025-06-gyeonggi': { year: '2025.06', region: '경기', count: '100,566' },
-    '2025-05-busan':    { year: '2025.05', region: '부산', count: '10,632' },
-    '2024-12-all':      { year: '2024.12', region: '전국', count: '398,210' },
-    '2024-10-seoul':    { year: '2024.10', region: '서울', count: '105,420' },
-    '2024-09-gyeonggi': { year: '2024.09', region: '경기', count: '94,831' },
-    '2023-11-all':      { year: '2023.11', region: '전국', count: '372,105' },
-    '2023-09-seoul':    { year: '2023.09', region: '서울', count: '98,712' }
-  };
-
   btnApply.addEventListener('click', function() {
+    var data = TASK_ANALYSIS_DATA[currentTask];
+    if (!data) return;
     var checked = modal.querySelectorAll('input[type="checkbox"]:checked');
     var list = document.getElementById('analysis-list');
     if (!list) return;
 
     var html = '';
     checked.forEach(function(cb) {
-      var d = ANALYSIS_DATA[cb.value];
+      var d = data[cb.value];
       if (!d) return;
       html += '<div class="analysis-card" data-id="' + cb.value + '">'
         + '<span class="analysis-year">' + d.year + '</span>'
@@ -1515,7 +1955,14 @@ document.querySelectorAll('.sb-section-header[data-panel]').forEach(function(hea
         + '</div>';
     });
 
-    list.innerHTML = html;
+    /* 비교 모드에서 호출된 경우 선택 키 업데이트 */
+    if (typeof window._onCompareModalApply === 'function' && document.getElementById('mode-toggle-bar').classList.contains('compare-mode')) {
+      var keys = [];
+      checked.forEach(function(cb) { keys.push(cb.value); });
+      window._onCompareModalApply(keys);
+    } else {
+      list.innerHTML = html;
+    }
     closeModal();
   });
 

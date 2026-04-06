@@ -303,6 +303,7 @@ body {
 
 .db-left--card.collapsed {
   flex: 0 0 auto;
+  border-radius: 40px;
 }
 
 .db-left--card.collapsed .sb-section-toggle {
@@ -449,6 +450,78 @@ body {
   border-radius: 6px;
 }
 
+/* ── 과제 선택 표시 ── */
+.task-current {
+  padding: 6px 12px 6px 24px;
+}
+
+.task-current-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #fff;
+}
+
+/* ── 과제 선택 모달 ── */
+.task-modal-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.task-modal-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  border: 1.5px solid rgba(255, 255, 255, 0.06);
+  margin-bottom: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.task-modal-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.task-modal-item.active {
+  background: rgba(59, 130, 246, 0.15);
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.task-modal-icon {
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  stroke: rgba(255, 255, 255, 0.5);
+}
+
+.task-modal-item.active .task-modal-icon {
+  stroke: #93c5fd;
+}
+
+.task-modal-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.task-modal-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.task-modal-item.active .task-modal-name {
+  color: #93c5fd;
+}
+
+.task-modal-desc {
+  font-size: 11px;
+  color: rgba(255, 255, 255, 0.4);
+}
+
 /* ── 분석 현황 카드 ── */
 .analysis-list {
   padding: 8px 12px;
@@ -534,14 +607,157 @@ body {
 }
 
 /* ?? 吏???붿빟 移대뱶 (Consolidated summary at top) ?? */
-/* HUD 중앙 그룹: KPI + 레이어 패널 가로 배치 */
+/* ── 모드 토글 바 (상단 중앙) ── */
+.mode-toggle-bar {
+  position: absolute;
+  top: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  pointer-events: all;
+}
+
+.mode-toggle {
+  display: flex;
+  border-radius: 20px;
+  overflow: hidden;
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: var(--shadow);
+}
+
+.mode-btn {
+  padding: 7px 20px;
+  font-size: 12px;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.5);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.25s;
+  white-space: nowrap;
+}
+
+.mode-btn:hover {
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.mode-btn.active {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.compare-select-btn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(255, 255, 255, 0.8);
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 20px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+
+.compare-select-btn:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+
+.compare-select-btn svg {
+  width: 14px;
+  height: 14px;
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.mode-toggle-bar.compare-mode .compare-select-btn {
+  display: flex;
+}
+
+/* ── Leaflet SideBySide 슬라이더 ── */
+.leaflet-sbs-range {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 60px;
+  cursor: col-resize;
+  z-index: 999;
+  -webkit-appearance: none;
+  background: transparent;
+  margin: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.leaflet-sbs-divider {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 3px;
+  margin-left: -1.5px;
+  background: rgba(255, 255, 255, 0.6);
+  z-index: 999;
+  pointer-events: none;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.4);
+}
+
+.leaflet-sbs-divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(30, 41, 59, 0.85);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+  border: 2px solid rgba(255, 255, 255, 0.35);
+}
+
+.leaflet-sbs-divider::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 14px;
+  z-index: 1;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='rgba(255,255,255,0.9)' stroke-width='2.5'%3E%3Cpath d='M8 4l-6 8 6 8'/%3E%3Cpath d='M16 4l6 8-6 8'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+/* HUD 우측 그룹: KPI + 레이어 패널 세로 배치 */
 .db-hud-center {
   position: absolute;
-  left: 344px;
+  right: 72px;
   top: 12px;
+  left: auto;
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
+  align-items: stretch;
   gap: 8px;
+  width: 320px;
   z-index: 400;
   pointer-events: none;
 }
@@ -554,37 +770,52 @@ body {
   position: static;
   z-index: 400;
   display: flex;
-  align-items: center;
+  flex-direction: column;
   background: var(--bg-glass);
   backdrop-filter: var(--blur-md);
   -webkit-backdrop-filter: var(--blur-md);
-  border-radius: var(--radius-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 8px 18px;
-  gap: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   pointer-events: all;
-  min-height: 52px;
+  width: 100%;
+  order: -1;
+  overflow: hidden;
 }
 
-.db-summary-hd {
-  display: flex;
-  flex-direction: column;
-  padding-right: 20px;
-  border-right: 1px solid rgba(255, 255, 255, 0.15);
+.db-map-summary .sb-section-header {
+  cursor: pointer;
+}
+
+.db-map-summary.minimized {
+  border-radius: 40px;
+}
+
+.db-map-summary.minimized .db-summary-content {
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.db-map-summary.minimized .layer-min-btn {
+  transform: rotate(0deg);
 }
 
 .db-summary-title {
   font-size: 14px;
-  font-weight: 800;
+  font-weight: 700;
   color: #fff;
   white-space: nowrap;
 }
 
 .db-summary-content {
   display: flex;
-  align-items: center;
-  gap: 16px;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 18px 14px;
+  transition: max-height 0.3s, padding 0.3s, opacity 0.2s;
+  max-height: 200px;
 }
 
 .db-summary-item {
@@ -624,7 +855,7 @@ body {
 
 /* ?붿빟 移대뱶 ??誘몃땲 李⑦듃 */
 .db-summary-visual {
-  width: 140px;
+  width: 100%;
   padding-left: 10px;
 }
 
@@ -984,7 +1215,7 @@ body {
   right: 12px;
   top: 0;
   bottom: 0;
-  z-index: 400;
+  z-index: 800;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1314,25 +1545,28 @@ body {
 
 /* ?? 寃???ㅻ쾭?덉씠 (Floating Glass Style) ?? */
 .db-search-overlay {
-  position: absolute;
-  top: 14px;
-  right: 62px;
+  position: static;
   z-index: 480;
   display: none;
   align-items: center;
   background: var(--bg-glass);
   backdrop-filter: var(--blur-md);
-  border-radius: var(--radius);
+  -webkit-backdrop-filter: var(--blur-md);
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  border: 1px solid rgba(255, 255, 255, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   padding: 0 14px;
   height: 44px;
-  width: 300px;
+  width: 100%;
   gap: 10px;
+  pointer-events: all;
+  order: -2;
+  flex-shrink: 0;
 }
 
 .db-search-overlay.open {
   display: flex;
+  position: relative;
   animation: slideInRight 0.3s ease;
 }
 
@@ -1428,21 +1662,21 @@ body {
 }
 
 .db-search-results {
-  position: absolute;
-  top: 52px;
-  left: 0;
+  position: static;
   width: 100%;
-  max-height: 600px;
-  background: rgba(18, 22, 33, 0.9);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  border-radius: var(--radius-sm);
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.6);
+  max-height: 400px;
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
   z-index: 1000;
   display: none;
-  /* 초기 상태 숨김 */
   flex-direction: column;
   overflow: hidden;
+  pointer-events: all;
+  order: -1;
 }
 
 .db-search-results.active {
@@ -1881,7 +2115,7 @@ body {
 
 .db-layer-settings {
   position: static;
-  width: 220px;
+  width: 100%;
   border-radius: var(--radius-md);
   background: var(--bg-glass);
   backdrop-filter: var(--blur-md);
@@ -1900,7 +2134,7 @@ body {
 
 /* 접힌 상태: 폭 축소 + 알약 모양 */
 .db-layer-settings.minimized {
-  width: 200px;
+  width: 100%;
   border-radius: 40px;
 }
 
@@ -2000,6 +2234,87 @@ body {
 .l-dot.permit {
   background: #d199ff;
 }
+
+.l-dot.forage {
+  background: #facc15;
+}
+
+.l-dot.ortho {
+  background: #38bdf8;
+}
+
+.l-dot.greenhouse-dot {
+  background: #34d399;
+}
+
+.l-dot.farmland-dot {
+  background: #fb923c;
+}
+
+/* ── 범례 카드 ── */
+.db-legend-card {
+  background: var(--bg-glass);
+  backdrop-filter: var(--blur-md);
+  -webkit-backdrop-filter: var(--blur-md);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow);
+  pointer-events: all;
+  overflow: hidden;
+  transition: border-radius 0.3s;
+}
+
+.db-legend-card.minimized {
+  border-radius: 40px;
+}
+
+.db-legend-card.minimized .layer-min-btn {
+  transform: rotate(0deg);
+}
+
+.permit-legend-body {
+  padding: 4px 18px 14px;
+  transition: max-height 0.3s, padding 0.3s, opacity 0.2s;
+  max-height: 200px;
+  overflow: hidden;
+}
+
+.db-legend-card.minimized .permit-legend-body {
+  max-height: 0;
+  padding: 0;
+  opacity: 0;
+}
+
+.permit-legend-items {
+  display: flex;
+  gap: 16px;
+}
+
+.permit-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.permit-legend-dot {
+  width: 14px;
+  height: 10px;
+  border-radius: 2px;
+}
+
+.permit-legend-dot.permitted {
+  background: rgba(34, 197, 94, 0.5);
+  border: 1px solid #22c55e;
+}
+
+.permit-legend-dot.unpermitted {
+  background: rgba(168, 85, 247, 0.5);
+  border: 1px solid #a855f7;
+}
+
 
 .l-dot.cadastral {
   background: #f1c40f;
@@ -2125,6 +2440,14 @@ body {
 
 .dg-popup-title.crossing {
   color: #ffab40;
+}
+
+.dg-popup-title.permit-ok {
+  color: #22c55e;
+}
+
+.dg-popup-title.permit-no {
+  color: #a855f7;
 }
 
 .dg-popup-body {
@@ -2437,9 +2760,9 @@ body {
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  background: var(--bg-glass);
-  backdrop-filter: var(--blur-md);
-  -webkit-backdrop-filter: var(--blur-md);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 52px;
@@ -2528,9 +2851,9 @@ body {
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  background: var(--bg-glass);
-  backdrop-filter: var(--blur-md);
-  -webkit-backdrop-filter: var(--blur-md);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 52px;
@@ -2564,9 +2887,9 @@ body {
   top: 50%;
   transform: translateY(-50%);
   display: flex;
-  background: var(--bg-glass);
-  backdrop-filter: var(--blur-md);
-  -webkit-backdrop-filter: var(--blur-md);
+  background: rgba(15, 23, 42, 0.95);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
   border-radius: var(--radius-sm);
   border: 1px solid rgba(255, 255, 255, 0.2);
   height: 52px;

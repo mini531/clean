@@ -101,6 +101,22 @@
         </button>
       </div>
 
+      <!-- 모드 토글 바 -->
+      <div class="mode-toggle-bar" id="mode-toggle-bar">
+        <button class="compare-select-btn" id="btn-compare-left">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <span id="compare-left-label">기준 결과 2개</span>
+        </button>
+        <div class="mode-toggle" id="mode-toggle">
+          <button class="mode-btn active" data-mode="default">기본</button>
+          <button class="mode-btn" data-mode="compare">비교</button>
+        </div>
+        <button class="compare-select-btn" id="btn-compare-right">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+          <span id="compare-right-label">비교 결과 2개</span>
+        </button>
+      </div>
+
       <!-- 지도 -->
       <div id="map" aria-label="전국 하천·계곡 불법시설 지도"></div>
 
@@ -117,13 +133,32 @@
       <!-- ── 좌측 패널 (항상 열림) ── -->
       <div class="db-left-stack" id="db-left-panel">
 
-        <!-- 카드 1: 분석 현황 -->
-        <aside class="db-left db-left--card" id="panel-analysis" aria-label="분석 현황">
+        <!-- 카드 0: 분석 과제 선택 (1단계) -->
+        <aside class="db-left db-left--card" id="panel-task" aria-label="분석 과제">
+          <div class="sb-section-header" data-panel="panel-task">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M4 6h16"/><path d="M4 12h16"/><path d="M4 18h10"/>
+            </svg>
+            <span class="sb-section-title">분석 과제</span>
+            <button class="sb-section-setting" id="btn-task-select" title="분석 과제 선택">변경</button>
+            <button class="sb-section-toggle" aria-label="접기/펴기">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+          <div class="sb-panel-body">
+            <div class="task-current" id="task-current">
+              <span class="task-current-name" id="task-current-name">하천 계곡 정비</span>
+            </div>
+          </div>
+        </aside>
+
+        <!-- 카드 1: 분석 결과 선택 (2단계) -->
+        <aside class="db-left db-left--card" id="panel-analysis" aria-label="분석 결과 선택">
           <div class="sb-section-header" data-panel="panel-analysis">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
               <path d="M18 20V10"/><path d="M12 20V4"/><path d="M6 20v-6"/>
             </svg>
-            <span class="sb-section-title">분석 현황</span>
+            <span class="sb-section-title">분석 결과 선택</span>
             <button class="sb-section-setting" id="btn-analysis-setting" title="분석 목록 설정">설정</button>
             <button class="sb-section-toggle" aria-label="접기/펴기">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
@@ -131,8 +166,8 @@
           </div>
           <div class="sb-panel-body" id="analysis-body">
             <div class="analysis-list" id="analysis-list">
-              <div class="analysis-card" data-id="2026-10-all">
-                <span class="analysis-year">2026.10</span>
+              <div class="analysis-card" data-id="2025-10-all">
+                <span class="analysis-year">2025.10</span>
                 <span class="analysis-region">전국</span>
               </div>
               <div class="analysis-card" data-id="2025-08-all">
@@ -147,8 +182,8 @@
           </div>
         </aside>
 
-        <!-- 카드 2: 지역별 현황 / 상세 뷰 -->
-        <aside class="db-left db-left--card db-left--grow" id="panel-region" aria-label="지역별 현황">
+        <!-- 카드 2: 지역별 분석 결과 / 상세 뷰 -->
+        <aside class="db-left db-left--card db-left--grow" id="panel-region" aria-label="지역별 분석 결과">
           <!-- 공통 헤더 (항상 표시, 접힘 가능) -->
           <div class="sb-section-header" data-panel="panel-region">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
@@ -157,7 +192,7 @@
               <rect x="3" y="14" width="7" height="7" rx="1" />
               <rect x="14" y="14" width="7" height="7" rx="1" />
             </svg>
-            <span class="sb-section-title" id="panel-region-title">지역별 현황</span>
+            <span class="sb-section-title" id="panel-region-title">지역별 분석 결과</span>
             <button class="sb-section-toggle" aria-label="접기/펴기">
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
             </button>
@@ -242,8 +277,48 @@
 
       <!-- ── 중앙 하단 HUD 그룹 (Layers + Summary) ── -->
       <div class="db-hud-center" id="db-hud-center">
+        <!-- ── 검색 오버레이 ── -->
+        <div class="db-search-overlay" id="db-search-overlay" role="search">
+          <input type="text" id="db-search-input" placeholder="명칭 또는 지도 검색" aria-label="시설 검색">
+          <button class="db-search-reset" id="btn-search-reset" title="검색 초기화">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M23 4v6h-6M1 20v-6h6" />
+              <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
+            </svg>
+          </button>
+          <button class="db-search-exec" id="btn-search-exec" title="검색 실행">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8" />
+              <path d="M21 21l-4.35-4.35" />
+            </svg>
+          </button>
+          <button class="db-search-m-close" id="btn-search-m-close" title="검색 닫기">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+        <!-- 검색 결과 (hud-center 직접 자식으로 배치) -->
+        <div class="db-search-results" id="db-search-results">
+          <div class="res-tabs-wrap">
+            <div class="res-tabs">
+              <button class="res-tab active" data-tab="all">전체</button>
+              <button class="res-tab" data-tab="name">명칭</button>
+              <button class="res-tab" data-tab="road">도로명</button>
+              <button class="res-tab" data-tab="lot">지번</button>
+            </div>
+            <button class="res-close" id="btn-res-close" title="결과 닫기">&times;</button>
+          </div>
+          <div class="res-scroll-area">
+            <div class="res-summary">
+              <span class="res-query" id="res-query-val">전남 남원</span> 검색결과 | 총 <span class="res-total" id="res-total-val">0</span> 건
+            </div>
+            <div class="res-content" id="res-content-list"></div>
+          </div>
+        </div>
+
         <!-- ── 레이어 설정 (항상 표시) ── -->
-        <div class="db-layer-settings minimized" id="db-layer-settings" aria-label="레이어 설정">
+        <div class="db-layer-settings" id="db-layer-settings" aria-label="레이어 설정">
           <div class="layer-hd" id="btn-layer-minimize">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
               stroke-linejoin="round">
@@ -262,42 +337,102 @@
             </button>
           </div>
           <div class="layer-body">
-            <div class="layer-row">
-              <span class="l-dot sub"></span><span class="l-name">국가하천</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            <!-- 하천 계곡 정비 전용 레이어 -->
+            <div class="layer-task-group" data-task-layer="river">
+              <div class="layer-row">
+                <span class="l-dot sub"></span><span class="l-name">하천</span>
+                <label class="l-switch"><input type="checkbox" id="chk-river" checked><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot permit"></span><span class="l-name">점용허가 정보</span>
+                <label class="l-switch"><input type="checkbox" id="chk-permit"><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot crossing"></span><span class="l-name">걸친 시설물(50%+)</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot inside"></span><span class="l-name">구역 내(100%)</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
             </div>
-            <div class="layer-row">
-              <span class="l-dot sub"></span><span class="l-name">지방하천</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            <!-- 사료작물 탐지 전용 레이어 -->
+            <div class="layer-task-group" data-task-layer="forage" style="display:none">
+              <div class="layer-row">
+                <span class="l-dot forage"></span><span class="l-name">사료작물 행정정보</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot ortho"></span><span class="l-name">LX 정사영상</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
             </div>
-            <div class="layer-row">
-              <span class="l-dot sub"></span><span class="l-name">소하천</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            <!-- 비닐하우스 탐지 전용 레이어 -->
+            <div class="layer-task-group" data-task-layer="greenhouse" style="display:none">
+              <div class="layer-row">
+                <span class="l-dot greenhouse-dot"></span><span class="l-name">영농시설 행정정보</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot ortho"></span><span class="l-name">LX 정사영상</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
             </div>
-            <div class="layer-row">
-              <span class="l-dot permit"></span><span class="l-name">인허가 정보</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
-            </div>
-            <div class="layer-row">
-              <span class="l-dot crossing"></span><span class="l-name">걸친 시설물(50%+)</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
-            </div>
-            <div class="layer-row">
-              <span class="l-dot inside"></span><span class="l-name">구역 내(100%)</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+            <!-- 농지 활용 분석 전용 레이어 -->
+            <div class="layer-task-group" data-task-layer="farmland" style="display:none">
+              <div class="layer-row">
+                <span class="l-dot farmland-dot"></span><span class="l-name">농지이용 행정정보</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
+              <div class="layer-row">
+                <span class="l-dot ortho"></span><span class="l-name">LX 정사영상</span>
+                <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              </div>
             </div>
             <div class="layer-divider"></div>
+            <!-- 공통 레이어: LX맵 -->
             <div class="layer-row">
               <span class="l-dot cadastral"></span><span class="l-name">LX맵(LX 지적도)</span>
-              <label class="l-switch"><input type="checkbox" checked><span class="l-slider"></span></label>
+              <label class="l-switch"><input type="checkbox" id="chk-cadastral"><span class="l-slider"></span></label>
+            </div>
+          </div>
+        </div>
+
+        <!-- ── 범례 카드 ── -->
+        <div class="db-legend-card" id="permit-legend" style="display:none">
+          <div class="sb-section-header" data-panel="permit-legend">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 12l2 2 4-4"/>
+            </svg>
+            <span class="sb-section-title">범례</span>
+            <button class="layer-min-btn" aria-label="접기/펴기">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
+          </div>
+          <div class="permit-legend-body">
+            <div class="permit-legend-items">
+              <div class="permit-legend-item">
+                <span class="permit-legend-dot permitted"></span>
+                <span>허가</span>
+              </div>
+              <div class="permit-legend-item">
+                <span class="permit-legend-dot unpermitted"></span>
+                <span>무허가</span>
+              </div>
             </div>
           </div>
         </div>
 
         <!-- ── 지도 요약 카드 (KPI) ── -->
         <div class="db-map-summary" id="db-map-summary" aria-label="현황 요약">
-          <div class="db-summary-hd">
-            <span class="db-summary-title" id="summary-title">전국 현황</span>
+          <div class="sb-section-header" data-panel="db-map-summary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M21 12a9 9 0 1 1-9-9"/><path d="M21 3v6h-6"/><path d="M12 7v5l3 3"/>
+            </svg>
+            <span class="sb-section-title" id="summary-title">전국 현황</span>
+            <button class="layer-min-btn" aria-label="접기/펴기">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
+            </button>
           </div>
           <div class="db-summary-content">
             <div class="db-summary-item">
@@ -402,50 +537,7 @@
         </div>
       </aside>
 
-      <!-- ── 검색 오버레이 (버튼 클릭 시 열림) ── -->
-      <div class="db-search-overlay" id="db-search-overlay" role="search">
-        <input type="text" id="db-search-input" placeholder="명칭 또는 지도 검색" aria-label="시설 검색">
-        <button class="db-search-reset" id="btn-search-reset" title="검색 초기화">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M23 4v6h-6M1 20v-6h6" />
-            <path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15" />
-          </svg>
-        </button>
-        <button class="db-search-exec" id="btn-search-exec" title="검색 실행">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <circle cx="11" cy="11" r="8" />
-            <path d="M21 21l-4.35-4.35" />
-          </svg>
-        </button>
-        <button class="db-search-m-close" id="btn-search-m-close" title="검색 닫기">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <path d="M18 6L6 18M6 6l12 12" />
-          </svg>
-        </button>
-
-        <!-- ── 검색 결과 패널 (실시간) ── -->
-        <div class="db-search-results" id="db-search-results">
-          <div class="res-tabs-wrap">
-            <div class="res-tabs">
-              <button class="res-tab active" data-tab="all">전체</button>
-              <button class="res-tab" data-tab="name">명칭</button>
-              <button class="res-tab" data-tab="road">도로명</button>
-              <button class="res-tab" data-tab="lot">지번</button>
-            </div>
-            <button class="res-close" id="btn-res-close" title="결과 닫기">&times;</button>
-          </div>
-          
-          <div class="res-scroll-area">
-            <div class="res-summary">
-              <span class="res-query" id="res-query-val">전남 남원</span> 검색결과 | 총 <span class="res-total" id="res-total-val">0</span> 건
-            </div>
-            
-            <div class="res-content" id="res-content-list">
-              <!-- JS로 주입 예정 -->
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- 검색 오버레이는 db-hud-center 내부로 이동됨 -->
 
     </div><!-- /db-body -->
 
@@ -497,6 +589,49 @@
     </div>
   </div>
 
+  <!-- ── 분석 과제 선택 모달 ── -->
+  <div class="modal-overlay" id="modal-task-select">
+    <div class="modal-pledge-box">
+      <button class="modal-close-icon" id="btn-task-modal-close">&times;</button>
+      <header class="pledge-header">
+        <h1>분석 과제 선택</h1>
+        <p class="pledge-sub">수행할 분석 과제를 선택하세요.</p>
+      </header>
+      <div class="pledge-content">
+        <ul class="task-modal-list" id="task-modal-list">
+          <li class="task-modal-item active" data-task="river">
+            <svg class="task-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 6c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/><path d="M2 12c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/><path d="M2 18c2-2 4 0 6-2s4 0 6-2 4 0 6-2"/></svg>
+            <div class="task-modal-info">
+              <span class="task-modal-name">하천 계곡 정비</span>
+              <span class="task-modal-desc">전국 하천/계곡 불법 시설물 탐지</span>
+            </div>
+          </li>
+          <li class="task-modal-item" data-task="forage">
+            <svg class="task-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22V8"/><path d="M8 10c0-4 4-8 4-8s4 4 4 8"/><path d="M5 14c0-3 3-5 3-5"/><path d="M19 14c0-3-3-5-3-5"/></svg>
+            <div class="task-modal-info">
+              <span class="task-modal-name">사료작물 탐지</span>
+              <span class="task-modal-desc">남원시 사료작물 재배지 분석</span>
+            </div>
+          </li>
+          <li class="task-modal-item" data-task="greenhouse">
+            <svg class="task-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 20h18"/><path d="M4 20V10l8-6 8 6v10"/><path d="M4 10h16"/><path d="M8 10v10"/><path d="M12 10v10"/><path d="M16 10v10"/></svg>
+            <div class="task-modal-info">
+              <span class="task-modal-name">비닐하우스 탐지</span>
+              <span class="task-modal-desc">남원시 비닐하우스 현황 분석</span>
+            </div>
+          </li>
+          <li class="task-modal-item" data-task="farmland">
+            <svg class="task-modal-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="8" height="8" rx="1"/><rect x="13" y="3" width="8" height="8" rx="1"/><rect x="3" y="13" width="8" height="8" rx="1"/><rect x="13" y="13" width="8" height="8" rx="1"/></svg>
+            <div class="task-modal-info">
+              <span class="task-modal-name">농지 활용 분석</span>
+              <span class="task-modal-desc">남원시 농지 활용 현황 분석</span>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
   <!-- ── 분석 목록 설정 모달 ── -->
   <div class="modal-overlay" id="modal-analysis-setting">
     <div class="modal-pledge-box">
@@ -509,8 +644,8 @@
         <ul class="analysis-modal-list" id="analysis-modal-list">
           <li class="analysis-modal-item">
             <label class="pledge-agree-check">
-              <input type="checkbox" value="2026-10-all" checked>
-              <span class="check-txt"><span class="analysis-modal-year">2026년 10월</span><span class="analysis-modal-region">전국</span></span>
+              <input type="checkbox" value="2025-10-all" checked>
+              <span class="check-txt"><span class="analysis-modal-year">2025년 10월</span><span class="analysis-modal-region">전국</span></span>
             </label>
           </li>
           <li class="analysis-modal-item">
@@ -665,6 +800,7 @@
 
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+  <script src="../js/leaflet-side-by-side.js"></script>
   <script src="../js/common.js"></script>
   <script src="../js/auth.js"></script>
   <script src="../js/ui.js"></script>

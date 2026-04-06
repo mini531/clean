@@ -11,6 +11,9 @@ const MapModule = {
   grayLayer: null,
   nightLayer: null,
   _currentBase: 'satellite',
+  cadastralLayer: null,
+  _cadastralVisible: false,
+  _cadastralMinZoom: 17,
 
   /** 지도 초기화 */
   init(containerId, options = {}) {
@@ -46,9 +49,44 @@ const MapModule = {
       { attribution: '© CartoDB', maxZoom: 19 }
     );
 
+    /* 5. 지적도 WMS 레이어 (VWorld LX 연속지적도) */
+    this.cadastralLayer = L.tileLayer.wms(
+      'https://api.vworld.kr/req/wms?Key=27843C51-8EFC-3AA1-9925-1847B6C3DC20', {
+        layers: 'lp_pa_cbnd_bonbun,lp_pa_cbnd_bubun',
+        styles: '',
+        format: 'image/png',
+        transparent: true,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        maxZoom: 19,
+        attribution: '© LX 한국국토정보공사'
+      }
+    );
+
+    /* 6. 하천망 WMS 레이어 (VWorld 수자원관리도) */
+    this.riverLayer = L.tileLayer.wms(
+      'https://api.vworld.kr/req/wms?Key=27843C51-8EFC-3AA1-9925-1847B6C3DC20', {
+        layers: 'lt_c_wkmstrm',
+        styles: 'lt_c_wkmstrm',
+        format: 'image/png',
+        transparent: true,
+        version: '1.3.0',
+        crs: L.CRS.EPSG3857,
+        maxZoom: 19,
+        attribution: '© VWorld 수자원관리도'
+      }
+    );
+
     /* 초기 레이어 설정: 위성 */
     this.satelliteLayer.addTo(this.map);
     this._currentBase = 'satellite';
+
+    /* 하천 기본 ON */
+    this.riverLayer.addTo(this.map);
+    this._riverVisible = true;
+
+    /* 지적도 기본 OFF (체크 시에만 표시) */
+    this._cadastralVisible = false;
 
     /* 마커 클러스터 그룹 — 주석 처리 (사용자 요청으로 제거)
     this.markerGroup = L.markerClusterGroup({
@@ -75,6 +113,10 @@ const MapModule = {
 
     /* 개별 시설물 폴리곤 그룹 (featureGroup으로 변경하여 getBounds 지원) */
     this.facilityLayerGroup = L.featureGroup().addTo(this.map);
+
+    /* 점용허가 정보 폴리곤 그룹 */
+    this.permitLayerGroup = L.featureGroup().addTo(this.map);
+    this._permitVisible = false;
 
     /* MarkerCluster 그룹 (전체 시설물 클러스터링) */
     this.clusterGroup = L.markerClusterGroup({
@@ -105,6 +147,10 @@ const MapModule = {
       if (this.map.getZoom() >= 15 && this._clusterLevel >= 2) {
         this._renderViewportPolygons();
       }
+      /* 허가 폴리곤 갱신 */
+      if (this._permitVisible && this.map.getZoom() >= 15 && typeof MOCK_PERMIT_DATA !== 'undefined') {
+        this.renderPermitPolygons(MOCK_PERMIT_DATA);
+      }
     });
 
     /* 줌 변경 시 레벨 자동 전환 */
@@ -132,6 +178,16 @@ const MapModule = {
         this._renderViewportPolygons();
       } else {
         this.clearFacilityLayers();
+      }
+
+      // 줌 레벨에 따라 지적도 레이어 자동 표시/숨김
+      this._syncCadastralLayer();
+
+      // 허가 레이어 줌 연동
+      if (this._permitVisible && zoom >= 15 && typeof MOCK_PERMIT_DATA !== 'undefined') {
+        this.renderPermitPolygons(MOCK_PERMIT_DATA);
+      } else {
+        this.permitLayerGroup.clearLayers();
       }
     });
 
@@ -459,6 +515,117 @@ const MapModule = {
     this.clearHighlights();
   },
 
+  /** 허가 레이어 렌더링 (현재 뷰포트 내 데이터) */
+  renderPermitPolygons(permitData) {
+    this.permitLayerGroup.clearLayers();
+    if (!this._permitVisible || !permitData) return;
+
+    const bounds = this.map.getBounds();
+    const sw = bounds.getSouthWest();
+    const ne = bounds.getNorthEast();
+
+    permitData.forEach(p => {
+      const lat = parseFloat(p.lat);
+      const lng = parseFloat(p.lng);
+      if (lat < sw.lat || lat > ne.lat || lng < sw.lng || lng > ne.lng) return;
+
+      const isPermitted = p.type === 'permitted';
+      const color = isPermitted ? '#22c55e' : '#a855f7';
+      /* 필지 형태 직사각형 폴리곤 */
+      const s = 0.0004;
+      const pts = [
+        [lat - s * 0.5, lng - s * 0.7],
+        [lat - s * 0.5, lng + s * 0.7],
+        [lat + s * 0.5, lng + s * 0.7],
+        [lat + s * 0.5, lng - s * 0.7]
+      ];
+      const polygon = L.polygon(pts, {
+        color: color,
+        fillColor: color,
+        fillOpacity: 0.25,
+        weight: 1.5,
+      });
+      const statusClass = isPermitted ? 'permit-ok' : 'permit-no';
+      const statusLabel = isPermitted ? '허가' : '무허가';
+      const popupHtml = `
+        <div class="dg-popup-container">
+          <header class="dg-popup-header">
+            <div class="dg-popup-title ${statusClass}">${statusLabel}</div>
+          </header>
+          <div class="dg-popup-body">
+            <ul class="dg-popup-info-list">
+              <li class="dg-info-row"><span class="dg-info-label">구역명</span><span class="dg-info-value">${p.name}</span></li>
+              <li class="dg-info-row"><span class="dg-info-label">하천명</span><span class="dg-info-value">${p.riverName}</span></li>
+              <li class="dg-info-row"><span class="dg-info-label">면적</span><span class="dg-info-value">${p.area}㎡</span></li>
+            </ul>
+          </div>
+        </div>`;
+      polygon.bindPopup(popupHtml, {
+        maxWidth: 280,
+        className: 'dark-glass-popup',
+        closeButton: false
+      });
+      this.permitLayerGroup.addLayer(polygon);
+    });
+  },
+
+  /** 점용허가 레이어 토글 */
+  togglePermit(visible, permitData) {
+    this._permitVisible = visible;
+    if (visible) {
+      if (this.map.getZoom() < 17) {
+        this.map.setZoom(17);
+      }
+      this.renderPermitPolygons(permitData);
+    } else {
+      this.permitLayerGroup.clearLayers();
+    }
+  },
+
+  /** 하천망 레이어 토글 */
+  toggleRiver(visible) {
+    if (!this.riverLayer || !this.map) return;
+    if (visible) {
+      if (!this.map.hasLayer(this.riverLayer)) this.riverLayer.addTo(this.map);
+    } else {
+      if (this.map.hasLayer(this.riverLayer)) this.map.removeLayer(this.riverLayer);
+    }
+    this._riverVisible = visible;
+  },
+
+  /** 지적도 레이어 토글 */
+  toggleCadastral(visible) {
+    if (!this.cadastralLayer || !this.map) return;
+    this._cadastralVisible = visible;
+
+    if (visible) {
+      /* 현재 줌이 최소 줌보다 낮으면 자동 줌인 */
+      if (this.map.getZoom() < this._cadastralMinZoom) {
+        this.map.setZoom(this._cadastralMinZoom);
+      }
+      this._syncCadastralLayer();
+    } else {
+      if (this.map.hasLayer(this.cadastralLayer)) {
+        this.map.removeLayer(this.cadastralLayer);
+      }
+    }
+  },
+
+  /** 줌 레벨에 따라 지적도 레이어 자동 표시/숨김 */
+  _syncCadastralLayer() {
+    if (!this._cadastralVisible || !this.cadastralLayer) return;
+    const zoom = this.map.getZoom();
+    if (zoom >= this._cadastralMinZoom) {
+      if (!this.map.hasLayer(this.cadastralLayer)) {
+        this.cadastralLayer.addTo(this.map);
+      }
+    } else {
+      if (this.map.hasLayer(this.cadastralLayer)) {
+        this.map.removeLayer(this.cadastralLayer);
+      }
+    }
+  },
+
   /** 특정 배경지도 레이어 설정 */
   setBasemap(type) {
     // 기존 모든 배경 레이어 제거
@@ -482,6 +649,10 @@ const MapModule = {
     if (layer) {
       layer.addTo(this.map);
       layer.bringToBack();
+    }
+    /* 지적도가 켜져 있으면 배경 위로 재배치 */
+    if (this._cadastralVisible && this.cadastralLayer && this.map.hasLayer(this.cadastralLayer)) {
+      this.cadastralLayer.bringToFront();
     }
     this._currentBase = type;
     return label;
@@ -654,6 +825,63 @@ const MapModule = {
         </div>
       </div>
     `;
+  },
+
+  /** 비교 모드: SideBySide 슬라이더 초기화 */
+  _compareControl: null,
+  _compareLeftLayer: null,
+  _compareRightLayer: null,
+
+  initCompareMode(leftTileUrl, rightTileUrl) {
+    this.exitCompareMode();
+
+    /* 현재 배경지도를 좌측 레이어로 복제, 우측은 다른 타일 사용 */
+    this._compareLeftLayer = L.tileLayer(leftTileUrl, { maxZoom: 19 });
+    this._compareRightLayer = L.tileLayer(rightTileUrl, { maxZoom: 19 });
+
+    this._compareLeftLayer.addTo(this.map);
+    this._compareRightLayer.addTo(this.map);
+
+    if (typeof L.control.sideBySide === 'function') {
+      this._compareControl = L.control.sideBySide(
+        this._compareLeftLayer,
+        this._compareRightLayer
+      ).addTo(this.map);
+    }
+
+    /* 기존 레이어 상태 유지 — 비교 레이어 위로 재배치 */
+    if (this._riverVisible && this.riverLayer && this.map.hasLayer(this.riverLayer)) {
+      this.riverLayer.bringToFront();
+    }
+    if (this._cadastralVisible && this.cadastralLayer && this.map.hasLayer(this.cadastralLayer)) {
+      this.cadastralLayer.bringToFront();
+    }
+  },
+
+  /** 현재 배경지도 URL 반환 */
+  getCurrentBasemapUrl() {
+    var urls = {
+      satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+      basic: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+      gray: 'https://services.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',
+      night: 'https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'
+    };
+    return urls[this._currentBase] || urls.satellite;
+  },
+
+  exitCompareMode() {
+    if (this._compareControl) {
+      this._compareControl.remove();
+      this._compareControl = null;
+    }
+    if (this._compareLeftLayer) {
+      this.map.removeLayer(this._compareLeftLayer);
+      this._compareLeftLayer = null;
+    }
+    if (this._compareRightLayer) {
+      this.map.removeLayer(this._compareRightLayer);
+      this._compareRightLayer = null;
+    }
   },
 
   /** 미니맵 (상세페이지용) */
