@@ -399,8 +399,10 @@ const MapModule = {
     });
 
     realFacilities.forEach(f => {
-      const polygonPoints = this._createFacilityPolygon(parseFloat(f.lat), parseFloat(f.lng));
       const isCrossing = f.category === 'crossing';
+      if (isCrossing && !this._crossingVisible) return;
+      if (!isCrossing && !this._insideVisible) return;
+      const polygonPoints = this._createFacilityPolygon(parseFloat(f.lat), parseFloat(f.lng));
       const color = isCrossing ? '#ffab40' : '#ff5252';
       const polygon = L.polygon(polygonPoints, {
         color, fillColor: color, fillOpacity: 0.5, weight: 1.5,
@@ -416,6 +418,8 @@ const MapModule = {
       const lat = sw.lat + Math.random() * latRange;
       const lng = sw.lng + Math.random() * lngRange;
       const isCrossing = Math.random() > 0.4;
+      if (isCrossing && !this._crossingVisible) continue;
+      if (!isCrossing && !this._insideVisible) continue;
       const color = isCrossing ? '#ffab40' : '#ff5252';
       const polygonPoints = this._createFacilityPolygon(lat, lng);
       const polygon = L.polygon(polygonPoints, {
@@ -580,6 +584,94 @@ const MapModule = {
     } else {
       this.permitLayerGroup.clearLayers();
     }
+  },
+
+  /** 시설물 필터 상태 */
+  _crossingVisible: true,
+  _insideVisible: true,
+
+  /** 시설물 레이어 필터 토글 */
+  toggleFacilityFilter(type, visible) {
+    if (type === 'crossing') this._crossingVisible = visible;
+    if (type === 'inside') this._insideVisible = visible;
+
+    var bothOff = !this._crossingVisible && !this._insideVisible;
+
+    /* 클러스터 그룹: 완전 숨김/표시 또는 재빌드 */
+    if (this.clusterGroup) {
+      if (bothOff) {
+        if (this.map.hasLayer(this.clusterGroup)) this.map.removeLayer(this.clusterGroup);
+      } else if (this._clustersLoaded) {
+        /* 필터링된 마커만 남기고 재빌드 */
+        this.clusterGroup.clearLayers();
+        this._clustersLoaded = false;
+        this._rebuildFilteredClusters();
+        if (!this.map.hasLayer(this.clusterGroup) && this._clusterLevel >= 2) {
+          this.clusterGroup.addTo(this.map);
+        }
+      }
+    }
+
+    /* 파이차트(regionSummary) 표시/숨김 */
+    if (this.regionSummaryGroup) {
+      this.regionSummaryGroup.eachLayer(l => {
+        if (l._icon) l._icon.style.display = bothOff ? 'none' : '';
+      });
+    }
+
+    /* 고줌 시설물 폴리곤 재렌더 */
+    if (this.map.getZoom() >= 15 && this._clusterLevel >= 2) {
+      this._renderViewportPolygons();
+    }
+  },
+
+  /** 필터 적용된 클러스터 재빌드 */
+  _rebuildFilteredClusters() {
+    if (!this.clusterGroup) return;
+    if (typeof SUB_REGION_STATS === 'undefined') return;
+
+    Object.keys(SUB_REGION_STATS).forEach(regionCode => {
+      const subs = SUB_REGION_STATS[regionCode];
+      const bounds = REGION_BOUNDS[regionCode];
+      if (!bounds || !subs) return;
+      const latRange = bounds[1][0] - bounds[0][0];
+      const lngRange = bounds[1][1] - bounds[0][1];
+
+      const validSubs = subs.filter(s => s.crossing + s.inside > 0);
+      const cols = Math.ceil(Math.sqrt(validSubs.length * Math.max(lngRange / latRange, 0.5)));
+      const rows = Math.ceil(validSubs.length / Math.max(cols, 1));
+
+      validSubs.forEach((sub, idx) => {
+        const row = Math.floor(idx / Math.max(cols, 1));
+        const col = idx % Math.max(cols, 1);
+        const cLat = bounds[0][0] + latRange * 0.1 + (latRange * 0.8 * (row + 0.5) / Math.max(rows, 1));
+        const cLng = bounds[0][1] + lngRange * 0.1 + (lngRange * 0.8 * (col + 0.5) / Math.max(cols, 1));
+        const spread = Math.min(latRange, lngRange) * 0.05;
+
+        if (this._crossingVisible) {
+          const cN = Math.max(1, Math.min(sub.crossing, 30));
+          const cW = Math.round(sub.crossing / cN);
+          for (let i = 0; i < cN; i++) {
+            this.clusterGroup.addLayer(L.marker(
+              [cLat + (Math.random() - 0.5) * spread * 2, cLng + (Math.random() - 0.5) * spread * 2],
+              { icon: L.divIcon({ html: '', className: '', iconSize: [1, 1] }), _count: cW, _type: 'crossing' }
+            ));
+          }
+        }
+        if (this._insideVisible) {
+          const iN = Math.max(1, Math.min(sub.inside, 20));
+          const iW = Math.round(sub.inside / iN);
+          for (let i = 0; i < iN; i++) {
+            this.clusterGroup.addLayer(L.marker(
+              [cLat + (Math.random() - 0.5) * spread * 2, cLng + (Math.random() - 0.5) * spread * 2],
+              { icon: L.divIcon({ html: '', className: '', iconSize: [1, 1] }), _count: iW, _type: 'inside' }
+            ));
+          }
+        }
+      });
+    });
+
+    this._clustersLoaded = true;
   },
 
   /** 하천망 레이어 토글 */

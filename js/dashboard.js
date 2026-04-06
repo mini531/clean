@@ -1313,6 +1313,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   initLayerControls();
+  initFacilityFilterToggle();
   initRiverToggle();
   initCadastralToggle();
   initPermitToggle();
@@ -1390,6 +1391,21 @@ function initFacilityControls() {
 }
 
 /* ── 지적도 레이어 토글 ── */
+function initFacilityFilterToggle() {
+  var chkCrossing = document.getElementById('chk-crossing');
+  var chkInside = document.getElementById('chk-inside');
+  if (chkCrossing) {
+    chkCrossing.addEventListener('change', function() {
+      MapModule.toggleFacilityFilter('crossing', chkCrossing.checked);
+    });
+  }
+  if (chkInside) {
+    chkInside.addEventListener('change', function() {
+      MapModule.toggleFacilityFilter('inside', chkInside.checked);
+    });
+  }
+}
+
 function initRiverToggle() {
   var chk = document.getElementById('chk-river');
   if (chk) {
